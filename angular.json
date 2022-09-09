@@ -10,7 +10,9 @@
           "skipTests": true
         },
         "@schematics/angular:component": {
-          "skipTests": true
+          "skipTests": true,
+          "inlineStyle": true,
+          "export": true
         },
         "@schematics/angular:directive": {
           "skipTests": true
@@ -38,6 +40,11 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "c3",
+              "lodash",
+              "clone-deep"
+            ],
             "outputPath": "dist/moasher-angular",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -48,9 +55,12 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/flowbite-datepicker/dist/css/datepicker.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/flowbite-datepicker/dist/js/datepicker.min.js"
+            ]
           },
           "configurations": {
             "production": {

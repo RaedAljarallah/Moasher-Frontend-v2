@@ -1,0 +1,33 @@
+<div class="flex flex-col">
+    <div class="flex items-center justify-between border-b border-b-theme-gray-300">
+        <h2 class="text-sm px-2 py-2">{{ title }}</h2>
+        <div class="flex space-x-reverse space-x-2">
+            <button class="btn btn-sm btn-white" *ngFor="let year of years"
+                    [ngClass]="{'btn-active': selectedYear === year}"
+                    [disabled]="selectedYear === year" (click)="onYearSelected(year)">
+                {{ year }}
+            </button>
+        </div>
+    </div>
+    <div class="h-44 overflow-x-auto" #container *ngIf="data; else loading">
+        <div #financialPlanningChart></div>
+    </div>
+</div>
+<ng-template #loading>
+    <div class="rounded-lg w-full bg-white opacity-50 flex justify-center">
+        <div class="h-44 overflow-hidden flex items-end space-x-reverse space-x-2 animate-pulse mb-2">
+            <div class="h-40 bg-theme-gray-400 w-10"></div>
+            <div class="h-28 bg-theme-gray-400 w-10"></div>
+            <div class="h-36 bg-theme-gray-400 w-10"></div>
+            <div class="h-40 bg-theme-gray-400 w-10"></div>
+            <div class="h-28 bg-theme-gray-400 w-10"></div>
+            <div class="h-36 bg-theme-gray-400 w-10"></div>
+            <div class="h-24 bg-theme-gray-400 w-10"></div>
+            <div class="h-40 bg-theme-gray-400 w-10"></div>
+            <div class="h-28 bg-theme-gray-400 w-10"></div>
+            <div class="h-36 bg-theme-gray-400 w-10"></div>
+            <div class="h-20 bg-theme-gray-400 w-10"></div>
+            <div class="h-36 bg-theme-gray-400 w-10"></div>
+        </div>
+    </div>
+</ng-template>

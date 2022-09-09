@@ -1,0 +1,97 @@
+<div>
+    <label class="text-sm mr-0.5 w-full" [for]="id" *ngIf="type !== 'checkbox'">{{ name }}</label>
+    <input [id]="id" [type]="type" [formControl]="control" [placeholder]="placeholder"
+           *ngIf="type === 'text' || type === 'email' || type === 'password'"
+           class="mt-1 block px-3 py-1.5 text-sm w-full rounded-lg border shadow-sm 
+           focus:outline-none focus:ring-2 focus:ring-opacity-50"
+           [ngClass]="control.invalid && (control.dirty || control.touched) 
+        ? 'border-red-400 focus:border-red-300 focus:ring-red-200' 
+        : 'border-theme-gray-200 focus:border-theme-teal-400 focus:ring-theme-teal-400 focus:ring-opacity-30'">
+
+    <div class="relative" *ngIf="type === 'date'">
+        <input appDatePicker autocomplete="off" [id]="id" type="text" [formControl]="control"
+               (dateChange)="control.setValue($event)" [placeholder]="placeholder"
+               class="mt-2 block px-3 py-1.5 text-sm w-full rounded-lg border shadow-sm 
+           focus:outline-none focus:ring focus:ring-opacity-50"
+               [ngClass]="control.invalid && (control.dirty || control.touched) 
+        ? 'border-red-400 focus:border-red-300 focus:ring focus:ring-red-200' 
+        : 'border-theme-gray-200 focus:border-theme-teal-400 focus:ring-theme-teal-400 focus:ring-opacity-30'">
+        <i class="absolute top-2 left-2 fas fa-calendar-alt text-theme-gray-500"></i>
+    </div>
+
+    <textarea [id]="id" [formControl]="control" [placeholder]="placeholder" *ngIf="type === 'textarea'"
+              class="resize-none mt-1 block px-3 py-1.5 text-sm w-full rounded-lg border shadow-sm 
+              focus:outline-none focus:ring focus:ring-opacity-50"
+              [ngClass]="control.invalid && (control.dirty || control.touched) 
+                ? 'border-red-400 focus:border-red-300 focus:ring focus:ring-red-200' 
+                : 'border-theme-gray-200 focus:border-theme-teal-400 focus:ring-theme-teal-400 focus:ring-opacity-30'"></textarea>
+
+
+<!--    <ng-select *ngIf="type === 'list'"-->
+<!--               class="theme-form-select"-->
+<!--               [ngClass]="control.invalid && (control.dirty || control.touched) -->
+<!--                ? 'invalid' -->
+<!--                : 'valid'"-->
+<!--               [items]="listItems"-->
+<!--               [labelForId]="id"-->
+<!--               [formControl]="control"-->
+<!--               [placeholder]="placeholder"-->
+<!--               [loadingText]="'تحميل ...'"-->
+<!--               [loading]="isListLoading"-->
+<!--               notFoundText="لا يوجد بيانات"-->
+<!--               bindLabel="name"-->
+<!--               bindValue="id"-->
+<!--               (open)="getListItems()"-->
+<!--               (close)="resetList()"-->
+<!--               (clear)="resetList()"-->
+<!--               (search)="searchFromItem($event)"-->
+<!--               (scrollToEnd)="getMoreListItems()">-->
+<!--    </ng-select>-->
+    <app-select-list *ngIf="type === 'list'"
+        [id]="id"
+        [control]="control"
+        [placeholder]="placeholder"
+        [listUrl]="listUrl">
+        
+    </app-select-list>
+
+    <div class="inline-flex items-center" *ngIf="type === 'checkbox'">
+        <input [id]="id" [formControl]="control" type="checkbox"
+               class="form-checkbox w-5 h-5 rounded border shadow-sm focus:outline-none focus:ring focus:ring-opacity-50 text-theme-teal-500"
+               [ngClass]="control.invalid && (control.dirty || control.touched)
+                    ? 'border-red-400 focus:border-red-300 focus:ring focus:ring-red-200'
+                    : 'border-theme-gray-200 focus:border-theme-teal-500 focus:ring-theme-teal-400'">
+        <label class="text-sm w-full mr-2" [for]="id">{{ name }}</label>
+    </div>
+
+    <ng-container *ngIf="control.invalid && (control.dirty || control.touched)">
+        <p class="mt-1 mr-0.5 text-sm text-red-400" *ngIf="control.errors?.['required']">
+            يجب إدخال {{name}}
+        </p>
+        <p class="mt-1 mr-0.5 text-sm text-red-400" *ngIf="control.errors?.['minlength']">
+            عدد أحرف {{ name }} يجب أن لا تقل عن <span
+                class="font-bold">'{{ control.errors?.['maxlength'].requiredLength }}'</span> حرف
+        </p>
+        <p class="mt-1 mr-0.5 text-sm text-red-400" *ngIf="control.errors?.['maxlength']">
+            عدد أحرف {{ name }} يجب أن لا تزيد عن <span
+                class="font-bold">'{{ control.errors?.['maxlength'].requiredLength }}'</span> حرف
+        </p>
+        <p class="mt-1 mr-0.5 text-sm text-red-400" *ngIf="control.errors?.['email']">
+            يجب إدخال البريد الإلكتروني بشكل صحيح
+        </p>
+        <p class="mt-1 mr-0.5 text-sm text-red-400" *ngIf="control.errors?.['min']">
+            {{ name }} يجب أن تكون أكبر من أو يساوي <span class="font-bold">'{{ control.errors?.['min'].min }}'</span>
+        </p>
+        <p class="mt-1 mr-0.5 text-sm text-red-400" *ngIf="control.errors?.['max']">
+            {{ name }} يجب أن تكون أقل من أو يساوي <span class="font-bold">'{{ control.errors?.['max'].max }}'</span>
+        </p>
+        <p class="mt-1 mr-0.5 text-sm text-red-400" *ngIf="control.errors?.['alreadyExists']">
+            {{ name }} موجود مسبقاً
+        </p>
+        <p class="mt-1 mr-0.5 text-sm text-red-400" *ngIf="control.errors?.['afterDate']">
+            {{ name }} يجب أن يكون أكبر من أو يساوي <span
+                class="font-bold">'{{ control.errors?.['afterDate'].requiredDate }}'</span>
+        </p>
+    </ng-container>
+
+</div>

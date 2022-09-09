@@ -1,0 +1,74 @@
+<div class="flex flex-col w-full mb-1">
+    <ul class="flex divide-x-reverse px-1 divide-x divide-theme-gray-300 mb-3">
+        <li *ngFor="let item of breadcrumbs; let first = first; let last = last"
+            [ngClass]="{ 'pl-3': first, 'pr-3': last, 'px-3': !first && !last }">
+            <a href="#" class="text-sm text-theme-gray-900 whitespace-nowrap">{{ item.name }}: {{ item.value }}</a>
+        </li>
+    </ul>
+    <div class="flex justify-between items-center relative">
+        <div class="flex md:max-w-lg xl:max-w-xl w-full">
+            <div class="w-full rounded-lg bg-white border border-theme-gray-300 py-1 pl-2 pr-4 ml-1 flex items-center justify-between">
+                <input type="text" class="bg-transparent text-sm text-theme-gray-900 focus:outline-none w-full"
+                       placeholder="بحث ..." #searchInput (keyup.enter)="search(searchInput.value)">
+                <i class="lnr lnr-magnifier font-bold text-theme-gray-500 mr-1"></i>
+            </div>
+            <button class="btn btn-sm btn-white relative" (click)="toggleFilter()">
+                <i class="ion ion-ios-funnel text-xs md:text-sm text-theme-gray-800"></i>
+                <span class="flex h-2 w-2 md:h-2.5 md:w-2.5 absolute -top-1 right-full -mr-1" *ngIf="filterApplied">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-theme-teal-500 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 md:h-2.5 md:w-2.5  bg-theme-teal-600"></span>
+                </span>
+            </button>
+        </div>
+        <button class="btn btn-sm btn-white mr-1 md:mr-0" *ngIf="showAddBtn">
+            <i class="fas fa-plus fa-xs ml-1"></i>
+            <span>إضافة</span>
+        </button>
+
+        <div [@collapse]="showFilter ? 'open' : 'close'"
+             class="absolute bg-white md:max-w-lg xl:max-w-xl w-full p-2 top-8 z-10 border border-theme-gray-300 rounded-lg shadow-sm drop-shadow-sm">
+            <app-filter [filterFields]="filterFields" [(showFilterPing)]="filterApplied"
+                        (filterApplied)="toggleFilter()"></app-filter>
+        </div>
+    </div>
+</div>
+
+
+<div class="overflow-x-auto overflow-y-hidden rounded-lg border border-theme-gray-300 scrollbar">
+    <table class="w-full table-auto">
+        <thead class="bg-white border-b-2 border-theme-gray-200">
+        <tr>
+            <th *ngFor="let header of headers" [ngClass]="header.classes ? header.classes : ''">
+                {{ header.value }}
+            </th>
+        </tr>
+        </thead>
+        <tbody class="divide-y divide-theme-gray-100" *ngIf="items; else loading">
+        <ng-container *ngIf="items.result.length; else noData">
+            <tr class="bg-white" *ngFor="let item of items.result">
+                <ng-template [ngTemplateOutlet]="tableCellTemplate"
+                             [ngTemplateOutletContext]="{data: item}"></ng-template>
+            </tr>
+        </ng-container>
+
+        </tbody>
+    </table>
+</div>
+
+<div class="pt-2">
+    <app-pagination [pager]="pager" (pageChange)="changePager()"></app-pagination>
+</div>
+
+<ng-template #loading>
+    <tbody class="divide-y divide-theme-gray-100">
+    <tr class="bg-white" *ngFor="let _ of loadingPlaceholders">
+        <td class="py-2 px-3 animate-pulse " *ngFor="let _ of headers; let last = last;">
+            <div class="h-2 bg-theme-gray-400 bg-opacity-50" [ngClass]="{'w-10' : last}"></div>
+        </td>
+    </tr>
+    </tbody>
+</ng-template>
+
+<ng-template #noData>
+    <p class="text-sm px-3 py-2">لا يوجد بيانات</p>
+</ng-template>

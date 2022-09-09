@@ -1,1 +1,227 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap');
+@import "../src/assets/fonts/fontawesome.css";
+@import "../src/assets/fonts/ionicons.css";
+@import "../src/assets/fonts/linearicons.css";
+@import "~@ng-select/ng-select/themes/default.theme.css";
+@import "../src/app/shared/charts/c3.css";
+@import "../src/app/shared/charts/ngx-charts.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    th {
+        @apply py-2 px-3 text-sm font-semibold text-right whitespace-nowrap
+    }
+
+    td {
+        @apply py-2 px-3 text-sm whitespace-nowrap
+    }
+}
+
+@layer utilities {
+    .scrollbar::-webkit-scrollbar {
+        @apply w-3 h-3 bg-transparent
+    }
+    
+    .no-scrollbar::-webkit-scrollbar {
+        @apply hidden
+    }
+
+    .scrollbar::-webkit-scrollbar-corner {
+        @apply w-3 h-3 bg-transparent
+    }
+    
+    .scrollbar::-webkit-scrollbar-track {
+        @apply bg-gray-100 rounded-lg bg-opacity-70
+    }
+    
+
+    .scrollbar::-webkit-scrollbar-thumb {
+        @apply bg-gray-200 rounded-lg border-2 border-solid border-gray-100 border-opacity-70
+    }
+
+    .scrollbar::-webkit-scrollbar-thumb:hover {
+        @apply bg-gray-300
+    }
+}
+
+@layer components {
+    .btn {
+        @apply whitespace-nowrap cursor-pointer rounded-md active:shadow-inner border
+    }
+    
+    .btn.btn-lg {
+        @apply px-5 py-3 text-lg
+    }
+    .btn.btn-md {
+        @apply px-6 py-1.5 text-sm
+    }
+    .btn.btn-sm {
+        @apply px-2 py-1 text-sm font-semibold
+    }
+    .btn.btn-xs {
+        @apply px-2 py-0.5 text-xs
+    }
+    .btn.btn-primary {
+        @apply text-white bg-theme-blue-500 border-theme-blue-500 hover:border-theme-blue-600 hover:bg-theme-blue-600 active:bg-theme-blue-700
+    }
+    .btn.btn-secondary {
+        @apply text-white bg-theme-teal-500 border-theme-teal-500 hover:border-theme-teal-600 hover:bg-theme-teal-600 active:bg-theme-teal-700
+    }
+    .btn.btn-white {
+        @apply text-theme-gray-900 bg-white border-theme-gray-300 hover:bg-theme-gray-100 active:bg-theme-gray-200
+    }
+    .btn.btn-outline {
+        @apply text-inherit border-2 bg-transparent hover:text-white 
+    }
+
+    .btn:disabled {
+        @apply pointer-events-none 
+    }
+    
+    .btn-white:disabled {
+        @apply bg-theme-gray-200 border-theme-gray-300
+    }
+    
+    .btn.btn-active {
+        @apply pointer-events-none shadow-inner
+    }
+    
+    .btn-primary:disabled {
+        @apply bg-theme-blue-400 border-theme-blue-400
+    }
+    
+    .step-active {
+        @apply bg-white border-theme-teal-500
+    }
+    
+    .step-done {
+        @apply bg-theme-teal-500 border-theme-teal-500
+    }
+    
+    .step-inactive {
+        @apply bg-theme-gray-400 border-theme-gray-400
+    }
+    
+    .step-line-done {
+        @apply border-theme-teal-500
+    }
+    
+    .step-line-inactive {
+        @apply border-theme-gray-400
+    }
+    
+    .ltr {
+        direction: ltr;
+    }
+    
+    .rtl {
+        direction: rtl;
+    }
+    
+    .enum-value-1 {
+        @apply bg-theme-teal-500 text-white
+    }
+}
+
+.ng-select.theme-form-select .ng-select-container  {
+    @apply mt-1 min-h-0 h-0 py-4 text-sm w-full
+    rounded-lg border shadow-sm
+    focus:outline-none 
+    hover:shadow-none hover:cursor-pointer
+}
+
+
+.ng-select.theme-form-select.valid.ng-select-focused > .ng-select-container {
+    @apply border-theme-teal-400 ring-2 ring-opacity-30 ring-theme-teal-400 shadow-none !important
+}
+
+.ng-select.theme-form-select.invalid.ng-select-focused > .ng-select-container {
+    @apply border-red-400 ring-2 ring-opacity-50 border-red-300 ring-red-200 !important
+}
+
+
+.ng-select.theme-form-select.ng-select-focused:not(.ng-select-opened)>.ng-select-container {
+    @apply border border-theme-gray-200 shadow-none
+}
+
+.ng-select.theme-form-select.valid > .ng-select-container  {
+    @apply border-theme-gray-200
+}
+
+.ng-select.theme-form-select.invalid .ng-select-container  {
+    @apply border-red-400
+}
+
+.ng-select.theme-form-select .ng-dropdown-panel {
+    @apply border border-theme-gray-300 rounded-md shadow-md text-sm font-semibold
+}
+
+.ng-select.theme-form-select .ng-dropdown-panel .ng-dropdown-panel-items {
+    @apply max-h-46 
+}
+
+.ng-select.theme-form-select .ng-option {
+    @apply hover:bg-theme-gray-100
+}
+
+.theme-form-select .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected,
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected.ng-option-marked {
+    @apply bg-theme-gray-200
+}
+
+.ng-select.theme-select .ng-select-container  {
+    @apply min-w-[4rem] min-h-0 h-0 py-3.5
+    rounded-md border border-theme-gray-300 text-sm font-semibold
+    hover:shadow-none active:shadow-inner 
+    active:bg-theme-gray-200 hover:bg-theme-gray-100 hover:cursor-pointer
+}
+
+.ng-select.theme-select.input-group .ng-select-container {
+    @apply rounded-l-none
+}
+.ng-select.theme-select.input-group-left .ng-select-container {
+    @apply rounded-r-none border-r-0
+}
+
+.ng-select.theme-select.ng-select-focused:not(.ng-select-opened)>.ng-select-container {
+    @apply border border-theme-gray-300 shadow-none
+}
+
+.ng-select.theme-select .ng-dropdown-panel {
+    @apply border border-theme-gray-300 rounded-md shadow-md text-sm font-semibold
+}
+
+.ng-select.theme-select .ng-option {
+    @apply hover:bg-theme-gray-100
+}
+
+.theme-select .ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected, 
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-selected.ng-option-marked {
+    @apply bg-theme-gray-200
+}
+
+.ng-select.theme-select .ng-dropdown-panel .ng-dropdown-panel-items {
+    @apply max-h-46
+}
+
+.datepicker.hidden {
+    display: none !important;
+}
+.datepicker {
+    direction: ltr;
+    z-index: 999 !important;
+}
+.datepicker-cell.today.focused:not(.selected) {
+    @apply bg-theme-teal-400 !important
+}
+.datepicker-cell.selected, .datepicker-cell.selected:hover {
+    @apply bg-theme-teal-500 !important
+}
+
+.datepicker-input.in-edit:active, .datepicker-input.in-edit:focus {
+    box-shadow: none !important;
+}

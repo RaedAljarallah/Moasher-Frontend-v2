@@ -1,0 +1,170 @@
+<div class="bg-white rounded-lg border border-theme-gray-300">
+    <div class="flex flex-col p-3 border-b border-b-theme-gray-300">
+        <div class="flex justify-between items-center">
+            <h1 class="text-xl font-semibold">{{ title }} [{{ items?.pagination?.totalCount ?? 0}}]</h1>
+            
+            <div class="flex items-center">
+                <button class="btn btn-sm btn-white relative ml-2" (click)="toggleFilter()">
+                    <i class="ion ion-ios-funnel text-xs md:text-sm text-theme-gray-800"></i>
+                    <span class="flex h-2 w-2 md:h-2.5 md:w-2.5 absolute -top-1 right-full -mr-1">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-theme-teal-500 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 md:h-2.5 md:w-2.5  bg-theme-teal-600"></span>
+                </span>
+                </button>
+
+                <button class="btn btn-sm btn-white" *ngIf="showAddBtn" (click)="addClicked.emit()">
+                    <i class="fas fa-plus text-xs sm:ml-1"></i>
+                    <span class="hidden sm:inline-block">{{ addBtnTitle }}</span>
+                </button>
+            </div>
+        </div>
+
+        <div [@collapse]="showFilter ? 'open' : 'close'">
+            <div class="bg-white py-2 border-y border-y-theme-gray-300 mt-2">
+                <ng-content select="[filter]"></ng-content>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="items; else loading">
+        <div *ngIf="items.result.length; else noData">
+            <div @fade class="flex flex-col divide-y divide-theme-gray-300">
+                <div class="bg-white transition-all duration-150
+                            overflow-hidden overflow-x-auto hover:bg-theme-gray-100 active:shadow-inner active:bg-theme-gray-200
+                            cursor-pointer" *ngFor="let item of items.result" (click)="selectItem(item)">
+                    <div class="inline-flex space-x-10 space-x-reverse whitespace-nowrap md:whitespace-normal justify-between items-center min-w-full 
+                                py-3 px-2 pl-4 border-r-8 border-r-red-500">
+                        <ng-template [ngTemplateOutlet]="listViewTemplate" [ngTemplateOutletContext]="{data: item}"></ng-template>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="p-3 border-t border-t-theme-gray-300">
+        <app-pagination [pager]="pager" (pageChange)="changePager()"></app-pagination>
+    </div>
+</div>
+
+
+
+
+
+<!--<div class="flex justify-between items-center mb-2">-->
+<!--    <h1 class="text-xl font-semibold">{{ title }} [{{ items?.pagination?.totalCount ?? 0}}]</h1>-->
+
+<!--    <div class="flex space-x-1 space-x-reverse">-->
+<!--        <button class="btn btn-sm btn-white" [disabled]="isListView || !items"-->
+<!--                (click)="display = 'list'">-->
+<!--            <i class="fas fa-bars"></i>-->
+<!--        </button>-->
+<!--        <button class="btn btn-sm btn-white" [disabled]="isGridView || !items"-->
+<!--                (click)="display = 'grid'">-->
+<!--            <i class="fa fa-grip-horizontal"></i>-->
+<!--        </button>-->
+<!--        <button class="btn btn-sm btn-white" *ngIf="showAddBtn" (click)="addClicked.emit()">-->
+<!--            <i class="fas fa-plus text-xs sm:ml-1"></i>-->
+<!--            <span class="hidden sm:inline-block">{{ addBtnTitle }}</span>-->
+<!--        </button>-->
+<!--    </div>-->
+
+<!--</div>-->
+
+<!--<div *ngIf="items; else loading">-->
+<!--    <div *ngIf="items.result.length; else noData">-->
+<!--        <div @fade class="flex flex-col space-y-2" *ngIf="isListView">-->
+<!--            <div class="py-3 px-2 pl-4 bg-white rounded-lg border border-theme-gray-300 border-r-8 transition-all duration-150-->
+<!--                            border-r-red-500 overflow-x-auto scrollbar hover:bg-theme-gray-100 active:shadow-inner active:bg-theme-gray-200-->
+<!--                            cursor-pointer" *ngFor="let item of items.result" (click)="selectItem(item)">-->
+<!--                <div class="inline-flex space-x-10 space-x-reverse whitespace-nowrap justify-between items-center min-w-full">-->
+<!--                    <ng-template [ngTemplateOutlet]="listViewTemplate" [ngTemplateOutletContext]="{data: item}"></ng-template>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div @fade class="grid sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-2" *ngIf="isGridView">-->
+<!--            <div class="py-3 px-2 pl-4 bg-white rounded-lg border border-theme-gray-300 border-t-8 -->
+<!--                            border-t-red-500 overflow-auto scrollbar hover:bg-theme-gray-100 active:shadow-inner active:bg-theme-gray-200-->
+<!--                            cursor-pointer" *ngFor="let item of items.result" (click)="selectItem(item)">-->
+<!--                <div class="inline-flex flex-col space-y-3 min-w-full">-->
+<!--                    <ng-template [ngTemplateOutlet]="gridViewTemplate" [ngTemplateOutletContext]="{data: item}"></ng-template>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--<div class="pt-2">-->
+<!--    <app-pagination [pager]="pager" (pageChange)="changePager()"></app-pagination>-->
+<!--</div>-->
+
+<ng-template #loading>
+    <div class="flex flex-col divide-y divide-theme-gray-400">
+        <div class="w-full bg-white opacity-50" *ngFor="let _ of loadingPlaceholders">
+            <div class="animate-pulse flex space-x-4 relative">
+                <div class="bg-theme-gray-400 h-full w-2 absolute "></div>
+                <div class="flex-1 space-y-2 py-3.5 pr-4">
+                    <div class="h-2 bg-theme-gray-400 rounded"></div>
+                    <div class="space-y-2">
+                        <div class="grid grid-cols-3 gap-4">
+                            <div class="h-2 bg-theme-gray-400 rounded col-span-1"></div>
+                            <div class="h-2 bg-theme-gray-400 rounded col-span-2"></div>
+                        </div>
+
+                        <div class="h-2 bg-theme-gray-400 rounded"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!--    <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-2" *ngIf="isGridView">-->
+<!--        <div class="border border-theme-gray-300 rounded-lg w-full bg-white opacity-50" *ngFor="let _ of loadingPlaceholders">-->
+<!--            <div class="animate-pulse flex space-x-4 relative">-->
+<!--                <div class="bg-theme-gray-400 h-2 w-full absolute rounded-t-md"></div>-->
+<!--                <div class="flex-1 space-y-2 py-3.5 pr-4">-->
+<!--                    <div class="space-y-2 pt-2 pb-2">-->
+<!--                        <div class="grid grid-cols-3 gap-4">-->
+<!--                            <div class="h-2 bg-theme-gray-400 rounded col-span-1"></div>-->
+<!--                            <div class="h-2 bg-theme-gray-400 rounded col-span-2"></div>-->
+<!--                        </div>-->
+<!--                        <div class="h-2 bg-theme-gray-400 rounded"></div>-->
+<!--                    </div>-->
+<!--                    <div class="w-full p-[0.5px] bg-theme-gray-300"></div>-->
+<!--                    <div class="space-y-2 pt-2">-->
+<!--                        <div class="grid grid-cols-3 gap-4">-->
+<!--                            <div class="h-2 bg-theme-gray-400 rounded col-span-1"></div>-->
+<!--                            <div class="col-span-1"></div>-->
+<!--                            <div class="h-2 bg-theme-gray-400 rounded col-span-1"></div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="space-y-2">-->
+<!--                        <div class="grid grid-cols-3 gap-4">-->
+<!--                            <div class="h-2 bg-theme-gray-400 rounded col-span-1"></div>-->
+<!--                            <div class="col-span-1"></div>-->
+<!--                            <div class="h-2 bg-theme-gray-400 rounded col-span-1"></div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="space-y-2 pt-2">-->
+<!--                        <div class="grid grid-cols-3 gap-4">-->
+<!--                            <div class="h-2 bg-theme-gray-400 rounded col-span-1"></div>-->
+<!--                            <div class="col-span-1"></div>-->
+<!--                            <div class="h-2 bg-theme-gray-400 rounded col-span-1"></div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="space-y-2">-->
+<!--                        <div class="grid grid-cols-3 gap-4">-->
+<!--                            <div class="h-2 bg-theme-gray-400 rounded col-span-1"></div>-->
+<!--                            <div class="col-span-1"></div>-->
+<!--                            <div class="h-2 bg-theme-gray-400 rounded col-span-1"></div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+
+</ng-template>
+
+<ng-template #noData>
+    <p class="text-base px-3 py-2">لا يوجد بيانات</p>
+</ng-template>

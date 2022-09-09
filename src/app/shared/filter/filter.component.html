@@ -1,0 +1,55 @@
+<div class="flex flex-col space-y-2">
+    <div class="flex space-x-reverse space-x-2 items-center" *ngFor="let filter of appliedFilters; let i = index">
+        <ng-select class="theme-select w-1/3"
+                   [items]="filterFields"
+                   [compareWith]="compareFn"
+                   bindLabel="name"
+                   bindValue="id"
+                   placeholder="الحقل"
+                   notFoundText="لا يوجد بيانات"
+                   [searchable]="false"
+                   [clearable]="false"
+                   [(ngModel)]="filter.selectedFilterField"
+                   (change)="changeFilterType(i, $event)">
+        </ng-select>
+
+        <input appDatePicker [value]="filter.value ?? null" type="text" autocomplete="off" *ngIf="filter.selectedFilterField?.type === 'date'"
+               class="pr-2 py-1 text-sm w-full rounded-md border border-theme-gray-300 focus:outline-none"
+               (dateChange)="updateFilterValue(i, $event)"/>
+
+        <app-select-list class="w-full" *ngIf="filter.selectedFilterField?.type === 'dynamic-list'"
+                         theme="theme-select"
+                         [listUrl]="filter.selectedFilterField!.dynamicListUrl!"
+                         [placeholder]="filter.selectedFilterField!.listPlaceholder!"
+                         [propertyName]="filter.selectedFilterField!.id!">
+        </app-select-list>
+
+        <ng-select class="theme-select w-full" *ngIf="filter.selectedFilterField?.type === 'static-list'"
+                   [items]="filter.selectedFilterField!.staticListItems!"
+                   bindLabel="name"
+                   bindValue="value"
+                   [placeholder]="filter.selectedFilterField!.listPlaceholder!"
+                   notFoundText="لا يوجد بيانات"
+                   [searchable]="true"
+                   [clearable]="false"
+                   [(ngModel)]="filter.value"
+                   (change)="updateFilterValue(i, $event.value)">
+        </ng-select>
+
+        <input type="text" autocomplete="off" [disabled]="true" *ngIf="!filter.selectedFilterField"
+               class="pr-2 py-1 text-sm w-full rounded-md border border-theme-gray-300 bg-theme-gray-100" />
+
+        <button class="btn px-2 py-1.5 text-xs btn-white border-none" *ngIf="appliedFilters.length > 1"
+                (click)="removeFilter(i)">
+            <i class="fa fa-trash-alt"></i>
+        </button>
+        <button class="btn px-2 py-1.5 text-xs btn-white border-none" (click)="addNewFilter()">
+            <i class="fas fa-plus"></i>
+        </button>
+    </div>
+
+    <div class="flex space-x-reverse space-x-2 items-center justify-end pt-3">
+        <button class="btn py-2 w-20 btn-white border-none text-center text-sm" (click)="resetFilters()">إلغاء</button>
+        <button class="btn py-1.5 w-20 btn-secondary text-center text-sm" (click)="applyFilters()">بحث</button>
+    </div>
+</div>

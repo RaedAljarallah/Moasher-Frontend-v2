@@ -18,6 +18,12 @@
     "@angular/platform-browser": "^14.0.0",
     "@angular/platform-browser-dynamic": "^14.0.0",
     "@angular/router": "^14.0.0",
+    "@ng-select/ng-select": "^9.0.2",
+    "@swimlane/ngx-charts": "^20.1.0",
+    "c3": "^0.7.20",
+    "date-fns": "^2.29.2",
+    "flowbite-datepicker": "^1.2.2",
+    "lodash": "^4.17.21",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
@@ -26,13 +32,19 @@
     "@angular-devkit/build-angular": "^14.0.6",
     "@angular/cli": "~14.0.6",
     "@angular/compiler-cli": "^14.0.0",
+    "@tailwindcss/forms": "^0.5.2",
+    "@types/c3": "^0.7.8",
     "@types/jasmine": "~4.0.0",
+    "@types/lodash": "^4.14.184",
+    "autoprefixer": "^10.4.8",
     "jasmine-core": "~4.1.0",
     "karma": "~6.3.0",
     "karma-chrome-launcher": "~3.1.0",
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.0.0",
     "karma-jasmine-html-reporter": "~1.7.0",
+    "postcss": "^8.4.14",
+    "tailwindcss": "^3.1.8",
     "typescript": "~4.7.2"
   }
 }

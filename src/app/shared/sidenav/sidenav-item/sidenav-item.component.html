@@ -1,0 +1,13 @@
+<li class="text-theme-gray-500" #parent (mouseenter)="show()" (mouseleave)="hide()">
+    <a [routerLink]="link" routerLinkActive="text-white bg-theme-light-gray"
+       class="inline-flex items-center text-sm py-2.5 px-6 w-full hover:text-white hover:bg-theme-light-gray">
+        <i *ngIf="icon" class="text-lg ml-4 w-6" [ngClass]="icon" ></i>
+        <span class="transform origin-right ease-out duration-150 whitespace-nowrap"
+              [ngClass]="{ 'lg:scale-x-0': expanded != null && expanded == false, 'mr-8': !icon }">{{ name }}</span>
+    </a>
+    <div #popover
+         class="hidden fixed bg-theme-gray-900 text-white text-xs py-1 px-3 rounded-md mr-[4.6rem] z-10 shadow-sm">
+        <div class="absolute w-2 h-2 bg-theme-gray-900 top-2 -right-0.5 rotate-45"></div>
+        {{ name }}
+    </div>
+</li>

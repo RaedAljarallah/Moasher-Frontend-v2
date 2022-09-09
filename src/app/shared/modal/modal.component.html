@@ -1,0 +1,39 @@
+<div @container class="grid place-items-center fixed z-90 inset-0 outline-0 transition-opacity 
+    overflow-y-auto no-scrollbar p-3 md:p-0" tabindex="-1" role="dialog" [attr.aria-labelledby]="modalId" 
+     *ngIf="modal.isModalOpen(modalId)" (@container.done)="toggleBody()">
+    
+    <div #modalContainer class="relative z-80 w-full border border-theme-gray-300 
+    bg-white rounded-lg outline-0 shadow-2xl" role="document"
+         @slideDown
+         [ngClass]="{ 
+        'md:max-w-xs': size === 'xs',
+        'md:max-w-sm': size === 'sm',
+        'md:max-w-md': size === 'md',
+        'md:max-w-lg': size === 'lg',
+        'md:max-w-xl': size === 'xl',
+        'md:max-w-2xl': size === '2xl',
+        'md:max-w-3xl': size === '3xl',
+        'md:max-w-4xl': size === '4xl',
+        'md:max-w-5xl': size === '5xl',
+        'md:max-w-6xl': size === '6xl',
+        'md:max-w-7xl': size === '7xl',
+        'md:max-w-full': size === 'full',
+        'max-w-fit': size === 'fit'
+        }">
+        <div class="relative flex flex-col divide-y divide-theme-gray-200" >
+            <div class="px-3 py-2 flex justify-between">
+                <ng-content select="[modal-head]"></ng-content>
+                <button class="text-theme-gray-500 hover:text-theme-gray-900" (click)="modal.close(modalId, false)">
+                    <i class="lnr lnr-cross font-bold"></i>
+                </button>
+            </div>
+            <div class="p-3">
+                <ng-content select="[modal-body]"></ng-content>
+            </div>
+        </div>
+    </div>
+
+    <div class="fixed inset-0 bg-gray-700 opacity-50 brightness-50 transition-opacity z-70"
+         @fadeIn
+         (click)="closeModal()"></div>
+</div>

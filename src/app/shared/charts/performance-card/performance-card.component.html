@@ -1,0 +1,38 @@
+<div class="flex justify-between p-2 h-full" *ngIf="values; else loading">
+    <div class="flex flex-col space-y-2">
+        <div>
+            <span class="block text-xl">{{ values.actual.value | localCurrency }}</span>
+            <span class="text-sm text-theme-gray-500 whitespace-nowrap">{{ values.actual.name}}</span>
+        </div>
+        <div>
+            <span class="block text-lg">{{ values.target.value | localCurrency }}</span>
+            <span class="text-sm text-theme-gray-500 whitespace-nowrap">{{ values.target.name }}</span>
+        </div>
+    </div>
+
+    <div class="w-28 h-28 flex">
+        <div class="mr-3 mt-2" #performanceChart></div>
+    </div>
+</div>
+
+<ng-template #loading>
+    <div class="p-2 bg-white opacity-50">
+        <div class="flex justify-between animate-pulse">
+            <div class="flex flex-col justify-between w-full pl-3">
+                <div class="flex flex-col space-y-2">
+                    <div class="h-4 bg-theme-gray-400"></div>
+                    <div class="h-4 bg-theme-gray-400 w-1/2"></div>
+                </div>
+                <div class="flex flex-col space-y-2 mt-8">
+                    <div class="h-4 bg-theme-gray-400"></div>
+                    <div class="h-4 bg-theme-gray-400 w-1/2"></div>
+                </div>
+            </div>
+            <div class="flex items-center">
+                <div class="mr-auto h-24 w-24 bg-theme-gray-400 rounded-full flex items-center justify-center">
+                    <div class="h-20 w-20 bg-white rounded-full"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

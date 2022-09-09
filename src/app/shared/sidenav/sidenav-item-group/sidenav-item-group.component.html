@@ -1,0 +1,13 @@
+<li>
+    <a href="#" (click)="toggleMenu($event)"
+       class="inline-flex items-center text-sm text-theme-gray-500 py-2.5 px-6 w-full hover:text-white hover:bg-theme-light-gray">
+        <i class="text-lg" [ngClass]="icon"></i>
+        <span class="mr-4 transform origin-right ease-out duration-150 whitespace-nowrap"
+              [ngClass]="{ 'lg:scale-x-0': !expanded }">{{ name }}</span>
+        <i class="fas fa-chevron-down mr-auto -rotate-90 transition duration-100 ease-out" 
+           [ngClass]="{'rotate-0': isOpen, 'hidden': !expanded}"></i>
+    </a>
+    <ul [@collapse]="isOpen && expanded ? 'open' : 'close'">
+        <ng-content></ng-content>
+    </ul>
+</li>

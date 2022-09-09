@@ -1,0 +1,41 @@
+<div class="flex flex-col">
+    <div class="flex sm:flex-row sm:space-y-0 items-center justify-between border-b px-2 py-1 border-b-theme-gray-300" 
+         [ngClass]="{'flex-col space-y-2' : years.length > 2 }">
+        <h2 class="text-sm ml-auto">{{ title }}</h2>
+        <div class="flex space-x-reverse space-x-2 mr-auto">
+            <button class="btn px-2 py-1 text-xs font-semibold btn-white" *ngFor="let year of years"
+                    [ngClass]="{'btn-active': selectedYear === year}"
+                    [disabled]="selectedYear === year" (click)="onYearSelected(year)">
+                {{ year }}
+            </button>
+            <div class="border-l border-l-theme-gray-300"></div>
+            <button class="btn w-8 py-1 text-xs font-semibold btn-white"
+                    [ngClass]="{'btn-active': granularity === 0}"
+                    [disabled]="granularity === 0" (click)="onGranularityChanged(0)">Q</button>
+            <button class="btn w-8 py-1 text-xs font-semibold btn-white"
+                    [ngClass]="{'btn-active': granularity === 1}"
+                    [disabled]="granularity === 1" (click)="onGranularityChanged(1)">M</button>
+        </div>
+    </div>
+    <div class="h-72 overflow-auto flex justify-center" *ngIf="values; else loading">
+        <div class="2xl:w-1/2" #overTimeChart></div>
+    </div>
+</div>
+<ng-template #loading>
+    <div class="rounded-lg w-full bg-white opacity-50 flex justify-center">
+        <div class="h-64 overflow-hidden flex items-end space-x-reverse space-x-2 animate-pulse mb-2">
+            <div class="h-60 bg-theme-gray-400 w-10"></div>
+            <div class="h-28 bg-theme-gray-400 w-10"></div>
+            <div class="h-36 bg-theme-gray-400 w-10"></div>
+            <div class="h-60 bg-theme-gray-400 w-10"></div>
+            <div class="h-28 bg-theme-gray-400 w-10"></div>
+            <div class="h-36 bg-theme-gray-400 w-10"></div>
+            <div class="h-24 bg-theme-gray-400 w-10"></div>
+            <div class="h-60 bg-theme-gray-400 w-10"></div>
+            <div class="h-28 bg-theme-gray-400 w-10"></div>
+            <div class="h-36 bg-theme-gray-400 w-10"></div>
+            <div class="h-20 bg-theme-gray-400 w-10"></div>
+            <div class="h-36 bg-theme-gray-400 w-10"></div>
+        </div>
+    </div>
+</ng-template>

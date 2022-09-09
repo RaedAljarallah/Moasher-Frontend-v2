@@ -1,0 +1,36 @@
+<div class="flex flex-col" *ngIf="values; else loading">
+    <div class="flex justify-between items-center p-2">
+        <span class="text-sm whitespace-nowrap">{{ title }}</span>
+        <span class="text-xs font-semibold px-2 py-1 whitespace-nowrap rounded-md" [ngClass]="values.status.style">{{ values.status.name }}</span>
+    </div>
+    <div class="flex justify-center h-36">
+        <div #progressChart></div>
+    </div>
+</div>
+
+<ng-template #loading>
+    <div class="p-2 bg-white opacity-50">
+        <div class="flex flex-col animate-pulse">
+            <div class="flex flex-col space-y-2 justify-between w-full">
+                <div class="flex justify-between">
+                    <div class="h-4 bg-theme-gray-400 w-1/2"></div>
+                    <div class="h-4 bg-theme-gray-400 w-1/3"></div>
+                </div>
+                <div class="flex justify-between">
+                    <div class="h-4 bg-theme-gray-400 w-1/3"></div>
+                    <div class="h-4 bg-theme-gray-400 w-full mr-2"></div>
+                    
+                </div>
+            </div>
+            <div class="flex items-center justify-center mt-5 mb-2 overflow-hidden relative">
+                <div class="h-[5.25rem] w-[10.5rem] bg-theme-gray-200 rounded-tl-full rounded-tr-full flex items-end justify-end">
+                    <div class="h-[5.25rem] w-[5.25rem] rounded-tl-full border-l-[16px] border-t-[16px] border-theme-gray-300 flex">
+                        <div class="h-[5.25rem] w-[5.25rem] rounded-tl-full rounded-tb-full border-l-[16px] border-t-[16px] border-theme-gray-400 flex"></div>
+                    </div>
+                </div>
+                <div class="absolute top-8 h-[6.5rem] w-[6.5rem] bg-white rounded-full">
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

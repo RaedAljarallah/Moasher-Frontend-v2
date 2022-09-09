@@ -1,0 +1,83 @@
+﻿.chart-increase-tooltip {
+    position: absolute;
+    left: 0;
+    margin-left: 0.75rem;
+    color: #02BC77;
+    direction: rtl;
+}
+
+.chart-doughnut-center-label {
+    position: absolute;
+    left: 48%;
+    top: 51%;
+    font-size: 24px !important;
+}
+
+.pie-label {
+    font-size: 12px !important;
+}
+
+.chart-legends-tail {
+    width: 100%;
+    background: #E8E8E8;
+    margin-bottom: 0.625rem;
+    margin-top: -0.1875rem;
+    border-bottom-left-radius: .25rem !important;
+    border-bottom-right-radius: .25rem !important;
+}
+
+.chart-legends-tail span {
+    padding: .6875rem;
+}
+
+
+/*  .ng-star-inserted text {
+    font-weight: bold;
+    font-size: 12px !important;
+} */
+
+.advanced-pie.chart {
+    direction: ltr;
+}
+
+.advanced-pie-legend .legend-items {
+    overflow: hidden !important;
+    overflow-x: auto !important;
+    direction: rtl !important;
+}
+
+.advanced-pie-legend .legend-items>.legend-item:first-child {
+    margin-right: 0px !important;
+}
+
+.advanced-pie-legend .total-label {
+    font-size: 14px !important;
+    color: #8f8f8f !important;
+}
+
+.advanced-pie-legend .item-label {
+    color: #8f8f8f !important;
+    opacity: 1 !important;
+}
+
+.advanced-pie-legend .total-value {
+    font-size: 24px !important;
+}
+
+.advanced-pie-legend .item-value {
+    font-size: 20px !important;
+}
+
+.advanced-pie-legend .item-percent {
+    color: #4E5155 !important;
+    opacity: 1 !important;
+    font-size: 20px !important;
+}
+
+.progress-chart .progress-title {
+    font-size: 16px !important;
+}
+
+.progress-chart .progress-value {
+    font-size: 36px !important;
+}

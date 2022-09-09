@@ -1,0 +1,21 @@
+<ng-select
+           [class]="theme"
+           [ngClass]="control.invalid && (control.dirty || control.touched) 
+                ? 'invalid' 
+                : 'valid'"
+           [items]="listItems"
+           [labelForId]="id"
+           [formControl]="control"
+           [placeholder]="placeholder"
+           [loadingText]="'تحميل ...'"
+           [loading]="isListLoading"
+           notFoundText="لا يوجد بيانات"
+           bindLabel="name"
+           bindValue="id"
+           (open)="getListItems()"
+           (close)="resetList()"
+           (clear)="resetList()"
+           (search)="searchForItem($event)"
+           (scrollToEnd)="getMoreListItems()"
+           (change)="selectItem($event)">
+</ng-select>

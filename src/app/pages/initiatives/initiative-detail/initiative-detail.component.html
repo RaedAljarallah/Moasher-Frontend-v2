@@ -1,0 +1,23 @@
+<app-detail-page [tabs]="tabs" [state]="detailPageState" titleKey="name" [editBtnLoading]="isFormLoading" [selectedTab]="selectedTab"
+                 (deleteClicked)="delete()" 
+                 (editClicked)="update()">
+    <ng-container *ngIf="detailPageState">
+        <app-initiative-performance *ngIf="selectedTab === 'performance'"></app-initiative-performance>
+        <app-initiative-issues *ngIf="selectedTab === 'issues'"></app-initiative-issues>
+        <app-initiative-risks *ngIf="selectedTab === 'risks'"></app-initiative-risks>
+        <app-initiative-milestones *ngIf="selectedTab === 'milestones'"></app-initiative-milestones>
+        <app-initiative-deliverables *ngIf="selectedTab === 'deliverables'"></app-initiative-deliverables>
+        <app-initiative-approved-costs *ngIf="selectedTab === 'approved-costs'"></app-initiative-approved-costs>
+        <app-initiative-contracts *ngIf="selectedTab === 'contracts'"></app-initiative-contracts>
+        <app-initiative-budgets *ngIf="selectedTab === 'budgets'"></app-initiative-budgets>
+        <app-initiative-expenditures *ngIf="selectedTab === 'expenditures'"></app-initiative-expenditures>
+        <app-initiative-over-view *ngIf="selectedTab === 'over-view'"></app-initiative-over-view>
+    </ng-container>
+</app-detail-page>
+
+<app-modal modalId="InitiativeDetail" size="xl" #modal>
+    <p class="text-sm font-semibold ml-2" modal-head>تعديل مبادرة</p>
+    <div modal-body>
+        <app-initiative-form *ngIf="modal.showBody" [inputCommand]="command"></app-initiative-form>
+    </div>
+</app-modal>
