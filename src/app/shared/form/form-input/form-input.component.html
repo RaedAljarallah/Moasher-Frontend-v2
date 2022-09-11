@@ -92,6 +92,9 @@
             {{ name }} يجب أن يكون أكبر من أو يساوي <span
                 class="font-bold">'{{ control.errors?.['afterDate'].requiredDate }}'</span>
         </p>
+        
     </ng-container>
-
+    <p class="mt-1 mr-0.5 text-sm text-red-400" *ngIf="control.errors?.['serverError']">
+        {{ control.errors?.['serverError'] }}
+    </p>
 </div>

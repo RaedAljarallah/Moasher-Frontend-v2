@@ -21,9 +21,8 @@ export class ModalService {
     public open(id: string) {
         this.toggleModal(id);
     }
-    
-    
-    public close(id: string, staticBackdrop: boolean) {
+
+    public close(id: string, staticBackdrop: boolean = false) {
         if (staticBackdrop) return;
         this.toggleModal(id);
     }

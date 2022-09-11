@@ -28,8 +28,10 @@ export class CollectionComponent implements OnInit, OnChanges {
     @Input() items: IResponse<any> | null = null;
     @Input() addBtnTitle: string = '';
     @Input() title: string = '';
+    @Input() showStatus: boolean = true;
+    @Input() withFilters: boolean = true;
     @ContentChild("listView") listViewTemplate!: TemplateRef<any>;
-    @Output() itemSelected: EventEmitter<IDetailPageState> = new EventEmitter<IDetailPageState>();
+    @Output() itemSelected: EventEmitter<any> = new EventEmitter<any>();
     @Output() addClicked: EventEmitter<void> = new EventEmitter<void>();
     
     public loadingPlaceholders: number[] = [];
@@ -72,10 +74,15 @@ export class CollectionComponent implements OnInit, OnChanges {
     }
     
     public selectItem(item: any): void {
-        this.itemSelected.emit({ id: item['id'], value: item['name'] });
+        this.itemSelected.emit(item);
     }
 
     public toggleFilter(): void {
         this.showFilter = !this.showFilter;
+    }
+    
+    public addItem(item: any) {
+        this.items!.result.unshift(item);
+        this.pager!.totalCount += 1;
     }
 }

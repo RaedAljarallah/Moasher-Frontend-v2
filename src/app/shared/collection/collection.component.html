@@ -4,7 +4,7 @@
             <h1 class="text-xl font-semibold">{{ title }} [{{ items?.pagination?.totalCount ?? 0}}]</h1>
             
             <div class="flex items-center">
-                <button class="btn btn-sm btn-white relative ml-2" (click)="toggleFilter()">
+                <button class="btn btn-sm btn-white relative ml-2" (click)="toggleFilter()" *ngIf="withFilters">
                     <i class="ion ion-ios-funnel text-xs md:text-sm text-theme-gray-800"></i>
                     <span class="flex h-2 w-2 md:h-2.5 md:w-2.5 absolute -top-1 right-full -mr-1">
                   <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-theme-teal-500 opacity-75"></span>
@@ -18,7 +18,7 @@
                 </button>
             </div>
         </div>
-
+        
         <div [@collapse]="showFilter ? 'open' : 'close'">
             <div class="bg-white py-2 border-y border-y-theme-gray-300 mt-2">
                 <ng-content select="[filter]"></ng-content>
@@ -33,7 +33,7 @@
                             overflow-hidden overflow-x-auto hover:bg-theme-gray-100 active:shadow-inner active:bg-theme-gray-200
                             cursor-pointer" *ngFor="let item of items.result" (click)="selectItem(item)">
                     <div class="inline-flex space-x-10 space-x-reverse whitespace-nowrap md:whitespace-normal justify-between items-center min-w-full 
-                                py-3 px-2 pl-4 border-r-8 border-r-red-500">
+                                py-3 px-2 pl-4" [ngClass]="{'border-r-8 border-r-red-500': showStatus, 'pr-4': !showStatus}">
                         <ng-template [ngTemplateOutlet]="listViewTemplate" [ngTemplateOutletContext]="{data: item}"></ng-template>
                     </div>
                 </div>

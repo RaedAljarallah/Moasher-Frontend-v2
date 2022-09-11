@@ -4,7 +4,7 @@
 
 export const environment = {
     production: false,
-    apiBaseUrl: "assets/data.json"
+    apiBaseUrl: "https://localhost:7241/api/v1"
 };
 
 /*

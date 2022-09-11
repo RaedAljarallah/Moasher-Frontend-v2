@@ -1,96 +1,97 @@
-<app-collection [items]="data$ | async" title="المبادرات" addBtnTitle="مبادرة جديدة" (itemSelected)="showDetail($event)" (addClicked)="onCreate()">
-    <ng-template #listView let-data="data">
-        <div class="md:max-w-xs lg:max-w-sm xl:max-w-md 2xl:max-w-4xl w-full">
-            <span class="text-sm font-semibold text-theme-gray-900 block">{{ data.name }}</span>
-            <small class="text-theme-gray-500 text-sm">{{ data.entityName }}</small>
-        </div>
-        <div class="flex !space-x-reverse space-x-10 md:space-x-5 2xl:space-x-10">
-            <div class="text-center">
-                <small class="text-theme-gray-500 text-xs block">التكاليف المعتمدة</small>
-                <span class="text-sm text-theme-gray-900">{{ data.approvedCost | localCurrency }}</span>
-            </div>
-            <div class="text-center">
-                <small class="text-theme-gray-500 text-xs block">إجمالي الإرتباطات</small>
-                <span class="text-sm text-theme-gray-900">{{ data.contractsAmount | localCurrency }}</span>
-            </div>
-            <div class="text-center">
-                <small class="text-theme-gray-500 text-xs block">سيولة 2022</small>
-                <span class="text-sm text-theme-gray-900">{{ data.currentYearBudget | localCurrency }}</span>
-            </div>
-            <div class="text-center">
-                <small class="text-theme-gray-500 text-xs block">منصرف 2022</small>
-                <span class="text-sm text-theme-gray-900">{{ data.currentYearExpenditure | localCurrency }}</span>
-            </div>
-            <div class="text-center">
-                <small class="text-theme-gray-500 text-xs block">حالة التمويل</small>
-                <span class="text-sm text-theme-gray-900">{{ data.fundStatus }}</span>
-            </div>
-        </div>
-    </ng-template>
-    <div filter class="grid grid-cols-12 gap-2">
-        <div class="col-span-full sm:col-span-6 md:col-span-4 xl:col-span-3 2xl:col-span-2">
-            <app-select-list 
-                    [listUrl]="'entities'" 
-                    placeholder="جميع الجهات"
-                    propertyName="entityId"
-                    (filterChanged)="onSelectFilter($event)">
-            </app-select-list>
-        </div>
-        <div class="col-span-full sm:col-span-6 md:col-span-4 xl:col-span-3 2xl:col-span-2">
-            <app-select-list 
-                    [listUrl]="'programs'" 
-                    placeholder="جميع البرامج"
-                    (filterChanged)="onSelectFilter($event)">
-            </app-select-list>
-        </div>
-        <div class="col-span-full sm:col-span-6 md:col-span-4 xl:col-span-3 2xl:col-span-2">
-            <app-select-list 
-                    [listUrl]="'programs'" 
-                    placeholder="جميع الأهداف الإستراتيجية"
-                    (filterChanged)="onSelectFilter($event)">
-            </app-select-list>
-        </div>
-        <div class="col-span-full sm:col-span-6 md:col-span-4 xl:col-span-3 2xl:col-span-2">
-            <app-select-list 
-                    [listUrl]="'programs'" 
-                    placeholder="جميع أهداف المستوى الرابع"
-                    (filterChanged)="onSelectFilter($event)">
-            </app-select-list>
-        </div>
-        <div class="col-span-full sm:col-span-6 md:col-span-4 xl:col-span-3 2xl:col-span-2">
-            <app-select-list 
-                    [listUrl]="'programs'" 
-                    placeholder="جميع حالات التنفيذ"
-                    (filterChanged)="onSelectFilter($event)">
-            </app-select-list>
-        </div>
-        <div class="col-span-full sm:col-span-6 md:col-span-4 xl:col-span-3 2xl:col-span-2">
-            <app-select-list 
-                    [listUrl]="'programs'" 
-                    placeholder="جميع حالات التمويل"
-                    (filterChanged)="onSelectFilter($event)">
-            </app-select-list>
-        </div>
-        <div class="col-span-full sm:col-span-6 md:col-span-4 xl:col-span-3 2xl:col-span-2">
-            <app-select-list 
-                    [listUrl]="'programs'" 
-                    placeholder="جميع حالات المعوقات"
-                    (filterChanged)="onSelectFilter($event)">
-            </app-select-list>
-        </div>
-        <div class="col-span-full sm:col-span-6 md:col-span-4 xl:col-span-3 2xl:col-span-2">
-            <app-select-list 
-                    [listUrl]="'programs'" 
-                    placeholder="جميع آثار المخاطر"
-                    (filterChanged)="onSelectFilter($event)">
-            </app-select-list>
-        </div>
-    </div>
-</app-collection>
+<!--<app-collection [items]="data$ | async" title="المبادرات" addBtnTitle="مبادرة جديدة" -->
+<!--                (itemSelected)="showDetail($event)" (addClicked)="onCreate()">-->
+<!--    <ng-template #listView let-data="data">-->
+<!--        <div class="md:max-w-xs lg:max-w-sm xl:max-w-md 2xl:max-w-4xl w-full">-->
+<!--            <span class="text-sm font-semibold text-theme-gray-900 block">{{ data.name }}</span>-->
+<!--            <small class="text-theme-gray-500 text-sm">{{ data.entityName }}</small>-->
+<!--        </div>-->
+<!--        <div class="flex !space-x-reverse space-x-10 md:space-x-5 2xl:space-x-10">-->
+<!--            <div class="text-center">-->
+<!--                <small class="text-theme-gray-500 text-xs block">التكاليف المعتمدة</small>-->
+<!--                <span class="text-sm text-theme-gray-900">{{ data.approvedCost | localCurrency }}</span>-->
+<!--            </div>-->
+<!--            <div class="text-center">-->
+<!--                <small class="text-theme-gray-500 text-xs block">إجمالي الإرتباطات</small>-->
+<!--                <span class="text-sm text-theme-gray-900">{{ data.contractsAmount | localCurrency }}</span>-->
+<!--            </div>-->
+<!--            <div class="text-center">-->
+<!--                <small class="text-theme-gray-500 text-xs block">سيولة 2022</small>-->
+<!--                <span class="text-sm text-theme-gray-900">{{ data.currentYearBudget | localCurrency }}</span>-->
+<!--            </div>-->
+<!--            <div class="text-center">-->
+<!--                <small class="text-theme-gray-500 text-xs block">منصرف 2022</small>-->
+<!--                <span class="text-sm text-theme-gray-900">{{ data.currentYearExpenditure | localCurrency }}</span>-->
+<!--            </div>-->
+<!--            <div class="text-center">-->
+<!--                <small class="text-theme-gray-500 text-xs block">حالة التمويل</small>-->
+<!--                <span class="text-sm text-theme-gray-900">{{ data.fundStatus }}</span>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </ng-template>-->
+<!--    <div filter class="grid grid-cols-12 gap-2">-->
+<!--        <div class="col-span-full sm:col-span-6 md:col-span-4 xl:col-span-3 2xl:col-span-2">-->
+<!--            <app-select-list -->
+<!--                    [listUrl]="'entities'" -->
+<!--                    placeholder="جميع الجهات"-->
+<!--                    propertyName="entityId"-->
+<!--                    (filterChanged)="onSelectFilter($event)">-->
+<!--            </app-select-list>-->
+<!--        </div>-->
+<!--        <div class="col-span-full sm:col-span-6 md:col-span-4 xl:col-span-3 2xl:col-span-2">-->
+<!--            <app-select-list -->
+<!--                    [listUrl]="'programs'" -->
+<!--                    placeholder="جميع البرامج"-->
+<!--                    (filterChanged)="onSelectFilter($event)">-->
+<!--            </app-select-list>-->
+<!--        </div>-->
+<!--        <div class="col-span-full sm:col-span-6 md:col-span-4 xl:col-span-3 2xl:col-span-2">-->
+<!--            <app-select-list -->
+<!--                    [listUrl]="'programs'" -->
+<!--                    placeholder="جميع الأهداف الإستراتيجية"-->
+<!--                    (filterChanged)="onSelectFilter($event)">-->
+<!--            </app-select-list>-->
+<!--        </div>-->
+<!--        <div class="col-span-full sm:col-span-6 md:col-span-4 xl:col-span-3 2xl:col-span-2">-->
+<!--            <app-select-list -->
+<!--                    [listUrl]="'programs'" -->
+<!--                    placeholder="جميع أهداف المستوى الرابع"-->
+<!--                    (filterChanged)="onSelectFilter($event)">-->
+<!--            </app-select-list>-->
+<!--        </div>-->
+<!--        <div class="col-span-full sm:col-span-6 md:col-span-4 xl:col-span-3 2xl:col-span-2">-->
+<!--            <app-select-list -->
+<!--                    [listUrl]="'programs'" -->
+<!--                    placeholder="جميع حالات التنفيذ"-->
+<!--                    (filterChanged)="onSelectFilter($event)">-->
+<!--            </app-select-list>-->
+<!--        </div>-->
+<!--        <div class="col-span-full sm:col-span-6 md:col-span-4 xl:col-span-3 2xl:col-span-2">-->
+<!--            <app-select-list -->
+<!--                    [listUrl]="'programs'" -->
+<!--                    placeholder="جميع حالات التمويل"-->
+<!--                    (filterChanged)="onSelectFilter($event)">-->
+<!--            </app-select-list>-->
+<!--        </div>-->
+<!--        <div class="col-span-full sm:col-span-6 md:col-span-4 xl:col-span-3 2xl:col-span-2">-->
+<!--            <app-select-list -->
+<!--                    [listUrl]="'programs'" -->
+<!--                    placeholder="جميع حالات المعوقات"-->
+<!--                    (filterChanged)="onSelectFilter($event)">-->
+<!--            </app-select-list>-->
+<!--        </div>-->
+<!--        <div class="col-span-full sm:col-span-6 md:col-span-4 xl:col-span-3 2xl:col-span-2">-->
+<!--            <app-select-list -->
+<!--                    [listUrl]="'programs'" -->
+<!--                    placeholder="جميع آثار المخاطر"-->
+<!--                    (filterChanged)="onSelectFilter($event)">-->
+<!--            </app-select-list>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</app-collection>-->
 
-<app-modal modalId="createInitiative" size="xl" #modal>
-    <p class="text-sm font-semibold ml-2" modal-head>مبادرة جديدة</p>
-    <div modal-body>
-        <app-initiative-form *ngIf="modal.showBody" [inputCommand]="command"></app-initiative-form>
-    </div>
-</app-modal>
+<!--&lt;!&ndash;<app-modal modalId="createInitiative" size="xl" #modal>&ndash;&gt;-->
+<!--&lt;!&ndash;    <p class="text-sm font-semibold ml-2" modal-head>مبادرة جديدة</p>&ndash;&gt;-->
+<!--&lt;!&ndash;    <div modal-body>&ndash;&gt;-->
+<!--&lt;!&ndash;        <app-initiative-form *ngIf="modal.showBody" [inputCommand]="command"></app-initiative-form>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;</app-modal>&ndash;&gt;-->

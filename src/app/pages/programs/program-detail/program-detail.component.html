@@ -1,0 +1,15 @@
+<app-detail-page [tabs]="tabs" [state]="detailPageState" titleKey="name" [selectedTab]="selectedTab" [notFound]="notFoundState"
+                 (deleteClicked)="delete()"
+                 (editClicked)="update()">
+    <ng-container *ngIf="detailPageState">
+        <app-program-performance *ngIf="selectedTab === 'performance'"></app-program-performance>
+    </ng-container>
+</app-detail-page>
+
+<app-modal modalId="ProgramDetail" size="lg" #modal>
+    <p class="text-sm font-semibold ml-2" modal-head>{{ formTitle }}</p>
+    <div modal-body>
+        <app-program-form *ngIf="modal.showBody" [inputCommand]="command" [formAction]="formAction"
+                         (formSubmitted)="onSubmit($event)"></app-program-form>
+    </div>
+</app-modal>

@@ -1,0 +1,34 @@
+<app-collection [items]="data$ | async" title="البرامج" addBtnTitle="برنامج جديد" [showStatus]="false"
+                (itemSelected)="showDetail($event)" (addClicked)="onCreate()">
+    <ng-template #listView let-data="data">
+        <div class="md:max-w-xs lg:max-w-sm xl:max-w-md 2xl:max-w-4xl w-full">
+            <span class="text-sm font-semibold text-theme-gray-900 block">{{ data.name }}</span>
+            <small class="text-theme-gray-500 text-sm">{{ data.code }}</small>
+        </div>
+        <div class="flex !space-x-reverse space-x-10 md:space-x-5 2xl:space-x-10">
+            <div class="text-center">
+                <small class="text-theme-gray-500 text-xs block">الأهداف</small>
+                <span class="text-sm text-theme-gray-900">{{ data.strategicObjectivesCount }}</span>
+            </div>
+            <div class="text-center">
+                <small class="text-theme-gray-500 text-xs block">المؤشرات</small>
+                <span class="text-sm text-theme-gray-900">{{ data.kpIsCount }}</span>
+            </div>
+            <div class="text-center">
+                <small class="text-theme-gray-500 text-xs block">المبادرات</small>
+                <span class="text-sm text-theme-gray-900">{{ data.initiativesCount }}</span>
+            </div>
+            <div class="text-center">
+                <small class="text-theme-gray-500 text-xs block">الجهات</small>
+                <span class="text-sm text-theme-gray-900">{{ data.entitiesCount }}</span>
+            </div>
+        </div>
+    </ng-template>
+</app-collection>
+
+<app-modal modalId="createProgram" size="lg" #modal>
+    <p class="text-sm font-semibold ml-2" modal-head>برنامج جديد</p>
+    <div modal-body>
+        <app-program-form *ngIf="modal.showBody" [inputCommand]="command" (formSubmitted)="updateItems($event)"></app-program-form>
+    </div>
+</app-modal>

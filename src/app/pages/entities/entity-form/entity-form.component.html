@@ -1,0 +1,22 @@
+<app-form [form]="form" (formSubmitted)="onSubmit()">
+    <ng-container *ngIf="!isDeleteRequest; else deletePrompt">
+        <ul class="bg-red-100 p-2 border border-red-300 rounded-lg" *ngIf="globalErrors.length">
+            <li class="text-sm text-red-500" *ngFor="let error of globalErrors">- {{ error }}</li>
+        </ul>
+        <div class="grid grid-cols-12 gap-2">
+            <div class="col-span-3">
+                <app-form-input [control]="code" id="code" name="رمز الجهة"></app-form-input>
+            </div>
+            <div class="col-span-9">
+                <app-form-input [control]="name" id="name" name="اسم الجهة"></app-form-input>
+            </div>
+        </div>
+    </ng-container>
+    <div class="flex justify-end border-t border-t-theme-gray-200 pt-4">
+        <button type="submit" class="btn py-1.5 w-20 btn-secondary text-center text-sm">{{isDeleteRequest ? 'حذف' : 'حفظ'}}</button>
+    </div>
+</app-form>
+
+<ng-template #deletePrompt>
+    <p class="text-sm font-semibold">هل تريد الإستمرار في حذف الجهة؟</p>
+</ng-template>

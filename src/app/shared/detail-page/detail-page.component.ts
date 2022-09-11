@@ -15,8 +15,7 @@ export interface ITab {
 }
 
 export interface IDetailPageState {
-    id: string,
-    value: string
+    [key: string]: any
 }
 
 @Component({
@@ -26,6 +25,7 @@ export interface IDetailPageState {
 })
 export class DetailPageComponent implements OnInit, AfterViewInit {
     @Input() state: IDetailPageState | undefined;
+    @Input() notFound: boolean = false;
     @Input() tabs: ITab[] = [];
     @Input() selectedTab: string = ''; // selectedTab
     @Input() titleKey: string = 'name';
@@ -86,8 +86,8 @@ export class DetailPageComponent implements OnInit, AfterViewInit {
         return true;
     }
     
-    public async back(e: Event): Promise<void> {
-        e.preventDefault();
+    public async back(e?: Event): Promise<void> {
+        e?.preventDefault();
         await this.router.navigate(['../'], { relativeTo: this.route });
     }
     
@@ -99,8 +99,6 @@ export class DetailPageComponent implements OnInit, AfterViewInit {
         this.currentTabSlideMargin += (el?.offsetWidth ?? 0) + this.fixedTabMargin;
         this.tabSlideMargin = `translateX(${this.currentTabSlideMargin}px)`;
         this.currentTabIndex += 1;
-        
-        
     }
     
     public previousTab() {
@@ -111,6 +109,10 @@ export class DetailPageComponent implements OnInit, AfterViewInit {
         this.currentTabSlideMargin -= (el?.offsetWidth ?? 0) + this.fixedTabMargin;
         this.tabSlideMargin = `translateX(${this.currentTabSlideMargin}px)`;
         this.currentTabIndex -= 1;
+    }
+    
+    public updateTitle(title: string) {
+        this.state![this.titleKey] = title;
     }
     
     private getTranslateMargin(index: number) {
