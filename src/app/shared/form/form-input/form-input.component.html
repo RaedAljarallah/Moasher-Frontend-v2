@@ -51,7 +51,7 @@
         [id]="id"
         [control]="control"
         [placeholder]="placeholder"
-        [listUrl]="listUrl">
+        [listUrl]="listUrl" (formListChanged)="onListSelect($event)">
         
     </app-select-list>
 

@@ -1,1 +1,16 @@
-<p>strategic-objective-detail works!</p>
+<app-detail-page [tabs]="tabs" [state]="detailPageState" titleKey="name" [selectedTab]="selectedTab" [notFound]="notFoundState"
+                 (deleteClicked)="delete()"
+                 (editClicked)="update()">
+    <ng-container *ngIf="detailPageState">
+        
+    </ng-container>
+</app-detail-page>
+
+<app-modal modalId="StrategicObjectiveDetail" size="lg" #modal>
+    <p class="text-sm font-semibold ml-2" modal-head>{{ formTitle }}</p>
+    <div modal-body>
+        <app-strategic-objective-form 
+                *ngIf="modal.showBody" [inputCommand]="command" [formAction]="formAction" [level]="level"
+                (formSubmitted)="onSubmit($event)"></app-strategic-objective-form>
+    </div>
+</app-modal>

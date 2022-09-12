@@ -11,6 +11,7 @@ import {FormsModule} from "@angular/forms";
 import {EntitiesModule} from "./pages/entities/entities.module";
 import {ProgramsModule} from "./pages/programs/programs.module";
 import {StrategicObjectivesModule} from "./pages/strategic-objectives/strategic-objectives.module";
+import {InitiativesModule} from "./pages/initiatives/initiatives.module";
 
 @NgModule({
     declarations: [
@@ -22,7 +23,7 @@ import {StrategicObjectivesModule} from "./pages/strategic-objectives/strategic-
         HttpClientModule,
         BrowserAnimationsModule,
         FormsModule,
-        // InitiativesModule,
+        InitiativesModule,
         EntitiesModule,
         ProgramsModule,
         StrategicObjectivesModule,

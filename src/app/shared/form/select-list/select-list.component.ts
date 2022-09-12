@@ -22,6 +22,7 @@ export class SelectListComponent implements OnInit {
     @Input() propertyName: string = '';
     @Input() theme: string = 'theme-form-select';
     @Output() filterChanged: EventEmitter<IFilterOutput> = new EventEmitter<IFilterOutput>();
+    @Output() formListChanged: EventEmitter<any> = new EventEmitter<any>();
     
     public listItems: any[] = [];
     public isListLoading: boolean = false;
@@ -77,7 +78,6 @@ export class SelectListComponent implements OnInit {
         }
 
         if (event.items.length === 0 && event.term.length > 0) {
-            console.log(event.term);
             this.listRefresh$.next({
                 pageSize: this.listPagination.pageSize,
                 pageNumber: 1,
@@ -111,7 +111,8 @@ export class SelectListComponent implements OnInit {
             } else {
                 this.filterChanged.emit({ param: this.propertyName, value: undefined });
             }
-            
         }
+        
+        this.formListChanged.emit(item);
     }
 }

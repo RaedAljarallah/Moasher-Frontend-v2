@@ -1,7 +1,5 @@
 ﻿import {Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {DetailPageComponent, ITab} from "../../shared/detail-page/detail-page.component";
-import {IIdentifiable} from "../models/identifiable.model";
-import {IEntity} from "../../pages/entities/core/models/entity.model";
 import {FormAction} from "../models/data-types/form-action.data-type";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ApiService} from "../services/api.service";
@@ -10,11 +8,12 @@ import {IResponse} from "../models/response.model";
 import {Observable} from "rxjs";
 import {HttpParams} from "@angular/common/http";
 import {map, tap} from "rxjs/operators";
+import {IKeyable} from "../models/keyable.model";
 
 @Component({
     template: ''
 })
-export abstract class DetailComponentBase<TType extends IIdentifiable, TCommand> implements OnInit, OnDestroy {
+export abstract class DetailComponentBase<TType extends IKeyable, TCommand> implements OnInit, OnDestroy {
     @ViewChild(DetailPageComponent) detailPage!: DetailPageComponent;
     public detailPageState: TType | undefined;
     public notFoundState: boolean = false;
@@ -72,9 +71,9 @@ export abstract class DetailComponentBase<TType extends IIdentifiable, TCommand>
         this.modal.open(this._modalId);
     }
 
-    public async onSubmit(item: IEntity): Promise<void> {
+    public async onSubmit(item: TType): Promise<void> {
         if (this.formAction === FormAction.Update) {
-            this.detailPage.updateTitle(item.name);
+            this.detailPage.updateTitle(item[this.detailPage.titleKey]);
         }
 
         this.modal.close(this._modalId);

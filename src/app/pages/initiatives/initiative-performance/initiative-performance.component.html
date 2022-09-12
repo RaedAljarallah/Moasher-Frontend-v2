@@ -1,40 +1,40 @@
-<!--&lt;!&ndash;<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-2">&ndash;&gt;-->
-<!--<div class="grid grid-cols-12 gap-2">-->
-<!--    <div class="bg-white border border-theme-gray-300 rounded col-span-full sm:col-span-6 md:col-span-4 2xl:col-span-2">-->
-<!--        <app-performance-card [values]="fundingPerformance"></app-performance-card>-->
-<!--    </div>-->
-<!--    <div class="bg-white border border-theme-gray-300 rounded col-span-full sm:col-span-6 md:col-span-4 2xl:col-span-2">-->
-<!--        <app-performance-card [values]="contractingPerformance"></app-performance-card>-->
-<!--    </div>-->
-<!--    <div class="bg-white border border-theme-gray-300 rounded col-span-full sm:col-span-6 md:col-span-4 2xl:col-span-2">-->
-<!--        <app-performance-card [values]="allTimeSpendingPerformance"></app-performance-card>-->
-<!--    </div>-->
-<!--    <div class="bg-white border border-theme-gray-300 rounded col-span-full sm:col-span-6 md:col-span-4 2xl:col-span-2">-->
-<!--        <app-performance-card [values]="currentPeriodSpendingPerformance"></app-performance-card>-->
-<!--    </div>-->
-<!--    <div class="bg-white border border-theme-gray-300 rounded col-span-full sm:col-span-6 md:col-span-4 2xl:col-span-2">-->
-<!--        <app-performance-card [values]="currentPeriodContractingPerformance"></app-performance-card>-->
-<!--    </div>-->
-<!--    <div class="bg-white border border-theme-gray-300 rounded col-span-full sm:col-span-6 md:col-span-4 2xl:col-span-2">-->
-<!--        <app-performance-card [values]="currentYearSpending"></app-performance-card>-->
-<!--    </div>-->
+<!--<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-2">-->
+<div class="grid grid-cols-12 gap-2">
+    <div class="bg-white border border-theme-gray-300 rounded col-span-full sm:col-span-6 md:col-span-4 2xl:col-span-2">
+        <app-performance-card [values]="fundingPerformance"></app-performance-card>
+    </div>
+    <div class="bg-white border border-theme-gray-300 rounded col-span-full sm:col-span-6 md:col-span-4 2xl:col-span-2">
+        <app-performance-card [values]="contractingPerformance"></app-performance-card>
+    </div>
+    <div class="bg-white border border-theme-gray-300 rounded col-span-full sm:col-span-6 md:col-span-4 2xl:col-span-2">
+        <app-performance-card [values]="allTimeSpendingPerformance"></app-performance-card>
+    </div>
+    <div class="bg-white border border-theme-gray-300 rounded col-span-full sm:col-span-6 md:col-span-4 2xl:col-span-2">
+        <app-performance-card [values]="currentPeriodSpendingPerformance"></app-performance-card>
+    </div>
+    <div class="bg-white border border-theme-gray-300 rounded col-span-full sm:col-span-6 md:col-span-4 2xl:col-span-2">
+        <app-performance-card [values]="currentPeriodContractingPerformance"></app-performance-card>
+    </div>
+    <div class="bg-white border border-theme-gray-300 rounded col-span-full sm:col-span-6 md:col-span-4 2xl:col-span-2">
+        <app-performance-card [values]="currentYearSpending"></app-performance-card>
+    </div>
 
-<!--    <div class="bg-white border border-theme-gray-300 rounded col-span-full 2xl:col-span-6">-->
-<!--        <app-text-combo [data]="spendingPlan$ | async" title="تقدم الصرف"></app-text-combo>-->
-<!--    </div>-->
-<!--    <div class="bg-white border border-theme-gray-300 rounded col-span-full 2xl:col-span-6">-->
-<!--        <app-text-combo [data]="spendingPlan$ | async" title="تقدم التعاقد"></app-text-combo>-->
-<!--    </div>-->
+    <div class="bg-white border border-theme-gray-300 rounded col-span-full 2xl:col-span-6">
+        <app-text-combo [data]="spendingPlan$ | async" title="تقدم الصرف"></app-text-combo>
+    </div>
+    <div class="bg-white border border-theme-gray-300 rounded col-span-full 2xl:col-span-6">
+        <app-text-combo [data]="spendingPlan$ | async" title="تقدم التعاقد"></app-text-combo>
+    </div>
 
-<!--    <div class="flex flex-col space-y-2 col-span-full md:col-span-4 2xl:col-span-2">-->
-<!--        <div class="bg-white border border-theme-gray-300 rounded">-->
-<!--            <app-progress-chart title="حالة المبادرة" [values]="initiativeProgress"></app-progress-chart>-->
-<!--        </div>-->
-<!--        <div class="bg-white border border-theme-gray-300 rounded">-->
-<!--            <app-performance-card [values]="milestoneProgressPerformance"></app-performance-card>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--    <div class="bg-white border border-theme-gray-300 rounded col-span-full md:col-span-8 2xl:col-span-10">-->
-<!--        <app-progress-over-time-chart [values]="spendingPlan$ | async" title="تقدم المبادرة">></app-progress-over-time-chart>-->
-<!--    </div>-->
-<!--</div>-->
+    <div class="flex flex-col space-y-2 col-span-full md:col-span-4 2xl:col-span-2">
+        <div class="bg-white border border-theme-gray-300 rounded">
+            <app-progress-chart title="حالة المبادرة" [values]="initiativeProgress"></app-progress-chart>
+        </div>
+        <div class="bg-white border border-theme-gray-300 rounded">
+            <app-performance-card [values]="milestoneProgressPerformance"></app-performance-card>
+        </div>
+    </div>
+    <div class="bg-white border border-theme-gray-300 rounded col-span-full md:col-span-8 2xl:col-span-10">
+        <app-progress-over-time-chart [values]="spendingPlan$ | async" title="تقدم المبادرة">></app-progress-over-time-chart>
+    </div>
+</div>

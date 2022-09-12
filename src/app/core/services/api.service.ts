@@ -96,6 +96,7 @@ export class ApiService {
     }
 
     private static getResponseError(failure: any): IResponseError {
+        console.log(failure);
         let errors: IResponseError;
         failure.status === 400
             ? errors = {statusCode: 400, errors: failure.error.errors}
