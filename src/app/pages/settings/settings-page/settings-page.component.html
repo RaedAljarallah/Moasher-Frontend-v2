@@ -1,0 +1,71 @@
+<div class="bg-white rounded-lg border border-theme-gray-300">
+    <div class="py-3 flex flex-col">
+        <h1 class="text-xl font-semibold mb-5 px-4">إعدادات النظام</h1>
+        <ul class="flex space-x-5 space-x-reverse border-b border-b-theme-gray-300 pb-2 px-4">
+            <li>
+                <a href="#" class="text-sm pb-1 px-2 whitespace-nowrap" (click)="setSection($event, 'data')"
+                   [ngClass]="selectedSection === 'data' 
+                   ? 'border-b-[3px] border-b-theme-teal-500 text-theme-gray-900'
+                   : 'text-theme-gray-500 hover:border-b-[3px] hover:border-b-theme-gray-200'">البيانات</a>
+            </li>
+            <li>
+                <a href="#" class="text-sm pb-1 px-2 whitespace-nowrap" (click)="setSection($event, 'notifications')"
+                   [ngClass]="selectedSection === 'notifications' 
+                   ? 'border-b-[3px] border-b-theme-teal-500 text-theme-gray-900'
+                   : 'text-theme-gray-500 hover:border-b-[3px] hover:border-b-theme-gray-200'">التنبيهات</a>
+            </li>
+        </ul>
+        <div class="px-4 pt-4">
+            <div class="border border-theme-gray-300 rounded-md grid grid-cols-12">
+                <div class="h-tabs col-span-2 flex flex-col divide-y divide-theme-gray-300 border-l border-l-theme-gray-300">
+                    <a href="#" class="p-3 text-sm hover:bg-theme-gray-100" (click)="selectEnumType($event, enumTypeCategory.KPIStatus)" 
+                        [ngClass]="{'bg-theme-gray-100': selectedEnumType === enumTypeCategory.KPIStatus}">حالات تنفيذ مؤشرات الأداء</a>
+                    
+                    <a href="#" class="p-3 text-sm hover:bg-theme-gray-100" (click)="selectEnumType($event, enumTypeCategory.InitiativeStatus)" 
+                        [ngClass]="{'bg-theme-gray-100': selectedEnumType === enumTypeCategory.InitiativeStatus}">حالات تنفيذ المبادرات</a>
+                    
+                    <a href="#" class="p-3 text-sm hover:bg-theme-gray-100" (click)="selectEnumType($event, enumTypeCategory.InitiativeFundStatus)" 
+                        [ngClass]="{'bg-theme-gray-100': selectedEnumType === enumTypeCategory.InitiativeFundStatus}">حالات تمويل المبادرات</a>
+                    
+                    <a href="#" class="p-3 text-sm hover:bg-theme-gray-100" (click)="selectEnumType($event, enumTypeCategory.InitiativeTeamRole)" 
+                        [ngClass]="{'bg-theme-gray-100': selectedEnumType === enumTypeCategory.InitiativeTeamRole}">أدوار فرق المبادرات</a>
+                    
+                    <a href="#" class="p-3 text-sm hover:bg-theme-gray-100" (click)="selectEnumType($event, enumTypeCategory.InitiativeIssueScope)" 
+                        [ngClass]="{'bg-theme-gray-100': selectedEnumType === enumTypeCategory.InitiativeIssueScope}">نطاقات معوقات المبادرات</a>
+                    
+                    <a href="#" class="p-3 text-sm hover:bg-theme-gray-100" (click)="selectEnumType($event, enumTypeCategory.InitiativeIssueImpact)" 
+                        [ngClass]="{'bg-theme-gray-100': selectedEnumType === enumTypeCategory.InitiativeIssueImpact}">آثار معوقات المبادرات</a>
+                    
+                    <a href="#" class="p-3 text-sm hover:bg-theme-gray-100" (click)="selectEnumType($event, enumTypeCategory.InitiativeIssueStatus)" 
+                        [ngClass]="{'bg-theme-gray-100': selectedEnumType === enumTypeCategory.InitiativeIssueStatus}">حالات معوقات المبادرات</a>
+                    
+                    <a href="#" class="p-3 text-sm hover:bg-theme-gray-100" (click)="selectEnumType($event, enumTypeCategory.InitiativeRiskPriority)" 
+                        [ngClass]="{'bg-theme-gray-100': selectedEnumType === enumTypeCategory.InitiativeRiskPriority}">أولويات مخاطر المبادرات</a>
+
+                    <a href="#" class="p-3 text-sm hover:bg-theme-gray-100" (click)="selectEnumType($event, enumTypeCategory.InitiativeRiskType)"
+                       [ngClass]="{'bg-theme-gray-100': selectedEnumType === enumTypeCategory.InitiativeRiskType}">أنواع مخاطر المبادرات</a>
+                    
+                    <a href="#" class="p-3 text-sm hover:bg-theme-gray-100" (click)="selectEnumType($event, enumTypeCategory.InitiativeRiskProbability)" 
+                        [ngClass]="{'bg-theme-gray-100': selectedEnumType === enumTypeCategory.InitiativeRiskProbability}">إحتمالات مخاطر المبادرات</a>
+                    
+                    <a href="#" class="p-3 text-sm hover:bg-theme-gray-100" (click)="selectEnumType($event, enumTypeCategory.InitiativeRiskImpact)" 
+                        [ngClass]="{'bg-theme-gray-100': selectedEnumType === enumTypeCategory.InitiativeRiskImpact}">آثار مخاطر المبادرات</a>
+                    
+                    <a href="#" class="p-3 text-sm hover:bg-theme-gray-100" (click)="selectEnumType($event, enumTypeCategory.InitiativeRiskScope)" 
+                        [ngClass]="{'bg-theme-gray-100': selectedEnumType === enumTypeCategory.InitiativeRiskScope}">نطاقات مخاطر المبادرات</a>
+                    
+                    <a href="#" class="p-3 text-sm hover:bg-theme-gray-100" (click)="selectEnumType($event, enumTypeCategory.InitiativeContractStatus)" 
+                        [ngClass]="{'bg-theme-gray-100': selectedEnumType === enumTypeCategory.InitiativeContractStatus}">حالات عقود المبادرات</a>
+                    
+                    <a href="#" class="p-3 text-sm hover:bg-theme-gray-100" (click)="selectEnumType($event, enumTypeCategory.InitiativeProjectStatus)" 
+                        [ngClass]="{'bg-theme-gray-100': selectedEnumType === enumTypeCategory.InitiativeProjectStatus}">حالات مشاريع المبادرات</a>
+                </div>
+                <div class="col-span-10 p-4">
+                    <app-enum-type *ngIf="selectedEnumType == enumTypeCategory.InitiativeStatus"
+                                   [category]="enumTypeCategory.InitiativeStatus">
+                    </app-enum-type>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

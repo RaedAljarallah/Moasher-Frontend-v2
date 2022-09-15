@@ -12,6 +12,10 @@ import {EntitiesModule} from "./pages/entities/entities.module";
 import {ProgramsModule} from "./pages/programs/programs.module";
 import {StrategicObjectivesModule} from "./pages/strategic-objectives/strategic-objectives.module";
 import {InitiativesModule} from "./pages/initiatives/initiatives.module";
+import {SettingsModule} from "./pages/settings/settings.module";
+import {ApiService} from "./core/services/api.service";
+import {environment} from "../environments/environment";
+import {ApiDevService} from "./core/services/api.dev.service";
 
 @NgModule({
     declarations: [
@@ -27,6 +31,7 @@ import {InitiativesModule} from "./pages/initiatives/initiatives.module";
         EntitiesModule,
         ProgramsModule,
         StrategicObjectivesModule,
+        SettingsModule,
         AppRoutingModule,
         SharedModule,
     ],

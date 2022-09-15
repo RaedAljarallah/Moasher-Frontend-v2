@@ -125,6 +125,14 @@
     .enum-value-1 {
         @apply bg-theme-teal-500 text-white
     }
+    
+    .h-tabs a:first-child {
+        @apply rounded-tr-md
+    }
+    
+    .h-tabs a:last-child {
+        @apply rounded-br-md
+    }
 }
 
 .ng-select.theme-form-select .ng-select-container  {
