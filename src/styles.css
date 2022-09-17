@@ -133,6 +133,100 @@
     .h-tabs a:last-child {
         @apply rounded-br-md
     }
+    
+    .gray-1 {
+        @apply bg-gray-300 text-theme-gray-900;
+    }
+    .gray-2 {
+        @apply bg-gray-400 text-white;
+    }
+    .gray-3 {
+        @apply bg-gray-500 text-white;
+    }
+    .gray-4 {
+        @apply bg-gray-600 text-white;
+    }
+    .red-1 {
+        @apply bg-red-300 text-theme-gray-900;
+    }
+    .red-2 {
+        @apply bg-red-400 text-white;
+    }
+    .red-3 {
+        @apply bg-red-500 text-white;
+    }
+    .yellow-1 {
+        @apply bg-yellow-300 text-theme-gray-900;
+    }
+    .yellow-2 {
+        @apply bg-yellow-400 text-white;
+    }
+    .yellow-3 {
+        @apply bg-yellow-500 text-white;
+    }
+    .orange-1 {
+        @apply bg-orange-300 text-theme-gray-900;
+    }
+    .orange-2 {
+        @apply bg-orange-400 text-white;
+    }
+    .orange-3 {
+        @apply bg-orange-500 text-white;
+    }
+    .green-1 {
+        @apply bg-green-400 text-theme-gray-900;
+    }
+    .green-2 {
+        @apply bg-green-500 text-white;
+    }
+    .green-3 {
+        @apply bg-green-600 text-white;
+    }
+    .blue-1 {
+        @apply bg-blue-300 text-theme-gray-900;
+    }
+    .blue-2 {
+        @apply bg-blue-400 text-white;
+    }
+    .blue-3 {
+        @apply bg-blue-500 text-white;
+    }
+    .teal-1 {
+        @apply bg-teal-300 text-theme-gray-900;
+    }
+    .teal-2 {
+        @apply bg-teal-400 text-white;
+    }
+    .teal-3 {
+        @apply bg-teal-500 text-white;
+    }
+    .indigo-1 {
+        @apply bg-indigo-300 text-theme-gray-900;
+    }
+    .indigo-2 {
+        @apply bg-indigo-400 text-white;
+    }
+    .indigo-3 {
+        @apply bg-indigo-500 text-white;
+    }
+    .theme-blue-1 {
+        @apply bg-theme-blue-300 text-theme-gray-900;
+    }
+    .theme-blue-2 {
+        @apply bg-theme-blue-400 text-white;
+    }
+    .theme-blue-3 {
+        @apply bg-theme-blue-500 text-white;
+    }
+    .theme-teal-1 {
+        @apply bg-theme-teal-300 text-theme-gray-900;
+    }
+    .theme-teal-2 {
+        @apply bg-theme-teal-400 text-white;
+    }
+    .theme-teal-3 {
+        @apply bg-theme-teal-500 text-white;
+    }
 }
 
 .ng-select.theme-form-select .ng-select-container  {

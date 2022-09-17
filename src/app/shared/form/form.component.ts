@@ -7,6 +7,7 @@ import {FormGroup} from "@angular/forms";
 })
 export class FormComponent implements OnInit {
     @Input() form: FormGroup = new FormGroup({});
+    @Input() overFlowHidden: boolean = true;
     @Output() formSubmitted: EventEmitter<void> = new EventEmitter<void>();
     constructor() {
     }

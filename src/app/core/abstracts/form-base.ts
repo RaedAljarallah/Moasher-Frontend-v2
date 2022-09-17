@@ -13,7 +13,7 @@ import {IResponseError} from "../models/response-error.model";
 export abstract class FormBase<TType, TCommand extends IIdentifiable> {
     @Input() inputCommand!: TCommand;
     @Input() formAction: FormAction = FormAction.Create;
-    @Output() formSubmitted: EventEmitter<TType> = new EventEmitter<TType>();
+    @Output() formSubmitted: EventEmitter<any> = new EventEmitter<any>();
 
     public form: FormGroup = new FormGroup({});
     public isDeleteRequest: boolean = false;
@@ -31,6 +31,7 @@ export abstract class FormBase<TType, TCommand extends IIdentifiable> {
         if (this.form.valid) {
             this.isLoading = true;
             this.initCommand();
+            console.log(this.command);
             let request$: Observable<IResponse<TType>> = new Observable<IResponse<TType>>();
 
             switch (this.formAction) {
@@ -45,7 +46,13 @@ export abstract class FormBase<TType, TCommand extends IIdentifiable> {
             }
 
             request$.pipe(finalize(() => this.isLoading = false)).subscribe({
-                next: (res) => this.formSubmitted.emit(res.result),
+                next: (res) => {
+                    if (this.formAction === FormAction.Delete) {
+                        this.formSubmitted.emit(this.command)
+                    } else {
+                        this.formSubmitted.emit(res.result)
+                    }
+                },
                 error: (failure: IResponseError) => {
                     if (failure.statusCode === 400) {
                         this.setServerErrors(failure.errors);

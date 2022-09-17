@@ -22,11 +22,12 @@ export abstract class ListComponentBase<TType extends IIdentifiable, TCommand> i
     protected abstract _modalId: string;
     protected abstract queryParams: { key: string, defaultValue?: string }[];
     public abstract command: TCommand;
+
     protected abstract loadItems(params: HttpParams): Observable<IResponse<TType[]>>
-    
-    protected constructor(protected route: ActivatedRoute, protected router: Router, 
+
+    protected constructor(protected route: ActivatedRoute, protected router: Router,
                           protected api: ApiService, protected modal: ModalService) {
-        
+
         this.data$ = new Observable<IResponse<TType[]>>();
         this.refresh$ = new BehaviorSubject<{ [k: string]: string }>({ps: '10', pn: '1'});
     }
@@ -41,19 +42,19 @@ export abstract class ListComponentBase<TType extends IIdentifiable, TCommand> i
     }
 
     public async showDetail(item: TType): Promise<void> {
-        await this.router.navigateByUrl(`${this._url}/${item.id}`, { state: item })
+        await this.router.navigateByUrl(`${this._url}/${item.id}`, {state: item})
     }
 
     public onCreate(): void {
         this.modal.open(this._modalId);
     }
-    
+
     public updateItems(item: TType): void {
         this.collection.addItem(item);
         this.modal.close(this._modalId);
     }
-    
-    public async onSelectFilter(filter: IFilterOutput): Promise<void>  {
+
+    public async onSelectFilter(filter: IFilterOutput): Promise<void> {
         await this.router.navigate([], {
             relativeTo: this.route,
             queryParams: {
@@ -63,14 +64,14 @@ export abstract class ListComponentBase<TType extends IIdentifiable, TCommand> i
 
         })
     }
-    
+
     public ngOnDestroy(): void {
         this.modal.unregister(this._modalId);
     }
-    
+
     protected onInit(): void {
-        
     }
+
     private getDate(refresh$: BehaviorSubject<{ [k: string]: string }>): Observable<IResponse<TType[]>> {
         return refresh$.pipe(
             distinctUntilChanged(),
@@ -82,17 +83,17 @@ export abstract class ListComponentBase<TType extends IIdentifiable, TCommand> i
             })
         )
     }
-    
+
     private getQueryParams(params: Params): { [key: string]: string } {
         let queryParams: { [key: string]: string } = {
             ps: params['ps'] ?? '10',
             pn: params['pn'] ?? '1'
         };
-        
-        for(let qp of this.queryParams) {
+
+        for (let qp of this.queryParams) {
             queryParams[qp.key] = params[qp.key] ?? qp.defaultValue
         }
-        
+
         return queryParams;
     }
 }

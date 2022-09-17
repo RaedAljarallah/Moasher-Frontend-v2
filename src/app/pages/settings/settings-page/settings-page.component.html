@@ -61,8 +61,75 @@
                         [ngClass]="{'bg-theme-gray-100': selectedEnumType === enumTypeCategory.InitiativeProjectStatus}">حالات مشاريع المبادرات</a>
                 </div>
                 <div class="col-span-10 p-4">
+                    <app-enum-type *ngIf="selectedEnumType == enumTypeCategory.KPIStatus"
+                                   nameFieldTitle="الحالة"
+                                   [headers]="dataTableHeaderWithMetadata" [withMetadata]="true"
+                                   [category]="enumTypeCategory.KPIStatus">
+                    </app-enum-type>
                     <app-enum-type *ngIf="selectedEnumType == enumTypeCategory.InitiativeStatus"
+                                   nameFieldTitle="الحالة"
+                                   [headers]="dataTableHeaderWithMetadata" [withMetadata]="true"
                                    [category]="enumTypeCategory.InitiativeStatus">
+                    </app-enum-type>
+                    <app-enum-type *ngIf="selectedEnumType == enumTypeCategory.InitiativeFundStatus"
+                                   nameFieldTitle="الحالة"
+                                   [headers]="dataTableHeader"
+                                   [category]="enumTypeCategory.InitiativeFundStatus">
+                    </app-enum-type>
+                    <app-enum-type *ngIf="selectedEnumType == enumTypeCategory.InitiativeTeamRole"
+                                   nameFieldTitle="الدور"
+                                   [headers]="dataTableHeader"
+                                   [category]="enumTypeCategory.InitiativeTeamRole">
+                    </app-enum-type>
+                    <app-enum-type *ngIf="selectedEnumType == enumTypeCategory.InitiativeIssueScope"
+                                   nameFieldTitle="النطاق"
+                                   [headers]="dataTableHeader"
+                                   [category]="enumTypeCategory.InitiativeIssueScope">
+                    </app-enum-type>
+                    <app-enum-type *ngIf="selectedEnumType == enumTypeCategory.InitiativeIssueImpact"
+                                   nameFieldTitle="الأثر"
+                                   [headers]="dataTableHeader"
+                                   [category]="enumTypeCategory.InitiativeIssueImpact">
+                    </app-enum-type>
+                    <app-enum-type *ngIf="selectedEnumType == enumTypeCategory.InitiativeIssueStatus"
+                                   nameFieldTitle="الحالة"
+                                   [headers]="dataTableHeader"
+                                   [category]="enumTypeCategory.InitiativeIssueStatus">
+                    </app-enum-type>
+                    <app-enum-type *ngIf="selectedEnumType == enumTypeCategory.InitiativeRiskPriority"
+                                   nameFieldTitle="الأولوية"
+                                   [headers]="dataTableHeader"
+                                   [category]="enumTypeCategory.InitiativeRiskPriority">
+                    </app-enum-type>
+                    <app-enum-type *ngIf="selectedEnumType == enumTypeCategory.InitiativeRiskType"
+                                   nameFieldTitle="النوع"
+                                   [headers]="dataTableHeader"
+                                   [category]="enumTypeCategory.InitiativeRiskType">
+                    </app-enum-type>
+                    <app-enum-type *ngIf="selectedEnumType == enumTypeCategory.InitiativeRiskProbability"
+                                   nameFieldTitle="الإحتمالية"
+                                   [headers]="dataTableHeader"
+                                   [category]="enumTypeCategory.InitiativeRiskProbability">
+                    </app-enum-type>
+                    <app-enum-type *ngIf="selectedEnumType == enumTypeCategory.InitiativeRiskImpact"
+                                   nameFieldTitle="الأثر"
+                                   [headers]="dataTableHeader"
+                                   [category]="enumTypeCategory.InitiativeRiskImpact">
+                    </app-enum-type>
+                    <app-enum-type *ngIf="selectedEnumType == enumTypeCategory.InitiativeRiskScope"
+                                   nameFieldTitle="النطاق"
+                                   [headers]="dataTableHeader"
+                                   [category]="enumTypeCategory.InitiativeRiskScope">
+                    </app-enum-type>
+                    <app-enum-type *ngIf="selectedEnumType == enumTypeCategory.InitiativeContractStatus"
+                                   nameFieldTitle="الحالة"
+                                   [headers]="dataTableHeader"
+                                   [category]="enumTypeCategory.InitiativeContractStatus">
+                    </app-enum-type>
+                    <app-enum-type *ngIf="selectedEnumType == enumTypeCategory.InitiativeProjectStatus"
+                                   nameFieldTitle="الحالة"
+                                   [headers]="dataTableHeader"
+                                   [category]="enumTypeCategory.InitiativeProjectStatus">
                     </app-enum-type>
                 </div>
             </div>

@@ -15,8 +15,8 @@ export class InitiativeCommand {
     public actualStart?: Date | null;
     public actualFinish?: Date | null;
     public requiredCost!: number;
-    public cAPEXCode?: string;
-    public oPEXCode?: string;
+    public capexCode?: string;
+    public opexCode?: string;
     public visible: boolean = true;
     public visibleOnDashboard: boolean = true;
     public calculateStatus: boolean = true;
@@ -54,8 +54,8 @@ export class InitiativeCommand {
             this.actualStart = _.get(form.get('actualStart'), 'value', null);
             this.actualFinish = _.get(form.get('actualFinish'), 'value', null);
             this.requiredCost = parseFloat(_.get(form.get('requiredCost'), 'value', null));
-            this.cAPEXCode = _.get(form.get('cAPEXCode'), 'value', null);
-            this.oPEXCode = _.get(form.get('oPEXCode'), 'value', null);
+            this.capexCode = _.get(form.get('capexCode'), 'value', null);
+            this.opexCode = _.get(form.get('opexCode'), 'value', null);
             this.visible = _.get(form.get('visible'), 'value', null);
             this.visibleOnDashboard = _.get(form.get('visibleOnDashboard'), 'value', null);
             this.calculateStatus = _.get(form.get('calculateStatus'), 'value', null);

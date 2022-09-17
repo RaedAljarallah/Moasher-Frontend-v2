@@ -25,7 +25,7 @@ export class InitiativeFormComponent extends FormBase<IInitiative, InitiativeCom
 
     protected _url: string = 'initiatives';
     protected initCommand(): void {
-        this.command = new InitiativeCommand(null);
+        this.command = new InitiativeCommand(this.form);
         this.command.id = this.inputCommand.id;
     }
 
@@ -40,8 +40,8 @@ export class InitiativeFormComponent extends FormBase<IInitiative, InitiativeCom
     public actualStart!: FormControl;
     public actualFinish!: FormControl;
     public requiredCost!: FormControl;
-    public cAPEXCode!: FormControl;
-    public oPEXCode!: FormControl;
+    public capexCode!: FormControl;
+    public opexCode!: FormControl;
     public visible!: FormControl;
     public visibleOnDashboard!: FormControl;
     public calculateStatus!: FormControl;
@@ -70,19 +70,19 @@ export class InitiativeFormComponent extends FormBase<IInitiative, InitiativeCom
                 Validators.required, Validators.maxLength(50)
             ]);
             this.codeByProgram = new FormControl(this.inputCommand.codeByProgram, [
-                Validators.required, Validators.maxLength(50)
+                Validators.maxLength(50)
             ]);
             this.name = new FormControl(this.inputCommand.name, [
                 Validators.required, Validators.maxLength(255)
             ]);
             this.scope = new FormControl(this.inputCommand.scope, [
-                Validators.required, Validators.maxLength(5000)
+                Validators.maxLength(5000)
             ]);
             this.targetSegment = new FormControl(this.inputCommand.targetSegment, [
-                Validators.required, Validators.maxLength(5000)
+                Validators.maxLength(5000)
             ]);
             this.contributionOnStrategicObjective = new FormControl(this.inputCommand.contributionOnStrategicObjective, [
-                Validators.required, Validators.maxLength(5000)
+                Validators.maxLength(5000)
             ]);
             this.plannedStart = new FormControl(this.getDate(this.inputCommand.plannedStart), [
                 Validators.required
@@ -94,35 +94,35 @@ export class InitiativeFormComponent extends FormBase<IInitiative, InitiativeCom
             this.actualFinish = new FormControl(this.getDate(this.inputCommand.actualFinish), [
                 //Validators.GraterOrEqual
             ]);
-            this.requiredCost = new FormControl('', [
+            this.requiredCost = new FormControl(this.inputCommand.requiredCost, [
                 Validators.required,
                 Validators.min(0),
                 //Validators.number()
             ]);
-            this.cAPEXCode = new FormControl('', [
+            this.capexCode = new FormControl(this.inputCommand.capexCode, [
                 Validators.maxLength(255),
             ]);
-            this.oPEXCode = new FormControl('', [
+            this.opexCode = new FormControl(this.inputCommand.opexCode, [
                 Validators.maxLength(255),
             ]);
-            this.visible = new FormControl('');
-            this.visibleOnDashboard = new FormControl('');
-            this.calculateStatus = new FormControl('');
-            this.fundStatusEnumId = new FormControl('', [
+            this.visible = new FormControl(this.inputCommand.visible);
+            this.visibleOnDashboard = new FormControl(this.inputCommand.visibleOnDashboard);
+            this.calculateStatus = new FormControl(this.inputCommand.calculateStatus);
+            this.fundStatusEnumId = new FormControl(this.fundStatusEnumId, [
                 Validators.required
             ]);
-            this.statusEnumId = new FormControl('');
-            this.entityId = new FormControl('', [
+            this.statusEnumId = new FormControl(this.statusEnumId);
+            this.entityId = new FormControl(this.entityId, [
                 Validators.required
             ]);
-            this.programId = new FormControl('', [
+            this.programId = new FormControl(this.programId, [
                 Validators.required
             ]);
-            this.portfolioId = new FormControl('');
-            this.levelThreeStrategicObjectiveId = new FormControl('', [
+            this.portfolioId = new FormControl(this.portfolioId);
+            this.levelThreeStrategicObjectiveId = new FormControl(this.levelThreeStrategicObjectiveId, [
                 Validators.required
             ]);
-            this.levelFourStrategicObjectiveId = new FormControl({ value: '', disabled: true });
+            this.levelFourStrategicObjectiveId = new FormControl({ value: this.levelFourStrategicObjectiveId, disabled: true });
             this.form = new FormGroup({
                 unifiedCode: this.unifiedCode,
                 codeByProgram: this.codeByProgram,
@@ -135,8 +135,8 @@ export class InitiativeFormComponent extends FormBase<IInitiative, InitiativeCom
                 actualStart: this.actualStart,
                 actualFinish: this.actualFinish,
                 requiredCost: this.requiredCost,
-                cAPEXCode: this.cAPEXCode,
-                oPEXCode: this.oPEXCode,
+                capexCode: this.capexCode,
+                opexCode: this.opexCode,
                 visible: this.visible,
                 visibleOnDashboard: this.visibleOnDashboard,
                 calculateStatus: this.calculateStatus,
@@ -183,8 +183,8 @@ export class InitiativeFormComponent extends FormBase<IInitiative, InitiativeCom
                     stepCount: 3, controls: [
                         this.fundStatusEnumId,
                         this.requiredCost,
-                        this.cAPEXCode,
-                        this.oPEXCode
+                        this.capexCode,
+                        this.opexCode
                     ]
                 }
             ]

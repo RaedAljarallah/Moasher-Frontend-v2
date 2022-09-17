@@ -1,15 +1,25 @@
-<app-table [headers]="headers" [withFilters]="false" [items]="data$ | async">
+<app-table [headers]="headers" [withFilters]="false" [items]="data$ | async" (addClicked)="onCreate()">
     <ng-template #tableCell let-data="data">
         <td>{{ data.name }}</td>
-        <td>{{ data.style }}</td>
+        <td><span class="rounded-full px-2" [ngClass]="data.style">{{ data.name }}</span></td>
+        <td *ngIf="withMetadata">{{ data.metadata?.['diff'] }}%</td>
         <td class="flex space-x-1 space-x-reverse justify-end items-center">
-            <button class="btn px-2 py-1 text-xs btn-white border-none rounded">
+            <button class="btn px-2 py-1 text-xs btn-white border-none rounded" (click)="onUpdate(data)">
                 <i class="fa fa-edit"></i>
             </button>
             <div class="border-l border-l-theme-gray-300 py-2"></div>
-            <button class="btn px-2 py-1 text-xs btn-white border-none">
+            <button class="btn px-2 py-1 text-xs btn-white border-none" (click)="onDelete(data)">
                 <i class="fa fa-trash-alt px-0.5"></i>
             </button>
         </td>
     </ng-template>
 </app-table>
+
+<app-modal modalId="EnumTypeModal" size="lg" #modal>
+    <p class="text-sm font-semibold ml-2" modal-head>{{ formTitle }}</p>
+    <div modal-body>
+        <app-enum-type-form *ngIf="modal.showBody" [inputCommand]="command" [category]="category"
+                            [title]="nameFieldTitle" [formAction]="formAction" [withMetadata]="withMetadata"
+                            (formSubmitted)="updateItems($event)"></app-enum-type-form>
+    </div>
+</app-modal>

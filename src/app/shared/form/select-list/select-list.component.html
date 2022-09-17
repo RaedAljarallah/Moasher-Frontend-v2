@@ -1,4 +1,4 @@
-<ng-select
+<ng-select *ngIf="type === 'dynamic'"
            [class]="theme"
            [ngClass]="control.invalid && (control.dirty || control.touched) 
                 ? 'invalid' 
@@ -18,4 +18,29 @@
            (search)="searchForItem($event)"
            (scrollToEnd)="getMoreListItems()"
            (change)="selectItem($event)">
+</ng-select>
+
+<ng-select *ngIf="type === 'static'"
+           [class]="theme"
+           [ngClass]="control.invalid && (control.dirty || control.touched) 
+                ? 'invalid' 
+                : 'valid'"
+           [items]="staticListItems"
+           [labelForId]="id"
+           [formControl]="control"
+           [placeholder]="placeholder"
+           notFoundText="لا يوجد بيانات"
+           bindLabel="name"
+           bindValue="value"
+           [searchable]="true"
+           [clearable]="false"
+           (change)="selectItem($event)">
+    <ng-container *ngIf="badgeTemplate">
+        <ng-template ng-label-tmp let-item="item">
+            <span class="rounded-full px-2 text-xs" [ngClass]="item.value">مثال</span>
+        </ng-template>
+        <ng-template ng-option-tmp let-item="item" let-index="index">
+            <span class="rounded-full px-2 text-xs" [ngClass]="item.value">مثال</span>
+        </ng-template>
+    </ng-container>
 </ng-select>

@@ -1,4 +1,7 @@
 <app-form [form]="form" (formSubmitted)="onSubmit()">
+    <ul class="bg-red-100 p-2 border border-red-300 rounded-lg" >
+        <li class="text-sm text-red-500" *ngFor="let error of globalErrors">- {{ error }}</li>
+    </ul>
     <ng-container *ngIf="!isDeleteRequest; else deletePrompt">
         <div class="max-w-3xl w-full mx-auto border-b border-b-theme-gray-200">
             <div class="flex items-center px-2 mb-7">
@@ -138,10 +141,10 @@
                                     name="التكاليف حسب خطة التنفيذ"></app-form-input>
                 </div>
                 <div class="col-span-full sm:col-span-6">
-                    <app-form-input [control]="cAPEXCode" id="cAPEXCode" name="رمز المشروع الرأسمالي"></app-form-input>
+                    <app-form-input [control]="capexCode" id="capexCode" name="رمز المشروع الرأسمالي"></app-form-input>
                 </div>
                 <div class="col-span-full sm:col-span-6">
-                    <app-form-input [control]="oPEXCode" id="oPEXCode" name="رمز المشروع التشغيلي"></app-form-input>
+                    <app-form-input [control]="opexCode" id="opexCode" name="رمز المشروع التشغيلي"></app-form-input>
                 </div>
             </div>
         </div>

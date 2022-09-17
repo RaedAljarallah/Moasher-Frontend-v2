@@ -1,9 +1,9 @@
 import {
     AfterViewInit, ChangeDetectorRef,
     Component,
-    ContentChild,
+    ContentChild, EventEmitter,
     Input,
-    OnChanges, OnInit,
+    OnChanges, OnInit, Output,
     SimpleChanges,
     TemplateRef
 } from '@angular/core';
@@ -12,6 +12,7 @@ import {collapse} from "../animations/app-animations.animation";
 import {IResponse} from "../../core/models/response.model";
 import {Pagination} from "../../core/models/pagination.model";
 import {IFilter} from "../../core/models/filter.model";
+import {IIdentifiable} from "../../core/models/identifiable.model";
 
 export interface ITableHeader {
     value: string,
@@ -33,12 +34,13 @@ export interface  ITableBreadcrumb {
 })
 
 export class TableComponent implements OnInit, OnChanges, AfterViewInit {
+    @ContentChild("tableCell") tableCellTemplate!: TemplateRef<any>;
     @Input() headers: ITableHeader[] = [];
     @Input() items: IResponse<any> | null = null;
     @Input() filterFields: IFilter[] = [];
     @Input() breadcrumbs: ITableBreadcrumb[] | null = null;
     @Input() withFilters: boolean = true;
-    @ContentChild("tableCell") tableCellTemplate!: TemplateRef<any>;
+    @Output() addClicked: EventEmitter<void> = new EventEmitter<void>();
     
     public pager?: Pagination;
     public loadingPlaceholders: number[] = [];
@@ -62,7 +64,6 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
     ngAfterViewInit(): void {
         this.cd.detectChanges();
     }
-
     
     public changePager(): void {
         const count: number = this.getLoadingPlaceholdersCount();
@@ -102,5 +103,24 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
             queryParamsHandling: 'merge'
         });
         this._searchQuery = searchQuery;
+    }
+
+    public addItem(item: any): void {
+        this.items!.result.unshift(item);
+        this.pager!.totalCount += 1;
+    }
+    
+    public deleteItem(id: string): void {
+        const index = this.items!.result.findIndex((i: any) => i.id === id);
+        if (index > -1) {
+            this.items!.result.splice(index, 1);
+        }
+    }
+    
+    public updateItem(item: any): void {
+        const index = this.items!.result.findIndex((i: any) => i.id === item.id);
+        if (index > -1) {
+            this.items!.result[index] = item;
+        }
     }
 }

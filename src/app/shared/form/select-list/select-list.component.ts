@@ -19,8 +19,11 @@ export class SelectListComponent implements OnInit {
     @Input() placeholder: string = '';
     @Input() id: string = '';
     @Input() listUrl: string = '';
+    @Input() type:  'static' | 'dynamic' = 'dynamic';
+    @Input() staticListItems: { name: string, value: string }[] = [];
     @Input() propertyName: string = '';
     @Input() theme: string = 'theme-form-select';
+    @Input() badgeTemplate: boolean = false;
     @Output() filterChanged: EventEmitter<IFilterOutput> = new EventEmitter<IFilterOutput>();
     @Output() formListChanged: EventEmitter<any> = new EventEmitter<any>();
     

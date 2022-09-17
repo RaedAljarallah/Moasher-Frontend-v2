@@ -20,6 +20,9 @@ export class FormInputComponent implements OnInit {
     @Input() name: string = '';
     @Input() id: string = '';
     @Input() listUrl: string = '';
+    @Input() listType: 'static' | 'dynamic' = 'dynamic';
+    @Input() staticListItems: {name: string, value: string}[] = [];
+    @Input() badgeList: boolean = false;
     @Output() listValueSelected: EventEmitter<any> = new EventEmitter<any>();
 
     constructor() {

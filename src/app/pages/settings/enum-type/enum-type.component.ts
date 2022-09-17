@@ -1,64 +1,57 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {ITableHeader} from "../../../shared/table/table.component";
-import {BehaviorSubject, Observable} from "rxjs";
+import {Observable} from "rxjs";
 import {IResponse} from "../../../core/models/response.model";
 import {IEnumType} from "./core/models/enum-type.model";
 import {v4 as guid} from 'uuid';
-import {ActivatedRoute, Params, Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {ApiService} from "../../../core/services/api.service";
 import {ModalService} from "../../../shared/modal/modal.service";
-import {distinctUntilChanged, map, switchMap} from "rxjs/operators";
-import {UrlUtility} from "../../../core/utilities/url.utility";
 import {HttpParams} from "@angular/common/http";
 import {EnumTypeCategory} from "../../../core/models/data-types/eum-type-category.data-type";
+import {TableComponentBase} from "../../../core/abstracts/table-component-base";
+import {EnumTypeCommand} from "./core/models/enum-type.command";
 
 @Component({
     selector: 'app-enum-type',
     templateUrl: './enum-type.component.html',
     styles: []
 })
-export class EnumTypeComponent implements OnInit, OnDestroy {
-    @Input() nameFieldTitle: string = 'الاسم';
+export class EnumTypeComponent extends TableComponentBase<IEnumType, EnumTypeCommand> {
     @Input() category: EnumTypeCategory = EnumTypeCategory.KPIStatus;
-    public headers: ITableHeader[] = [
-        {value: this.nameFieldTitle, classes: 'xl:min-w-[28rem]'},
-        {value: 'اللون', classes: 'w-28'},
-        {value: '', classes: 'w-full'},
-    ];
-
-    public data$: Observable<IResponse<IEnumType[]>>;
-    public refresh$: BehaviorSubject<{ [k: string]: string }>;
-    public _modalId: string = guid();
+    @Input() nameFieldTitle: string = 'الاسم';
+    @Input() headers: ITableHeader[] = [];
+    @Input() withMetadata: boolean = false;
     
-    constructor(private route: ActivatedRoute, private router: Router, private api: ApiService, private modal: ModalService) {
-        this.data$ = new Observable<IResponse<IEnumType[]>>();
-        this.refresh$ = new BehaviorSubject<{ [k: string]: string }>({ps: '10', pn: '1'});
+    constructor(route: ActivatedRoute, router: Router, api: ApiService, modal: ModalService) {
+        super(route, router, api, modal);
     }
     
-    ngOnInit(): void {
-        this.modal.register(this._modalId);
-        this.route.queryParams.subscribe((params: Params) => {
-            this.refresh$.next({
-                ps: params['ps'] ?? '10',
-                pn: params['pn'] ?? '1',
-            });
-            this.data$ = this.getDate(this.refresh$);
-        });
+    
+    protected _createFormTitle: string = '';
+    protected _deleteFormTitle: string = '';
+    protected _updateFormTitle: string = '';
+    protected _modalId: string = 'EnumTypeModal';
+    
+    protected override onInit() {
+        this.headers[0].value = this.nameFieldTitle;
+        this._createFormTitle = `إضافة ${this.nameFieldTitle}`;
+        this._deleteFormTitle = `حذف ${this.nameFieldTitle}`;
+        this._updateFormTitle = `تعديل ${this.nameFieldTitle}`;
+        this.command = new EnumTypeCommand(null).setCategory(this.category);
+    }
+    
+    protected loadItems(params: HttpParams): Observable<IResponse<IEnumType[]>> {
+        return this.api.get<IEnumType[]>(`enum-types?category=${this.category}`, {params: params});
     }
 
-    public ngOnDestroy(): void {
-        this.modal.unregister(this._modalId);
+    protected queryParams: { key: string; defaultValue?: string }[] = [];
+
+    protected initCommand(item: IEnumType | null): void {
+        this.command = new EnumTypeCommand(item).setCategory(this.category);
+        if (item) {
+            this.command.id = item.id;
+        }
     }
 
-    public getDate(refresh$: BehaviorSubject<{ [k: string]: string }>): Observable<IResponse<IEnumType[]>> {
-        return refresh$.pipe(
-            distinctUntilChanged(),
-            map((params: { [k: string]: string }) => {
-                return UrlUtility.getHttpParams(params);
-            }),
-            switchMap((params: HttpParams) => {
-                return this.api.get<IEnumType[]>(`enum-types?category=${this.category}`, {params: params});
-            })
-        )
-    }
 }
