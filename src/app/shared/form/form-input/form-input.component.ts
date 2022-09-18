@@ -22,6 +22,7 @@ export class FormInputComponent implements OnInit {
     @Input() listUrl: string = '';
     @Input() listType: 'static' | 'dynamic' = 'dynamic';
     @Input() staticListItems: {name: string, value: string}[] = [];
+    @Input() dynamicListDefaultItems: any[] = [];
     @Input() badgeList: boolean = false;
     @Output() listValueSelected: EventEmitter<any> = new EventEmitter<any>();
 

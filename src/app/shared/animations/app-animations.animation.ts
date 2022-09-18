@@ -79,18 +79,24 @@ export const container =
         ])
     ]);
 
-
 export const stepper =
 trigger('stepper', [
     transition(':increment', [
-        query(':enter', style({ transform: 'translateX(-100%)' }), { optional: true }),
-        query(':leave', style({ display: 'none' }), { optional: true }),
-
+        // query(':enter', style({ transform: 'translateX(-100%)'}), { optional: true }),
+        // query(':leave', style({ display: 'none' }), { optional: true }),
+        
+        query('.show', style({ transform: 'translateX(-100%)'}), { optional: true }),
+        query('.hide', style({ visibility: 'hidden', height: '0px' }), { optional: true }),
+        
         group([
-            query(':enter', [
+            // query(':enter', [
+            //     animate('250ms linear', style({ transform: 'translateX(0)' }))
+            // ], { optional: true }),
+
+            query('.show', [
                 animate('250ms linear', style({ transform: 'translateX(0)' }))
             ], { optional: true }),
-
+            
             // query(':leave', [
             //     animate('300ms linear', style({ transform: 'translateX(100%)' }))
             // ], { optional: true })
@@ -98,14 +104,21 @@ trigger('stepper', [
     ]),
 
     transition(':decrement', [
-        query(':enter', style({ transform: 'translateX(100%)' }), { optional: true }),
-        query(':leave', style({ display: 'none' }), { optional: true }),
+        // query(':enter', style({ transform: 'translateX(100%)' }), { optional: true }),
+        // query(':leave', style({ display: 'none' }), { optional: true }),
+
+        query('.show', style({ transform: 'translateX(100%)'}), { optional: true }),
+        query('.hide', style({ visibility: 'hidden', height: '0px' }), { optional: true }),
 
         group([
-            query(':enter', [
+            // query(':enter', [
+            //     animate('200ms linear', style({ transform: 'translateX(0)' }))
+            // ], { optional: true }),
+
+            query('.show', [
                 animate('200ms linear', style({ transform: 'translateX(0)' }))
             ], { optional: true }),
-
+            
             // query(':leave', [
             //     animate('300ms linear', style({ transform: 'translateX(-100%)' }))
             // ], { optional: true })

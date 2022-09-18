@@ -31,7 +31,6 @@ export abstract class FormBase<TType, TCommand extends IIdentifiable> {
         if (this.form.valid) {
             this.isLoading = true;
             this.initCommand();
-            console.log(this.command);
             let request$: Observable<IResponse<TType>> = new Observable<IResponse<TType>>();
 
             switch (this.formAction) {
@@ -56,12 +55,17 @@ export abstract class FormBase<TType, TCommand extends IIdentifiable> {
                 error: (failure: IResponseError) => {
                     if (failure.statusCode === 400) {
                         this.setServerErrors(failure.errors);
+                        this.handelError(failure.errors);
                     } else {
                         this.globalErrors.push(failure.errors[''][0])
                     }
                 }
             })
         }
+    }
+    
+    public handelError(errors: {[p: string]: string[]}): void {
+        
     }
     
     private setServerErrors(errors: {[p: string]: string[]}): void {

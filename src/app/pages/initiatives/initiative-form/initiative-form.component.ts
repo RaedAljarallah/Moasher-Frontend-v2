@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {DateValidators} from "../../../shared/validators/date.validators";
 import {stepper} from "../../../shared/animations/app-animations.animation";
@@ -10,6 +10,12 @@ import {IInitiative} from "../core/models/initiative.model";
 import {ApiService} from "../../../core/services/api.service";
 import {EnumTypeCategory} from "../../../core/models/data-types/eum-type-category.data-type";
 import {IStrategicObjectiveBase} from "../../strategic-objectives/core/models/strategic-objective-base.model";
+import {IEnumType} from "../../settings/enum-type/core/models/enum-type.model";
+import {ILevelThreeObjective} from "../../strategic-objectives/core/models/level-three-objective.model";
+import {ILevelFourObjective} from "../../strategic-objectives/core/models/level-four-objective.model";
+import {IEntity} from "../../entities/core/models/entity.model";
+import {IPortfolio} from "../../portfolios/core/models/portfolio.model";
+import {IProgram} from "../../programs/core/models/program.model";
 
 @Component({
     selector: 'app-initiative-form',
@@ -19,7 +25,7 @@ import {IStrategicObjectiveBase} from "../../strategic-objectives/core/models/st
     ]
 })
 export class InitiativeFormComponent extends FormBase<IInitiative, InitiativeCommand> implements OnInit, OnDestroy {
-    constructor(api: ApiService) {
+    constructor(api: ApiService, private cd: ChangeDetectorRef) {
         super(api);
     }
 
@@ -62,9 +68,34 @@ export class InitiativeFormComponent extends FormBase<IInitiative, InitiativeCom
     public fundStatusUrl: string = `enum-types?category=${EnumTypeCategory.InitiativeFundStatus}`;
     public levelFourUrl: string = '';
     
+    public currentStatus: IEnumType[] = [];
+    public currentFundStatus: IEnumType[] = [];
+    public currentLevelThreeObjective: ILevelThreeObjective[] = [];
+    public currentLevelFourObjective: ILevelFourObjective[] = [];
+    public currentEntity: IEntity[] = [];
+    public currentPortfolio: IPortfolio[] = [];
+    public currentProgram: IProgram[] = [];
+    
     public ngOnInit(): void {
         this.isDeleteRequest = (this.formAction == FormAction.Delete);
-
+        
+        if (this.formAction === FormAction.Update) {
+            this.currentLevelThreeObjective.push(this.inputCommand.levelThreeStrategicObjective);
+            if (this.inputCommand.levelFourStrategicObjective) {
+                this.currentLevelFourObjective.push(this.inputCommand.levelFourStrategicObjective)
+            }
+            this.currentEntity.push(this.inputCommand.entity);
+            if (this.inputCommand.portfolio) {
+                this.currentPortfolio.push(this.inputCommand.portfolio)
+            }
+            this.currentProgram.push(this.inputCommand.program);
+            if(this.inputCommand.status) {
+                this.currentStatus.push(this.inputCommand.status);
+            }
+            this.currentFundStatus.push(this.inputCommand.fundStatus);
+            this.showStatus = !this.inputCommand.calculateStatus;
+        }
+        
         if (!this.isDeleteRequest) {
             this.unifiedCode = new FormControl(this.inputCommand.unifiedCode, [
                 Validators.required, Validators.maxLength(50)
@@ -108,21 +139,24 @@ export class InitiativeFormComponent extends FormBase<IInitiative, InitiativeCom
             this.visible = new FormControl(this.inputCommand.visible);
             this.visibleOnDashboard = new FormControl(this.inputCommand.visibleOnDashboard);
             this.calculateStatus = new FormControl(this.inputCommand.calculateStatus);
-            this.fundStatusEnumId = new FormControl(this.fundStatusEnumId, [
+            this.fundStatusEnumId = new FormControl(this.inputCommand.fundStatusEnumId, [
                 Validators.required
             ]);
-            this.statusEnumId = new FormControl(this.statusEnumId);
-            this.entityId = new FormControl(this.entityId, [
+            this.statusEnumId = new FormControl(this.inputCommand.statusEnumId);
+            this.entityId = new FormControl(this.inputCommand.entityId, [
                 Validators.required
             ]);
-            this.programId = new FormControl(this.programId, [
+            this.programId = new FormControl(this.inputCommand.programId, [
                 Validators.required
             ]);
-            this.portfolioId = new FormControl(this.portfolioId);
-            this.levelThreeStrategicObjectiveId = new FormControl(this.levelThreeStrategicObjectiveId, [
+            this.portfolioId = new FormControl(this.inputCommand.portfolioId);
+            this.levelThreeStrategicObjectiveId = new FormControl(this.inputCommand.levelThreeStrategicObjectiveId, [
                 Validators.required
             ]);
-            this.levelFourStrategicObjectiveId = new FormControl({ value: this.levelFourStrategicObjectiveId, disabled: true });
+            this.levelFourStrategicObjectiveId = new FormControl({ value: this.inputCommand.levelFourStrategicObjectiveId, disabled: true });
+            if (this.inputCommand.levelFourStrategicObjectiveId) {
+                this.levelFourStrategicObjectiveId.enable();
+            }
             this.form = new FormGroup({
                 unifiedCode: this.unifiedCode,
                 codeByProgram: this.codeByProgram,
@@ -189,13 +223,14 @@ export class InitiativeFormComponent extends FormBase<IInitiative, InitiativeCom
                 }
             ]
             this.statusSubscription = this.calculateStatus.valueChanges.subscribe((value: boolean) => {
-                if (value) {
+                if (!value) {
                     this.statusEnumId.setValidators(Validators.required);
                 } else {
                     this.statusEnumId.clearValidators();
                     this.statusEnumId.setValue(null);
                 }
-                this.showStatus = value;
+                this.showStatus = !value;
+                this.cd.detectChanges();
             })
         }
     }
@@ -238,7 +273,18 @@ export class InitiativeFormComponent extends FormBase<IInitiative, InitiativeCom
     public ngOnDestroy(): void {
         this.statusSubscription?.unsubscribe();
     }
-    
+
+    public override handelError(errors: { [p: string]: string[] }) {
+        for (let stepControl of this.stepControls) {
+            for (let control of stepControl.controls) {
+                if (control.invalid) {
+                    this.step = stepControl.stepCount
+                    return;
+                }
+            }
+        }
+    }
+
     private getDate(date: Date | null | undefined) : Date | null {
         if (date) {
             return new Date(date);

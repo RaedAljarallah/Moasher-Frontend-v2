@@ -60,6 +60,7 @@ export abstract class DetailComponentBase<TType extends IKeyable, TCommand> impl
 
     public update() {
         this.formTitle = this._updateFormTitle;
+        this.formAction = FormAction.Update;
         this.initCommand()
         this.modal.open(this._modalId);
     }

@@ -1,22 +1,37 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {Observable} from "rxjs";
-import {map, tap} from "rxjs/operators";
-import {IDetailPageState, ITab} from "../../../shared/detail-page/detail-page.component";
+import {finalize, Observable} from "rxjs";
+import {ITab} from "../../../shared/detail-page/detail-page.component";
 import {IInitiative} from "../core/models/initiative.model";
 import {ApiService} from "../../../core/services/api.service";
 import {HttpParams} from "@angular/common/http";
 import {ModalService} from "../../../shared/modal/modal.service";
 import {InitiativeCommand} from "../core/models/initiative.command";
+import {DetailComponentBase} from "../../../core/abstracts/detail-component-base";
+import {IResponse} from "../../../core/models/response.model";
+import {FormAction} from "../../../core/models/data-types/form-action.data-type";
 
 @Component({
     selector: 'app-initiative-detail',
     templateUrl: './initiative-detail.component.html'
 })
-export class InitiativeDetailComponent implements OnInit, OnDestroy {
-    public detailPageState: IDetailPageState | undefined;
-    public isFormLoading: boolean = false;
-    public command: InitiativeCommand = new InitiativeCommand(null);
+export class InitiativeDetailComponent extends DetailComponentBase<IInitiative, InitiativeCommand> {
+    constructor(route: ActivatedRoute, router: Router, api: ApiService, modal: ModalService) {
+        super(route, router, api, modal);
+    }
+
+    protected _deleteFormTitle: string = 'حذف مبادرة';
+    protected _updateFormTitle: string = 'تعديل مبادرة';
+    protected _modalId: string = 'InitiativeDetail';
+
+    protected initCommand(): void {
+        this.command = new InitiativeCommand(this.detailPageState!)
+    }
+    
+    protected loadItems(params: HttpParams): Observable<IResponse<IInitiative[]>> {
+        return this.api.get<IInitiative[]>('initiatives', {params: params })
+    }
+
     public tabs: ITab[] = [
         {id: 'performance', value: 'أداء المبادرة'},
         {id: 'issues', value: 'المعوقات'},
@@ -30,51 +45,19 @@ export class InitiativeDetailComponent implements OnInit, OnDestroy {
         {id: 'analytics', value: 'التحليل'},
         {id: 'over-view', value: 'التفاصيل'},
         {id: 'documents', value: 'المستندات'}
-    ]
+    ];
 
-    public selectedTab: string = 'performance';
-
-    constructor(private route: ActivatedRoute, private router: Router, private api: ApiService, private modal: ModalService) {
-        this.detailPageState = this.router.getCurrentNavigation()?.extras.state as IDetailPageState;
-    }
-
-    ngOnInit(): void {
-        this.modal.register('InitiativeDetail');
-
-        if (!this.detailPageState) {
-            this.getData(this.route.snapshot.paramMap.get('id')!).subscribe(result => this.detailPageState = result);
-        }
-
-        this.route.queryParamMap.subscribe(param => {
-            this.selectedTab = param.get('s') ?? this.selectedTab;
-        });
-    }
-
-    public getData(id: string): Observable<IDetailPageState> {
-        return this.api.get<IInitiative>('initiatives', {params: new HttpParams().append('id', id)})
-            .pipe(
-                map(res => {
-                    return {id: res.result.id, value: res.result.name}
-                })
-            )
-    }
-
-    public delete() {
-
-    }
-
-    public update() {
+    public isFormLoading: boolean = false;
+    
+    override update() {
+        this.formTitle = this._updateFormTitle;
+        this.formAction = FormAction.Update;
         this.isFormLoading = true;
-        this.api.get<InitiativeCommand>('initiatives', {params: new HttpParams().append('id', '1')})
-            .pipe(
-                map(res => res.result),
-                tap(() => this.isFormLoading = false),
-                tap(() => this.modal.open('InitiativeDetail'))
-            ).subscribe(command => this.command = command);
+        this.api.edit<InitiativeCommand>(`initiatives/${this.detailPageState?.id}/edit`).pipe(
+            finalize(() => this.isFormLoading = false)
+        ).subscribe(res => {
+            this.command = res.result;
+            this.modal.open(this._modalId);
+        })
     }
-
-    public ngOnDestroy(): void {
-        this.modal.unregister('InitiativeDetail');
-    }
-
 }

@@ -3,7 +3,6 @@ import {ITableHeader} from "../../../shared/table/table.component";
 import {Observable} from "rxjs";
 import {IResponse} from "../../../core/models/response.model";
 import {IEnumType} from "./core/models/enum-type.model";
-import {v4 as guid} from 'uuid';
 import {ActivatedRoute, Router} from "@angular/router";
 import {ApiService} from "../../../core/services/api.service";
 import {ModalService} from "../../../shared/modal/modal.service";

@@ -1,6 +1,14 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
     content: ['./src/**/*.{html,ts}'],
+    safelist: [
+        'gray-1', 'gray-2', 'gray-3', 'gray-4', 'red-1', 'red-2', 'red-3', 'yellow-1', 'yellow-2', 'yellow-3', 'orange-1', 'orange-2', 'orange-3',
+        'green-1', 'green-2', 'green-3', 'blue-1', 'blue-2', 'blue-3', 'teal-1', 'teal-2', 'teal-3', 'indigo-1', 'indigo-2', 'indigo-3',
+        'theme-blue-1', 'theme-blue-2', 'theme-blue-3', 'theme-teal-1', 'theme-teal-2', 'theme-teal-3',
+        "b-gray-1", "b-gray-2", "b-gray-3", "b-gray-4", "b-red-1", "b-red-2", "b-red-3", "b-yellow-1", "b-yellow-2", "b-yellow-3", "b-orange-1", 
+        "b-orange-2", "b-orange-3", "b-green-1", "b-green-2", "b-green-3", "b-blue-1", "b-blue-2", "b-blue-3", "b-teal-1", "b-teal-2", "b-teal-3", 
+        "b-indigo-1", "b-indigo-2", "b-indigo-3", "b-theme-blue-1", "b-theme-blue-2", "b-theme-blue-3", "b-theme-teal-1", "b-theme-teal-2", "b-theme-teal-3"
+    ],
     theme: {
         extend: {
             colors: {
@@ -54,10 +62,22 @@ module.exports = {
             },
             keyframes: {
                 shake: {
-                    '10%, 90%': { transform: 'translate3d(-1px, 0, 0)', 'animation-timing-function': 'cubic-bezier(.36,.07,.19,.97)'},
-                    '20%, 80%': { transform: 'translate3d(2px, 0, 0)', 'animation-timing-function': 'cubic-bezier(.36,.07,.19,.97)' },
-                    '30%, 50%, 70%': { transform: 'translate3d(-4px, 0, 0)', 'animation-timing-function': 'cubic-bezier(.36,.07,.19,.97)'},
-                    '40%, 60%': { transform: 'translate3d(4px, 0, 0)', 'animation-timing-function': 'cubic-bezier(.36,.07,.19,.97)' }
+                    '10%, 90%': {
+                        transform: 'translate3d(-1px, 0, 0)',
+                        'animation-timing-function': 'cubic-bezier(.36,.07,.19,.97)'
+                    },
+                    '20%, 80%': {
+                        transform: 'translate3d(2px, 0, 0)',
+                        'animation-timing-function': 'cubic-bezier(.36,.07,.19,.97)'
+                    },
+                    '30%, 50%, 70%': {
+                        transform: 'translate3d(-4px, 0, 0)',
+                        'animation-timing-function': 'cubic-bezier(.36,.07,.19,.97)'
+                    },
+                    '40%, 60%': {
+                        transform: 'translate3d(4px, 0, 0)',
+                        'animation-timing-function': 'cubic-bezier(.36,.07,.19,.97)'
+                    }
                 }
             },
             animation: {

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {FormControl} from "@angular/forms";
 import {Pagination} from "../../../core/models/pagination.model";
 import {BehaviorSubject, Observable, Subscription} from "rxjs";
@@ -15,12 +15,14 @@ import {IFilterOutput} from "../../../core/models/filter-output.model";
     styles: []
 })
 export class SelectListComponent implements OnInit {
+    
     @Input() control: FormControl = new FormControl();
     @Input() placeholder: string = '';
     @Input() id: string = '';
     @Input() listUrl: string = '';
     @Input() type:  'static' | 'dynamic' = 'dynamic';
     @Input() staticListItems: { name: string, value: string }[] = [];
+    @Input() dynamicListDefaultItems: any[] = [];
     @Input() propertyName: string = '';
     @Input() theme: string = 'theme-form-select';
     @Input() badgeTemplate: boolean = false;
@@ -31,17 +33,20 @@ export class SelectListComponent implements OnInit {
     public isListLoading: boolean = false;
     private listPagination?: Pagination;
 
-    private listRefresh$: BehaviorSubject<{ pageSize: number, pageNumber: number, searchQuery: string }>;
+    private listRefresh$: BehaviorSubject<{ ps: number, pn: number, q: string }>;
     private listSubscription?: Subscription
-    private readonly defaultParams = { pageSize: 6, pageNumber: 1, searchQuery: '' };
+    private readonly defaultParams = { ps: 6, pn: 1, q: '' };
     
     constructor(private api: ApiService) {
-        this.listRefresh$ = new BehaviorSubject<{pageSize: number; pageNumber: number; searchQuery: string}>(this.defaultParams);
+        this.listRefresh$ = new BehaviorSubject<{ps: number; pn: number; q: string}>(this.defaultParams);
     }
 
     ngOnInit(): void {
+        if (this.dynamicListDefaultItems.length) {
+            this.listItems.push(...this.dynamicListDefaultItems);
+        }
     }
-
+    
     public getListItems(): void {
         this.listSubscription = this.loadListItems().subscribe((res: IResponse<any[]>) => {
             this.listItems = this.listItems.concat(res.result);
@@ -54,7 +59,7 @@ export class SelectListComponent implements OnInit {
 
     public resetList(): void {
         this.listSubscription?.unsubscribe();
-        this.listRefresh$ = new BehaviorSubject<{pageSize: number; pageNumber: number; searchQuery: string}>(this.defaultParams);
+        this.listRefresh$ = new BehaviorSubject<{ps: number; pn: number; q: string}>(this.defaultParams);
         this.listItems = [];
         this.isListLoading = false;
         this.listPagination = undefined;
@@ -68,9 +73,9 @@ export class SelectListComponent implements OnInit {
 
         if (this.listPagination.currentPage < this.listPagination.totalPages) {
             this.listRefresh$.next({
-                pageSize: this.listPagination.pageSize,
-                pageNumber: this.listPagination.currentPage + 1,
-                searchQuery: ''
+                ps: this.listPagination.pageSize,
+                pn: this.listPagination.currentPage + 1,
+                q: ''
             });
         }
     }
@@ -82,9 +87,9 @@ export class SelectListComponent implements OnInit {
 
         if (event.items.length === 0 && event.term.length > 0) {
             this.listRefresh$.next({
-                pageSize: this.listPagination.pageSize,
-                pageNumber: 1,
-                searchQuery: event.term
+                ps: this.listPagination.pageSize,
+                pn: 1,
+                q: event.term
             })
         }
 
@@ -95,11 +100,11 @@ export class SelectListComponent implements OnInit {
             distinctUntilChanged(),
             tap(() => this.isListLoading = true),
             tap(() => this.control.setValue(null)),
-            switchMap((params: { pageSize: number, pageNumber: number, searchQuery: string }) => {
+            switchMap((params: { ps: number, pn: number, q: string }) => {
                 const httpParams = new HttpParams()
-                    .append('pageSize', params.pageSize)
-                    .append('pageNumber', params.pageNumber)
-                    .append('searchQuery', params.searchQuery)
+                    .append('ps', params.ps)
+                    .append('pn', params.pn)
+                    .append('q', params.q)
 
                 return this.api.get<any[]>(this.listUrl, { params: httpParams })
             }),

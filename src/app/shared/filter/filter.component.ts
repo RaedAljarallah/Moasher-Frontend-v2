@@ -21,6 +21,7 @@ export class FilterComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        
         const filterFieldKeys = this.filterFields.map(f => f.id);
         this.routeUniqueQueries = this.route.snapshot.queryParamMap.keys
             .filter(param => !filterFieldKeys.includes(param));
@@ -38,6 +39,8 @@ export class FilterComponent implements OnInit {
         } else {
             this.emitShowFilter(true);
         }
+
+        
     }
 
     public changeFilterType(filterIndex: number, selectedFilter: IFilter) {
@@ -59,7 +62,6 @@ export class FilterComponent implements OnInit {
     }
     
     public updateFilterValue(filterIndex: number, value: any): void {
-        console.log(value);
         const selectedFilter = this.appliedFilters[filterIndex];
         if (selectedFilter.selectedFilterField) {
             this.appliedFilters[filterIndex].value = value;
@@ -79,7 +81,7 @@ export class FilterComponent implements OnInit {
                 params[filter.selectedFilterField.id] = filter.value;
             }
         }
-
+        
         await this.router.navigate([], {
             relativeTo: this.route,
             queryParams: params,

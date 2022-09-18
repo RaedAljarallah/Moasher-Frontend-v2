@@ -10,6 +10,7 @@ import {HttpParams} from "@angular/common/http";
 import {IFilterOutput} from "../models/filter-output.model";
 import {IIdentifiable} from "../models/identifiable.model";
 import {UrlUtility} from "../utilities/url.utility";
+import {IFilter} from "../models/filter.model";
 
 @Component({
     template: ''
@@ -18,11 +19,12 @@ export abstract class ListComponentBase<TType extends IIdentifiable, TCommand> i
     @ViewChild(CollectionComponent) collection!: CollectionComponent;
     public data$: Observable<IResponse<TType[]>>;
     public refresh$: BehaviorSubject<{ [k: string]: string }>;
+    public filterFields: IFilter[] = [];
     protected abstract _url: string;
     protected abstract _modalId: string;
     protected abstract queryParams: { key: string, defaultValue?: string }[];
     public abstract command: TCommand;
-
+    
     protected abstract loadItems(params: HttpParams): Observable<IResponse<TType[]>>
 
     protected constructor(protected route: ActivatedRoute, protected router: Router,
@@ -52,17 +54,6 @@ export abstract class ListComponentBase<TType extends IIdentifiable, TCommand> i
     public updateItems(item: TType): void {
         this.collection.addItem(item);
         this.modal.close(this._modalId);
-    }
-
-    public async onSelectFilter(filter: IFilterOutput): Promise<void> {
-        await this.router.navigate([], {
-            relativeTo: this.route,
-            queryParams: {
-                [filter.param!]: filter.value
-            },
-            queryParamsHandling: 'merge'
-
-        })
     }
 
     public ngOnDestroy(): void {

@@ -1,6 +1,12 @@
 ﻿import {IInitiative} from "./initiative.model";
 import {FormGroup} from "@angular/forms";
 import * as _ from "lodash";
+import {ILevelFourObjective} from "../../../strategic-objectives/core/models/level-four-objective.model";
+import {ILevelThreeObjective} from "../../../strategic-objectives/core/models/level-three-objective.model";
+import {IProgram} from "../../../programs/core/models/program.model";
+import {IEntity} from "../../../entities/core/models/entity.model";
+import {IEnumType} from "../../../settings/enum-type/core/models/enum-type.model";
+import {IPortfolio} from "../../../portfolios/core/models/portfolio.model";
 
 export class InitiativeCommand {
     public id!: string;
@@ -28,13 +34,13 @@ export class InitiativeCommand {
     public levelThreeStrategicObjectiveId!: string;
     public levelFourStrategicObjectiveId?: string;
 
-    // public fundStatus: EnumType = new EnumType();
-    // public status?: EnumType;
-    // public entity!: Entity;
-    // public program!: Program;
-    // public levelThreeStrategicObjective!: LevelThree;
-    // public levelFourStrategicObjective?: LevelFour;
-    // public portfolio?: Portfolio;
+    public fundStatus!: IEnumType;
+    public status?: IEnumType;
+    public entity!: IEntity;
+    public program!: IProgram;
+    public levelThreeStrategicObjective!: ILevelThreeObjective;
+    public levelFourStrategicObjective?: ILevelFourObjective;
+    public portfolio?: IPortfolio;
     
     constructor(model: IInitiative | FormGroup | null) {
         if (model == null) {

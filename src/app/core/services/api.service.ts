@@ -28,7 +28,15 @@ export class ApiService {
             })
         );
     }
-
+    
+    public edit<TResult>(url: string, options?: { params?: HttpParams }): Observable<IResponse<TResult>> {
+        return this.http.get<TResult>(this.getCompleteUrl(url), {params: options?.params}).pipe(
+            map((res: TResult) => {
+                return { result: res }
+            })
+        );
+    }
+    
     public post<TRequest, TResponse>(url: string, request: TRequest, options?: { params?: HttpParams }): Observable<IResponse<TResponse>> {
         return this.http.post<TResponse>(this.getCompleteUrl(url), request, {
             headers: this.headers,

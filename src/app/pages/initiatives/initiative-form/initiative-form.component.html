@@ -1,5 +1,5 @@
 <app-form [form]="form" (formSubmitted)="onSubmit()">
-    <ul class="bg-red-100 p-2 border border-red-300 rounded-lg" >
+    <ul class="bg-red-100 p-2 border border-red-300 rounded-lg" *ngIf="globalErrors.length">
         <li class="text-sm text-red-500" *ngFor="let error of globalErrors">- {{ error }}</li>
     </ul>
     <ng-container *ngIf="!isDeleteRequest; else deletePrompt">
@@ -47,7 +47,7 @@
         </div>
 
         <div [@stepper]="step" class="pb-2">
-            <div class="grid grid-cols-12 gap-2" *ngIf="step === 1">
+            <div class="grid grid-cols-12 gap-2" [ngClass]="step === 1 ? 'show' : 'hide invisible h-0'">
                 <div class="col-span-6">
                     <app-form-input [control]="unifiedCode" id="unifiedCode"
                                     name="رمز المبادرة الموحد"></app-form-input>
@@ -69,12 +69,14 @@
                 <div class="col-span-full sm:col-span-6">
                     <app-form-input [control]="levelThreeStrategicObjectiveId" id="levelThreeStrategicObjectiveId"
                                     listUrl="strategic-objectives?level=3"
+                                    [dynamicListDefaultItems]="currentLevelThreeObjective"
                                     name="الهدف الإستراتيجي (المستوى الثالث)" type="list" (listValueSelected)="onLevelThreeSelected($event)">
                     </app-form-input>
                 </div>
                 <div class="col-span-full sm:col-span-6">
                     <app-form-input [control]="levelFourStrategicObjectiveId" id="levelFourStrategicObjectiveId"
                                     [listUrl]="levelFourUrl"
+                                    [dynamicListDefaultItems]="currentLevelFourObjective"
                                     name="الهدف الإستراتيجي (المستوى الرابع)" type="list">
                     </app-form-input>
                 </div>
@@ -85,7 +87,7 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-12 gap-2" *ngIf="step === 2">
+            <div class="grid grid-cols-12 gap-2" [ngClass]="step === 2 ? 'show' : 'hide invisible h-0'">
                 <div class="col-span-full sm:col-span-6">
                     <app-form-input [control]="plannedStart" id="plannedStart" name="تاريخ البداية المخطط"
                                     type="date"></app-form-input>
@@ -104,14 +106,17 @@
                 </div>
                 <div class="col-span-full sm:col-span-6">
                     <app-form-input [control]="entityId" id="entityId" name="الجهة" type="list"
+                                    [dynamicListDefaultItems]="currentEntity"
                                     listUrl="entities"></app-form-input>
                 </div>
                 <div class="col-span-full sm:col-span-6">
                     <app-form-input [control]="portfolioId" id="portfolioId" name="المحفظة"
+                                    [dynamicListDefaultItems]="currentPortfolio"
                                     type="list" listUrl="portfolios"></app-form-input>
                 </div>
                 <div class="col-span-full sm:col-span-full">
                     <app-form-input [control]="programId" id="programId" name="البرنامج" type="list"
+                                    [dynamicListDefaultItems]="currentProgram"
                                     listUrl="programs" ></app-form-input>
                 </div>
                 <div class="col-span-full">
@@ -127,13 +132,15 @@
                 </div>
                 <div class="col-span-full" *ngIf="showStatus">
                     <app-form-input [control]="statusEnumId" id="statusEnumId" name="حالة التنفذ" type="list"
+                                    [dynamicListDefaultItems]="currentStatus"
                                     [listUrl]="statusUrl"></app-form-input>
                 </div>
             </div>
 
-            <div class="grid grid-cols-12 gap-2" *ngIf="step === 3">
+            <div class="grid grid-cols-12 gap-2" [ngClass]="step === 3 ? 'show' : 'hide invisible h-0'">
                 <div class="col-span-full sm:col-span-6">
                     <app-form-input [control]="fundStatusEnumId" id="fundStatusEnumId" name="حالة التمويل" type="list"
+                                    [dynamicListDefaultItems]="currentFundStatus"
                                     [listUrl]="fundStatusUrl"></app-form-input>
                 </div>
                 <div class="col-span-full sm:col-span-6">
@@ -151,10 +158,10 @@
     </ng-container>
 
     <div class="flex justify-end space-x-2 space-x-reverse border-t border-t-theme-gray-200 pt-4">
-        <button class="btn py-1.5 w-20 btn-white border-none text-center text-sm" *ngIf="step > 1 && !isDeleteRequest" (click)="stepBack()">
+        <button type="button" class="btn py-1.5 w-20 btn-white border-none text-center text-sm" *ngIf="step > 1 && !isDeleteRequest" (click)="stepBack()">
             السابق
         </button>
-        <button class="btn py-1.5 w-20 btn-secondary text-center text-sm" *ngIf="step >=1 && step < 3 && !isDeleteRequest"
+        <button type="button" class="btn py-1.5 w-20 btn-secondary text-center text-sm" *ngIf="step >=1 && step < 3 && !isDeleteRequest"
                 (click)="stepForward()">التالي
         </button>
         <button type="submit" class="btn py-1.5 w-20 btn-secondary text-center text-sm"

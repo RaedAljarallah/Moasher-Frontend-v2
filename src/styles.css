@@ -227,6 +227,101 @@
     .theme-teal-3 {
         @apply bg-theme-teal-500 text-white;
     }
+
+
+    .b-gray-1 {
+        @apply border-gray-300;
+    }
+    .b-gray-2 {
+        @apply border-gray-400;
+    }
+    .b-gray-3 {
+        @apply border-gray-500;
+    }
+    .b-gray-4 {
+        @apply border-gray-600;
+    }
+    .b-red-1 {
+        @apply border-red-300;
+    }
+    .b-red-2 {
+        @apply border-red-400;
+    }
+    .b-red-3 {
+        @apply border-red-500;
+    }
+    .b-yellow-1 {
+        @apply border-yellow-300;
+    }
+    .b-yellow-2 {
+        @apply border-yellow-400;
+    }
+    .b-yellow-3 {
+        @apply border-yellow-500;
+    }
+    .b-orange-1 {
+        @apply border-orange-300;
+    }
+    .b-orange-2 {
+        @apply border-orange-400;
+    }
+    .b-orange-3 {
+        @apply border-orange-500;
+    }
+    .b-green-1 {
+        @apply border-green-400;
+    }
+    .b-green-2 {
+        @apply border-green-500;
+    }
+    .b-green-3 {
+        @apply border-green-600;
+    }
+    .b-blue-1 {
+        @apply border-blue-300;
+    }
+    .b-blue-2 {
+        @apply border-blue-400;
+    }
+    .b-blue-3 {
+        @apply border-blue-500;
+    }
+    .b-teal-1 {
+        @apply border-teal-300;
+    }
+    .b-teal-2 {
+        @apply border-teal-400;
+    }
+    .b-teal-3 {
+        @apply border-teal-500;
+    }
+    .b-indigo-1 {
+        @apply border-indigo-300;
+    }
+    .b-indigo-2 {
+        @apply border-indigo-400;
+    }
+    .b-indigo-3 {
+        @apply border-indigo-500;
+    }
+    .b-theme-blue-1 {
+        @apply border-theme-blue-300;
+    }
+    .b-theme-blue-2 {
+        @apply border-theme-blue-400;
+    }
+    .b-theme-blue-3 {
+        @apply border-theme-blue-500;
+    }
+    .b-theme-teal-1 {
+        @apply border-theme-teal-300;
+    }
+    .b-theme-teal-2 {
+        @apply border-theme-teal-400;
+    }
+    .b-theme-teal-3 {
+        @apply border-theme-teal-500;
+    }
 }
 
 .ng-select.theme-form-select .ng-select-container  {

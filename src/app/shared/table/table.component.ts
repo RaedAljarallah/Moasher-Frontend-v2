@@ -12,7 +12,6 @@ import {collapse} from "../animations/app-animations.animation";
 import {IResponse} from "../../core/models/response.model";
 import {Pagination} from "../../core/models/pagination.model";
 import {IFilter} from "../../core/models/filter.model";
-import {IIdentifiable} from "../../core/models/identifiable.model";
 
 export interface ITableHeader {
     value: string,
@@ -61,7 +60,7 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
         }
     }
 
-    ngAfterViewInit(): void {
+    public ngAfterViewInit(): void {
         this.cd.detectChanges();
     }
     

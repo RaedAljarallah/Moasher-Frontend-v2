@@ -1,12 +1,15 @@
 import {
+    AfterViewInit,
+    ChangeDetectorRef,
     Component, ContentChild, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges,
     TemplateRef
 } from '@angular/core';
 import {animate, query, stagger, style, transition, trigger} from "@angular/animations";
 import {IResponse} from "../../core/models/response.model";
 import {Pagination} from "../../core/models/pagination.model";
-import {IDetailPageState} from "../detail-page/detail-page.component";
 import {collapse} from "../animations/app-animations.animation";
+import {IFilter} from "../../core/models/filter.model";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
     selector: 'app-collection',
@@ -24,12 +27,14 @@ import {collapse} from "../animations/app-animations.animation";
         collapse
     ]
 })
-export class CollectionComponent implements OnInit, OnChanges {
+export class CollectionComponent implements OnInit, OnChanges, AfterViewInit {
     @Input() items: IResponse<any> | null = null;
     @Input() addBtnTitle: string = '';
     @Input() title: string = '';
     @Input() showStatus: boolean = true;
+    @Input() statusStyle: string | null = null;
     @Input() withFilters: boolean = true;
+    @Input() filterFields: IFilter[] = [];
     @ContentChild("listView") listViewTemplate!: TemplateRef<any>;
     @Output() itemSelected: EventEmitter<any> = new EventEmitter<any>();
     @Output() addClicked: EventEmitter<void> = new EventEmitter<void>();
@@ -37,7 +42,9 @@ export class CollectionComponent implements OnInit, OnChanges {
     public loadingPlaceholders: number[] = [];
     public pager?: Pagination;
     public showFilter: boolean = false;
-    constructor() {
+    public filterApplied: boolean = false;
+    
+    constructor(private route: ActivatedRoute, private router: Router, private cd: ChangeDetectorRef) {
     }
     
     public ngOnInit(): void {
@@ -50,11 +57,15 @@ export class CollectionComponent implements OnInit, OnChanges {
         }
     }
     
+    public ngAfterViewInit(): void {
+        this.cd.detectChanges();
+    }
+    
     public get showAddBtn(): boolean {
         return true;
     }
 
-    public async changePager(): Promise<void> {
+    public changePager(): void {
         const count = this.getLoadingPlaceholdersCount();
         this.setLoadingPlaceholders(count);
     }
@@ -84,5 +95,19 @@ export class CollectionComponent implements OnInit, OnChanges {
     public addItem(item: any) {
         this.items!.result.unshift(item);
         this.pager!.totalCount += 1;
+    }
+    
+    public getStatusClass(item: any): string {
+        if (!this.showStatus) {
+            return 'pr-4';
+        }
+        
+        let statusStyle = 'border-r-8';
+        if (item.status) {
+            item.status.style 
+                ? statusStyle = `${statusStyle} b-${item.status.style}`
+                : statusStyle = `${statusStyle} b-gray-1`
+        }
+        return statusStyle;
     }
 }
