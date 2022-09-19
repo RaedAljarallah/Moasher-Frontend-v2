@@ -16,6 +16,8 @@ import {SettingsModule} from "./pages/settings/settings.module";
 import {ApiService} from "./core/services/api.service";
 import {environment} from "../environments/environment";
 import {ApiDevService} from "./core/services/api.dev.service";
+import {PortfoliosModule} from "./pages/portfolios/portfolios.module";
+import {KPIsModule} from "./pages/kpis/kpis.module";
 
 @NgModule({
     declarations: [
@@ -28,9 +30,11 @@ import {ApiDevService} from "./core/services/api.dev.service";
         BrowserAnimationsModule,
         FormsModule,
         InitiativesModule,
+        KPIsModule,
         EntitiesModule,
         ProgramsModule,
         StrategicObjectivesModule,
+        PortfoliosModule,
         SettingsModule,
         AppRoutingModule,
         SharedModule,

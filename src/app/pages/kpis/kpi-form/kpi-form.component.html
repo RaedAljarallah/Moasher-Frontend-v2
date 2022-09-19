@@ -1,0 +1,145 @@
+<app-form [form]="form" (formSubmitted)="onSubmit()">
+    <ul class="bg-red-100 p-2 border border-red-300 rounded-lg" *ngIf="globalErrors.length">
+        <li class="text-sm text-red-500" *ngFor="let error of globalErrors">- {{ error }}</li>
+    </ul>
+    <ng-container *ngIf="!isDeleteRequest; else deletePrompt">
+        <div class="max-w-3xl w-full mx-auto border-b border-b-theme-gray-200">
+            <div class="flex items-center px-2 mb-7">
+                <div class="flex items-center relative">
+                    <div class="rounded-full transition duration-[350ms] ease-in-out h-7 w-7 border-2 border-theme-teal-500"
+                         [ngClass]="step === 1 ? 'step-active' : 'step-done'">
+                    </div>
+                    <div class="absolute top-0 -mr-2 mt-8 text-center text-xs font-semibold text-theme-teal-500">
+                        الأساسية
+                    </div>
+                </div>
+                <div class="flex-auto border-t-2 transition duration-[350ms] ease-in-out"
+                     [ngClass]="step > 1 ? 'step-line-done' : 'step-line-inactive'"></div>
+
+                <div class="flex items-center relative">
+                    <div class="rounded-full transition duration-[350ms] ease-in-out h-7 w-7 border-2"
+                         [ngClass]="step === 2 
+                    ? 'step-active' 
+                    : step > 2 
+                        ? 'step-done' 
+                        : 'step-inactive'">
+                    </div>
+                    <div class="absolute top-0 -mr-0 mt-8 text-center text-xs font-semibold"
+                         [ngClass]="step >= 2 ? 'text-theme-teal-500': 'text-theme-gray-400'">التنفيذ
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div [@stepper]="step" class="pb-2">
+            <div class="grid grid-cols-12 gap-2" [ngClass]="step === 1 ? 'show' : 'hide invisible h-0'">
+                <div class="col-span-full sm:col-span-3">
+                    <app-form-input [control]="code" id="code" name="رمز المؤشر"></app-form-input>
+                </div>
+                <div class="col-span-full sm:col-span-9">
+                    <app-form-input [control]="name" id="name" name="اسم المؤشر"></app-form-input>
+                </div>
+                <div class="col-span-full sm:col-span-6">
+                    <app-form-input [control]="ownerName" id="ownerName" name="اسم مالك المؤشر"></app-form-input>
+                </div>
+                <div class="col-span-full sm:col-span-6">
+                    <app-form-input [control]="ownerEmail" id="ownerEmail" name="البريد الإلكتروني لمالك المؤشر"></app-form-input>
+                </div>
+                <div class="col-span-full sm:col-span-6">
+                    <app-form-input [control]="ownerPhoneNumber" id="ownerPhoneNumber" name="رقم الهاتف لمالك المؤشر"
+                    placeholder="0555555555"></app-form-input>
+                </div>
+                <div class="col-span-full sm:col-span-6">
+                    <app-form-input [control]="ownerPosition" id="ownerPosition" name="منصب مالك المؤشر"></app-form-input>
+                </div>
+                <div class="col-span-full">
+                    <app-form-input [control]="description" id="description" name="وصف المؤشر" type="textarea"></app-form-input>
+                </div>
+                <div class="col-span-full">
+                    <app-form-input [control]="formula" id="formula" name="معادلة المؤشر" type="textarea"></app-form-input>
+                </div>
+                <div class="col-span-full sm:col-span-6">
+                    <app-form-input [control]="baselineValue" id="baselineValue" name="قيمة خط الأساس"></app-form-input>
+                </div>
+                <div class="col-span-full sm:col-span-6">
+                    <app-form-input [control]="baselineYear" id="baselineYear" name="سنة قياس خط الأساس"></app-form-input>
+                </div>
+                <div class="col-span-full">
+                    <app-form-input [control]="dataSource" id="dataSource" name="مصدر البيانات"></app-form-input>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-12 gap-2" [ngClass]="step === 2 ? 'show' : 'hide invisible h-0'">
+                <div class="col-span-full sm:col-span-6">
+                    <app-form-input [control]="frequency" id="frequency" name="فترة تكرار القياس" type="list" listType="static"
+                                    [staticListItems]="frequencySelectList">
+                    </app-form-input>
+                </div>
+                <div class="col-span-full sm:col-span-6">
+                    <app-form-input [control]="polarity" id="polarity" name="قطبية المؤشر" type="list" listType="static"
+                                    [staticListItems]="polaritySelectList">
+                    </app-form-input>
+                </div>
+                <div class="col-span-full sm:col-span-6">
+                    <app-form-input [control]="validationStatus" id="validationStatus" name="حالة التوثيق" type="list" listType="static"
+                                    [staticListItems]="validationStatusSelectList">
+                    </app-form-input>
+                </div>
+                <div class="col-span-full sm:col-span-6">
+                    <app-form-input [control]="measurementUnit" id="measurementUnit" name="وحدة القياس"></app-form-input>
+                </div>
+                <div class="col-span-full">
+                    <app-form-input [control]="entityId" id="entityId" name="الجهة" type="list"
+                                    [dynamicListDefaultItems]="currentEntity"
+                                    listUrl="entities"></app-form-input>
+                </div>
+                <div class="col-span-full sm:col-span-6">
+                    <app-form-input [control]="levelThreeStrategicObjectiveId" id="levelThreeStrategicObjectiveId"
+                                    listUrl="strategic-objectives?level=3"
+                                    [dynamicListDefaultItems]="currentLevelThreeObjective"
+                                    name="الهدف الإستراتيجي (المستوى الثالث)" type="list" (listValueSelected)="onLevelThreeSelected($event)">
+                    </app-form-input>
+                </div>
+                <div class="col-span-full sm:col-span-6">
+                    <app-form-input [control]="levelFourStrategicObjectiveId" id="levelFourStrategicObjectiveId"
+                                    [listUrl]="levelFourUrl"
+                                    [dynamicListDefaultItems]="currentLevelFourObjective"
+                                    name="الهدف الإستراتيجي (المستوى الرابع)" type="list">
+                    </app-form-input>
+                </div>
+                <div class="col-span-full">
+                    <div class="flex flex-col space-y-2 sm:space-y-0 sm:flex-row sm:items-center sm:justify-between mt-2">
+                        <app-form-input [control]="visible" id="visible" name="إظهار في قائمة المؤشرات"
+                                        type="checkbox"></app-form-input>
+                        <app-form-input [control]="visibleOnDashboard" id="visibleOnDashboard"
+                                        name="إظهار في لوحة الأداء" type="checkbox"></app-form-input>
+                        <app-form-input [control]="calculateStatus" id="calculateStatus"
+                                        name="حساب حالة التنفيذ تلقائياً" type="checkbox"></app-form-input>
+                    </div>
+
+                </div>
+                <div class="col-span-full" *ngIf="showStatus">
+                    <app-form-input [control]="statusEnumId" id="statusEnumId" name="حالة التنفذ" type="list"
+                                    [dynamicListDefaultItems]="currentStatus"
+                                    [listUrl]="statusUrl"></app-form-input>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+
+    <div class="flex justify-end space-x-2 space-x-reverse border-t border-t-theme-gray-200 pt-4">
+        <button type="button" class="btn py-1.5 w-20 btn-white border-none text-center text-sm" *ngIf="step > 1 && !isDeleteRequest" (click)="stepBack()">
+            السابق
+        </button>
+        <button type="button" class="btn py-1.5 w-20 btn-secondary text-center text-sm" *ngIf="step >=1 && step < 2 && !isDeleteRequest"
+                (click)="stepForward()">التالي
+        </button>
+        <button type="submit" class="btn py-1.5 w-20 btn-secondary text-center text-sm"
+                *ngIf="step === 2 || isDeleteRequest">{{isDeleteRequest ? 'حذف' : 'حفظ'}}</button>
+    </div>
+
+</app-form>
+
+<ng-template #deletePrompt>
+    <p class="text-sm font-semibold">هل تريد الإستمرار في حذف المؤشر؟</p>
+</ng-template>
+

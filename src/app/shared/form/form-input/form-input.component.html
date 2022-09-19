@@ -25,28 +25,7 @@
               [ngClass]="control.invalid && (control.dirty || control.touched) 
                 ? 'border-red-400 focus:border-red-300 focus:ring focus:ring-red-200' 
                 : 'border-theme-gray-200 focus:border-theme-teal-400 focus:ring-theme-teal-400 focus:ring-opacity-30'"></textarea>
-
-
-    <!--    <ng-select *ngIf="type === 'list'"-->
-    <!--               class="theme-form-select"-->
-    <!--               [ngClass]="control.invalid && (control.dirty || control.touched) -->
-    <!--                ? 'invalid' -->
-    <!--                : 'valid'"-->
-    <!--               [items]="listItems"-->
-    <!--               [labelForId]="id"-->
-    <!--               [formControl]="control"-->
-    <!--               [placeholder]="placeholder"-->
-    <!--               [loadingText]="'تحميل ...'"-->
-    <!--               [loading]="isListLoading"-->
-    <!--               notFoundText="لا يوجد بيانات"-->
-    <!--               bindLabel="name"-->
-    <!--               bindValue="id"-->
-    <!--               (open)="getListItems()"-->
-    <!--               (close)="resetList()"-->
-    <!--               (clear)="resetList()"-->
-    <!--               (search)="searchFromItem($event)"-->
-    <!--               (scrollToEnd)="getMoreListItems()">-->
-    <!--    </ng-select>-->
+    
     <app-select-list *ngIf="type === 'list'"
                      [id]="id"
                      [control]="control"
@@ -97,6 +76,9 @@
                 class="font-bold">'{{ control.errors?.['afterDate'].requiredDate }}'</span>
         </p>
 
+        <p class="mt-1 mr-0.5 text-sm text-red-400" *ngIf="control.errors?.['pattern']">
+            يجب إدخال {{ name }} بشكل صحيح
+        </p>
     </ng-container>
     <p class="mt-1 mr-0.5 text-sm text-red-400" *ngIf="control.errors?.['serverError']">
         {{ control.errors?.['serverError'] }}

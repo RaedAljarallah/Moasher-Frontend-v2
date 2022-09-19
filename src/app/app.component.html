@@ -96,25 +96,41 @@
         <nav class="bg-theme-gray-800 overflow-y-auto max-h-64 lg:min-h-screen lg:pb-16 no-scrollbar"
              [ngClass]="navExpanded ? 'hidden lg:block' : 'block'">
             <app-sidenav>
-                <app-sidenav-item icon="ion ion-md-speedometer" link="/dashboard" name="لوحة الأداء"
+                <app-sidenav-item icon="ion ion-md-speedometer" link="/dashboard" name="لوحة الأداء" 
                                   [expanded]="navExpanded"></app-sidenav-item>
-                <app-sidenav-item icon="far fa-building" link="/entities" name="الجهات" [expanded]="navExpanded"></app-sidenav-item>
-                <app-sidenav-item icon="fas fa-bullseye" link="/strategic-objectives" name="الاهداف الإستراتيجية"
+                
+                <app-sidenav-item icon="far fa-building" link="/entities" name="الجهات" 
                                   [expanded]="navExpanded"></app-sidenav-item>
-                <app-sidenav-item icon="fas fa-cubes" link="/programs" name="البرامج" [expanded]="navExpanded"></app-sidenav-item>
-                <app-sidenav-item icon="fas fa-chart-line" name="مؤشرات الأداء"
+                
+                <app-sidenav-item icon="fas fa-bullseye" link="/strategic-objectives" name="الاهداف الإستراتيجية" 
                                   [expanded]="navExpanded"></app-sidenav-item>
+                
+                <app-sidenav-item icon="fas fa-cubes" link="/programs" name="البرامج" 
+                                  [expanded]="navExpanded"></app-sidenav-item>
+                
+                <app-sidenav-item icon="fas fa-chart-line" link="/kpis" name="مؤشرات الأداء"
+                                  [expanded]="navExpanded"></app-sidenav-item>
+                
                 <app-sidenav-item icon="ion ion-md-stats" link="/initiatives" name="المبادرات"
                                   [expanded]="navExpanded"></app-sidenav-item>
+                
                 <app-sidenav-item icon="fas fa-exclamation-triangle" name="سجل المخاطر"
                                   [expanded]="navExpanded"></app-sidenav-item>
+                
                 <app-sidenav-item icon="fas fa-times-circle" name="سجل المعوقات"
                                   [expanded]="navExpanded"></app-sidenav-item>
-                <app-sidenav-item icon="fas fa-briefcase" name="المحافظ" [expanded]="navExpanded"></app-sidenav-item>
+                
+                <app-sidenav-item icon="fas fa-briefcase" link="/portfolios" name="المحافظ" 
+                                  [expanded]="navExpanded"></app-sidenav-item>
+                
                 <app-sidenav-divider></app-sidenav-divider>
-                <app-sidenav-item icon="fas fa-users-cog" name="المستخدمين" [expanded]="navExpanded"></app-sidenav-item>
+                
+                <app-sidenav-item icon="fas fa-users-cog" name="المستخدمين" 
+                                  [expanded]="navExpanded"></app-sidenav-item>
+                
                 <app-sidenav-item icon="fas fa-database mr-0.5" name="البيانات"
                                   [expanded]="navExpanded"></app-sidenav-item>
+                
                 <app-sidenav-item icon="fas fa-cog" link="/settings" name="إعدادات النظام" 
                                   [expanded]="navExpanded"></app-sidenav-item>
             </app-sidenav>

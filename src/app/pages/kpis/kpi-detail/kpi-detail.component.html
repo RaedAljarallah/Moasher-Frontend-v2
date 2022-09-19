@@ -1,0 +1,16 @@
+<app-detail-page [tabs]="tabs" [state]="detailPageState" titleKey="name" [editBtnLoading]="isFormLoading" [selectedTab]="selectedTab"
+                 [notFound]="notFoundState"
+                 (deleteClicked)="delete()"
+                 (editClicked)="update()">
+    <ng-container *ngIf="detailPageState">
+    </ng-container>
+</app-detail-page>
+
+<app-modal modalId="KpiDetail" size="xl" #modal>
+    <p class="text-sm font-semibold ml-2" modal-head>{{ formTitle }}</p>
+    <div modal-body>
+        <app-kpi-form *ngIf="modal.showBody" [inputCommand]="command" [formAction]="formAction"
+                             (formSubmitted)="onSubmit($event)">
+        </app-kpi-form>
+    </div>
+</app-modal>

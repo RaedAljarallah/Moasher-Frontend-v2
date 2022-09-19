@@ -1,4 +1,5 @@
 ﻿import {IBaseModel} from "../../../../core/models/base.model";
+import {IEnumValue} from "../../../../core/models/enum-value.model";
 
 export interface IInitiative extends IBaseModel {
     unifiedCode: string,
@@ -7,8 +8,8 @@ export interface IInitiative extends IBaseModel {
     scope: string,
     targetSegment: string,
     contributionOnStrategicObjective: string,
-    status: string,
-    fundStatus: string,
+    status?: IEnumValue,
+    fundStatus: IEnumValue,
     plannedStart: Date,
     plannedFinish: Date,
     actualStart?: Date,

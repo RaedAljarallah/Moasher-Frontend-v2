@@ -1,45 +1,39 @@
 import {Component} from '@angular/core';
-import {Observable} from "rxjs";
-import {ActivatedRoute, Router} from "@angular/router";
-import {IInitiative} from "../core/models/initiative.model";
-import {IResponse} from "../../../core/models/response.model";
-import {ApiService} from "../../../core/services/api.service";
-import {HttpParams} from "@angular/common/http";
-import {ModalService} from "../../../shared/modal/modal.service";
-import {InitiativeCommand} from "../core/models/initiative.command";
 import {ListComponentBase} from "../../../core/abstracts/list-component-base";
+import {IKpi} from "../core/models/kpi.model";
+import {KpiCommand} from "../core/models/kpi.command";
+import {ActivatedRoute, Router} from "@angular/router";
+import {ApiService} from "../../../core/services/api.service";
+import {ModalService} from "../../../shared/modal/modal.service";
+import {HttpParams} from "@angular/common/http";
+import {Observable} from "rxjs";
+import {IResponse} from "../../../core/models/response.model";
 import {IFilter} from "../../../core/models/filter.model";
 import {EnumTypeCategory} from "../../../core/models/data-types/eum-type-category.data-type";
 
 @Component({
-    selector: 'app-initiatives-list',
-    templateUrl: './initiatives-list.component.html'
+    selector: 'app-kpis-list',
+    templateUrl: './kpis-list.component.html',
+    styles: []
 })
-export class InitiativesListComponent extends ListComponentBase<IInitiative, InitiativeCommand> {
+export class KpisListComponent extends ListComponentBase<IKpi, KpiCommand> {
     constructor(route: ActivatedRoute, router: Router, api: ApiService, modal: ModalService) {
         super(route, router, api, modal);
     }
-
-    protected _modalId: string = 'createInitiative';
-    protected _url: string = 'initiatives';
-    public command: InitiativeCommand = new InitiativeCommand(null);
-
-    protected loadItems(params: HttpParams): Observable<IResponse<IInitiative[]>> {
-        return this.api.get<IInitiative[]>(this._url, {params: params});
+    protected _modalId: string = 'createKPI';
+    protected _url: string = 'kpis';
+    public command: KpiCommand = new KpiCommand(null);
+    protected loadItems(params: HttpParams): Observable<IResponse<IKpi[]>> {
+        return this.api.get<IKpi[]>(this._url, {params: params});
     }
-
     protected queryParams: { key: string; defaultValue?: string }[] = [
         {key: 'entityId'},
         {key: 'programId'},
-        {key: 'portfolioId'},
         {key: 'l1Id'},
         {key: 'l2Id'},
         {key: 'l3Id'},
         {key: 'l4Id'},
-        {key: 'stId'},
-        {key: 'fstId'},
-        {key: 'issueId'},
-        {key: 'riskId'},
+        {key: 'stId'}
     ];
     override filterFields: IFilter[] = [
         {
@@ -55,13 +49,6 @@ export class InitiativesListComponent extends ListComponentBase<IInitiative, Ini
             type: "dynamic-list",
             dynamicListUrl: 'programs',
             listPlaceholder: 'الرجاء إختيار البرنامج'
-        },
-        {
-            name: 'المحفظة',
-            id: 'portfolioId',
-            type: "dynamic-list",
-            dynamicListUrl: 'portfolios',
-            listPlaceholder: 'الرجاء إختيار المحفظة'
         },
         {
             name: 'المستوى الأول',
@@ -95,29 +82,8 @@ export class InitiativesListComponent extends ListComponentBase<IInitiative, Ini
             name: 'حالة التنفيذ',
             id: 'stId',
             type: "dynamic-list",
-            dynamicListUrl: `enum-types?category=${EnumTypeCategory.InitiativeStatus}`,
+            dynamicListUrl: `enum-types?category=${EnumTypeCategory.KPIStatus}`,
             listPlaceholder: 'الرجاء إختيار حالة التنفيذ'
-        },
-        {
-            name: 'حالة التمويل',
-            id: 'fstId',
-            type: "dynamic-list",
-            dynamicListUrl: `enum-types?category=${EnumTypeCategory.InitiativeFundStatus}`,
-            listPlaceholder: 'الرجاء إختيار حالة التمويل'
-        },
-        {
-            name: 'حالة المعوقات',
-            id: 'issueId',
-            type: "dynamic-list",
-            dynamicListUrl: `enum-types?category=${EnumTypeCategory.InitiativeIssueStatus}`,
-            listPlaceholder: 'الرجاء إختيار حالة المعوقات'
-        },
-        {
-            name: 'آثار المخاطر',
-            id: 'riskId',
-            type: "dynamic-list",
-            dynamicListUrl: `enum-types?category=${EnumTypeCategory.InitiativeRiskImpact}`,
-            listPlaceholder: 'الرجاء إختيار آثار المخاطر'
         }
     ]
 }

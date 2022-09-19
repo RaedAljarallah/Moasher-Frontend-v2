@@ -1,62 +1,61 @@
 import {ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {DateValidators} from "../../../shared/validators/date.validators";
-import {stepper} from "../../../shared/animations/app-animations.animation";
-import {Subscription} from "rxjs";
-import {InitiativeCommand} from "../core/models/initiative.command";
-import {FormAction} from "../../../core/models/data-types/form-action.data-type";
 import {FormBase} from "../../../core/abstracts/form-base";
-import {IInitiative} from "../core/models/initiative.model";
+import {IKpi} from "../core/models/kpi.model";
+import {KpiCommand} from "../core/models/kpi.command";
 import {ApiService} from "../../../core/services/api.service";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {EnumTypeCategory} from "../../../core/models/data-types/eum-type-category.data-type";
-import {IStrategicObjectiveBase} from "../../strategic-objectives/core/models/strategic-objective-base.model";
+import {FormAction} from "../../../core/models/data-types/form-action.data-type";
+import {Frequency, frequencyList} from "../../../core/models/data-types/frequency.data-type";
+import {Polarity, polarityList} from "../../../core/models/data-types/polarity.data-type";
+import {ValidationStatus, validationStatusList} from "../../../core/models/data-types/validation-status.data-type";
 import {IEnumType} from "../../settings/enum-type/core/models/enum-type.model";
 import {ILevelThreeObjective} from "../../strategic-objectives/core/models/level-three-objective.model";
 import {ILevelFourObjective} from "../../strategic-objectives/core/models/level-four-objective.model";
+import {Subscription} from "rxjs";
+import {IStrategicObjectiveBase} from "../../strategic-objectives/core/models/strategic-objective-base.model";
+import {stepper} from "../../../shared/animations/app-animations.animation";
 import {IEntity} from "../../entities/core/models/entity.model";
-import {IPortfolio} from "../../portfolios/core/models/portfolio.model";
-import {IProgram} from "../../programs/core/models/program.model";
 
 @Component({
-    selector: 'app-initiative-form',
-    templateUrl: './initiative-form.component.html',
+    selector: 'app-kpi-form',
+    templateUrl: './kpi-form.component.html',
     animations: [
         stepper
     ]
 })
-export class InitiativeFormComponent extends FormBase<IInitiative, InitiativeCommand> implements OnInit, OnDestroy {
+export class KpiFormComponent extends FormBase<IKpi, KpiCommand> implements OnInit, OnDestroy {
     constructor(api: ApiService, private cd: ChangeDetectorRef) {
         super(api);
     }
 
-    protected _url: string = 'initiatives';
+    protected _url: string = 'kpis';
 
     protected initCommand(): void {
-        this.command = new InitiativeCommand(this.form);
+        this.command = new KpiCommand(this.form);
         this.command.id = this.inputCommand.id;
     }
 
-    public unifiedCode!: FormControl;
-    public codeByProgram!: FormControl;
+    public code!: FormControl;
     public name!: FormControl;
-    public scope!: FormControl;
-    public targetSegment!: FormControl;
-    public contributionOnStrategicObjective!: FormControl;
-    public plannedStart!: FormControl;
-    public plannedFinish!: FormControl;
-    public actualStart!: FormControl;
-    public actualFinish!: FormControl;
-    public requiredCost!: FormControl;
-    public capexCode!: FormControl;
-    public opexCode!: FormControl;
+    public ownerName!: FormControl;
+    public ownerEmail!: FormControl;
+    public ownerPosition!: FormControl;
+    public ownerPhoneNumber!: FormControl;
+    public frequency!: FormControl;
+    public polarity!: FormControl;
+    public validationStatus!: FormControl;
+    public formula!: FormControl;
+    public baselineValue!: FormControl;
+    public baselineYear!: FormControl;
+    public measurementUnit!: FormControl;
+    public dataSource!: FormControl;
+    public description!: FormControl;
     public visible!: FormControl;
     public visibleOnDashboard!: FormControl;
     public calculateStatus!: FormControl;
-    public fundStatusEnumId!: FormControl;
     public statusEnumId!: FormControl;
     public entityId!: FormControl;
-    public programId!: FormControl;
-    public portfolioId!: FormControl;
     public levelThreeStrategicObjectiveId!: FormControl;
     public levelFourStrategicObjectiveId!: FormControl;
 
@@ -64,93 +63,87 @@ export class InitiativeFormComponent extends FormBase<IInitiative, InitiativeCom
     public stepControls: { stepCount: number, controls: FormControl[] }[] = [];
     public showStatus: boolean = false;
     public statusSubscription?: Subscription;
-
-    public statusUrl: string = `enum-types?category=${EnumTypeCategory.InitiativeStatus}`;
-    public fundStatusUrl: string = `enum-types?category=${EnumTypeCategory.InitiativeFundStatus}`;
+    
+    public statusUrl: string = `enum-types?category=${EnumTypeCategory.KPIStatus}`;
     public levelFourUrl: string = '';
 
     public currentStatus: IEnumType[] = [];
-    public currentFundStatus: IEnumType[] = [];
+    public currentEntity: IEntity[] = [];
     public currentLevelThreeObjective: ILevelThreeObjective[] = [];
     public currentLevelFourObjective: ILevelFourObjective[] = [];
-    public currentEntity: IEntity[] = [];
-    public currentPortfolio: IPortfolio[] = [];
-    public currentProgram: IProgram[] = [];
-
+    
+    public frequencySelectList = frequencyList;
+    public polaritySelectList = polarityList;
+    public validationStatusSelectList = validationStatusList;
+    
     public ngOnInit(): void {
         this.isDeleteRequest = (this.formAction == FormAction.Delete);
 
         if (this.formAction === FormAction.Update) {
+            this.currentEntity.push(this.inputCommand.entity);
             this.currentLevelThreeObjective.push(this.inputCommand.levelThreeStrategicObjective);
             if (this.inputCommand.levelFourStrategicObjective) {
                 this.currentLevelFourObjective.push(this.inputCommand.levelFourStrategicObjective)
             }
-            this.currentEntity.push(this.inputCommand.entity);
-            if (this.inputCommand.portfolio) {
-                this.currentPortfolio.push(this.inputCommand.portfolio)
-            }
-            this.currentProgram.push(this.inputCommand.program);
             if (this.inputCommand.status) {
                 this.currentStatus.push(this.inputCommand.status);
             }
-            this.currentFundStatus.push(this.inputCommand.fundStatus);
             this.showStatus = !this.inputCommand.calculateStatus;
         }
-
+        
         if (!this.isDeleteRequest) {
-            this.unifiedCode = new FormControl(this.inputCommand.unifiedCode, [
+            this.code = new FormControl(this.inputCommand.code, [
                 Validators.required, Validators.maxLength(50)
-            ]);
-            this.codeByProgram = new FormControl(this.inputCommand.codeByProgram, [
-                Validators.maxLength(50)
             ]);
             this.name = new FormControl(this.inputCommand.name, [
                 Validators.required, Validators.maxLength(255)
             ]);
-            this.scope = new FormControl(this.inputCommand.scope, [
-                Validators.maxLength(5000)
+            this.ownerName = new FormControl(this.inputCommand.ownerName, [
+                Validators.required, Validators.maxLength(255)
             ]);
-            this.targetSegment = new FormControl(this.inputCommand.targetSegment, [
-                Validators.maxLength(5000)
+            this.ownerEmail = new FormControl(this.inputCommand.ownerEmail, [
+                Validators.required, Validators.email, Validators.maxLength(255)
             ]);
-            this.contributionOnStrategicObjective = new FormControl(this.inputCommand.contributionOnStrategicObjective, [
-                Validators.maxLength(5000)
+            this.ownerPosition = new FormControl(this.inputCommand.ownerPosition, [
+                Validators.maxLength(255)
             ]);
-            this.plannedStart = new FormControl(this.getDate(this.inputCommand.plannedStart), [
+            this.ownerPhoneNumber = new FormControl(this.inputCommand.ownerPhoneNumber, [
+                Validators.required, Validators.pattern('^0[0-9]{9}$')
+            ]);
+            this.frequency = new FormControl(Frequency[this.inputCommand.frequency]?.toString(), [
                 Validators.required
             ]);
-            this.plannedFinish = new FormControl(this.getDate(this.inputCommand.plannedFinish), [
-                Validators.required,
+            this.polarity = new FormControl(Polarity[this.inputCommand.polarity]?.toString(), [
+                Validators.required
             ]);
-            this.actualStart = new FormControl(this.getDate(this.inputCommand.actualStart));
-            this.actualFinish = new FormControl(this.getDate(this.inputCommand.actualFinish), [
-                //Validators.GraterOrEqual
+            this.validationStatus = new FormControl(ValidationStatus[this.inputCommand.validationStatus]?.toString(), [
+                Validators.required
             ]);
-            this.requiredCost = new FormControl(this.inputCommand.requiredCost, [
-                Validators.required,
-                Validators.min(0),
-                //Validators.number()
+            this.formula = new FormControl(this.inputCommand.formula, [
+                Validators.maxLength(500)
             ]);
-            this.capexCode = new FormControl(this.inputCommand.capexCode, [
-                Validators.maxLength(255),
+            this.baselineValue = new FormControl(this.inputCommand.baselineValue, [
+                Validators.pattern('^-?[0-9]\\d*(\\.\\d{1,5})?$')
             ]);
-            this.opexCode = new FormControl(this.inputCommand.opexCode, [
-                Validators.maxLength(255),
+            this.baselineYear = new FormControl(this.inputCommand.baselineYear, [
+                Validators.pattern('^(19[8-9]\\d|20[0-8]\\d)?$')
+            ]);
+            this.measurementUnit = new FormControl(this.inputCommand.measurementUnit, [
+                Validators.required, Validators.maxLength(255)
+            ]);
+            this.dataSource = new FormControl(this.inputCommand.dataSource, [
+                Validators.maxLength(255)
+            ]);
+            this.description = new FormControl(this.inputCommand.description, [
+                Validators.required, Validators.maxLength(500)
             ]);
             this.visible = new FormControl(this.inputCommand.visible);
             this.visibleOnDashboard = new FormControl(this.inputCommand.visibleOnDashboard);
             this.calculateStatus = new FormControl(this.inputCommand.calculateStatus);
-            this.fundStatusEnumId = new FormControl(this.inputCommand.fundStatusEnumId, [
-                Validators.required
-            ]);
             this.statusEnumId = new FormControl(this.inputCommand.statusEnumId);
             this.entityId = new FormControl(this.inputCommand.entityId, [
                 Validators.required
             ]);
-            this.programId = new FormControl(this.inputCommand.programId, [
-                Validators.required
-            ]);
-            this.portfolioId = new FormControl(this.inputCommand.portfolioId);
             this.levelThreeStrategicObjectiveId = new FormControl(this.inputCommand.levelThreeStrategicObjectiveId, [
                 Validators.required
             ]);
@@ -161,68 +154,61 @@ export class InitiativeFormComponent extends FormBase<IInitiative, InitiativeCom
             if (this.inputCommand.levelFourStrategicObjectiveId) {
                 this.levelFourStrategicObjectiveId.enable();
             }
+
             this.form = new FormGroup({
-                unifiedCode: this.unifiedCode,
-                codeByProgram: this.codeByProgram,
+                code: this.code,
                 name: this.name,
-                scope: this.scope,
-                targetSegment: this.targetSegment,
-                contributionOnStrategicObjective: this.contributionOnStrategicObjective,
-                plannedStart: this.plannedStart,
-                plannedFinish: this.plannedFinish,
-                actualStart: this.actualStart,
-                actualFinish: this.actualFinish,
-                requiredCost: this.requiredCost,
-                capexCode: this.capexCode,
-                opexCode: this.opexCode,
+                ownerName: this.ownerName,
+                ownerEmail: this.ownerEmail,
+                ownerPosition: this.ownerPosition,
+                ownerPhoneNumber: this.ownerPhoneNumber,
+                frequency: this.frequency,
+                polarity: this.polarity,
+                validationStatus: this.validationStatus,
+                formula: this.formula,
+                baselineValue: this.baselineValue,
+                baselineYear: this.baselineYear,
+                measurementUnit: this.measurementUnit,
+                dataSource: this.dataSource,
+                description: this.description,
                 visible: this.visible,
                 visibleOnDashboard: this.visibleOnDashboard,
                 calculateStatus: this.calculateStatus,
-                fundStatusEnumId: this.fundStatusEnumId,
                 statusEnumId: this.statusEnumId,
                 entityId: this.entityId,
-                programId: this.programId,
-                portfolioId: this.portfolioId,
                 levelThreeStrategicObjectiveId: this.levelThreeStrategicObjectiveId,
-                levelFourStrategicObjectiveId: this.levelFourStrategicObjectiveId
-            }, [
-                DateValidators.after('plannedFinish', 'plannedStart')
-            ]);
+                levelFourStrategicObjectiveId: this.levelFourStrategicObjectiveId,
+            });
 
             this.stepControls = [
                 {
                     stepCount: 1, controls: [
-                        this.unifiedCode,
-                        this.codeByProgram,
+                        this.code,
                         this.name,
-                        this.scope,
-                        this.targetSegment,
-                        this.levelThreeStrategicObjectiveId,
-                        this.levelFourStrategicObjectiveId,
-                        this.contributionOnStrategicObjective
+                        this.ownerName,
+                        this.ownerEmail,
+                        this.ownerPhoneNumber,
+                        this.ownerPosition,
+                        this.description,
+                        this.formula,
+                        this.baselineValue,
+                        this.baselineYear,
+                        this.dataSource
                     ]
                 },
                 {
                     stepCount: 2, controls: [
-                        this.plannedStart,
-                        this.plannedFinish,
-                        this.actualStart,
-                        this.actualFinish,
-                        this.entityId,
-                        this.portfolioId,
-                        this.programId,
+                        this.frequency,
+                        this.polarity,
+                        this.validationStatus,
+                        this.measurementUnit,
                         this.visible,
                         this.visibleOnDashboard,
                         this.calculateStatus,
-                        this.statusEnumId
-                    ]
-                },
-                {
-                    stepCount: 3, controls: [
-                        this.fundStatusEnumId,
-                        this.requiredCost,
-                        this.capexCode,
-                        this.opexCode
+                        this.statusEnumId,
+                        this.entityId,
+                        this.levelThreeStrategicObjectiveId,
+                        this.levelFourStrategicObjectiveId
                     ]
                 }
             ];
@@ -267,7 +253,6 @@ export class InitiativeFormComponent extends FormBase<IInitiative, InitiativeCom
         if (canMove) {
             this.step += 1;
         }
-
     }
 
     public stepBack() {
@@ -288,13 +273,4 @@ export class InitiativeFormComponent extends FormBase<IInitiative, InitiativeCom
             }
         }
     }
-
-    private getDate(date: Date | null | undefined): Date | null {
-        if (date) {
-            return new Date(date);
-        }
-
-        return null;
-    }
 }
-
