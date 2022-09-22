@@ -288,13 +288,6 @@ export class InitiativeFormComponent extends FormBase<IInitiative, InitiativeCom
             }
         }
     }
-
-    private getDate(date: Date | null | undefined): Date | null {
-        if (date) {
-            return new Date(date);
-        }
-
-        return null;
-    }
+    
 }
 

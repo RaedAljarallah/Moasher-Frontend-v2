@@ -67,6 +67,14 @@ export abstract class FormBase<TType, TCommand extends IIdentifiable> {
     public handelError(errors: {[p: string]: string[]}): void {
         
     }
+
+    protected getDate(date: Date | null | undefined): Date | null {
+        if (date) {
+            return new Date(date);
+        }
+
+        return null;
+    }
     
     private setServerErrors(errors: {[p: string]: string[]}): void {
         Object.keys(errors).forEach(key => {

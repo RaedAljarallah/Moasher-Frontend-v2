@@ -15,6 +15,7 @@ import { InitiativeIssuesComponent } from './initiative-issues/initiative-issues
 import { InitiativeRisksComponent } from './initiative-risks/initiative-risks.component';
 import { InitiativeOverViewComponent } from './initiative-over-view/initiative-over-view.component';
 import { InitiativeFormComponent } from './initiative-form/initiative-form.component';
+import { InitiativeMilestoneFormComponent } from './initiative-milestones/initiative-milestone-form/initiative-milestone-form.component';
 
 
 @NgModule({
@@ -32,6 +33,7 @@ import { InitiativeFormComponent } from './initiative-form/initiative-form.compo
         InitiativeRisksComponent,
         InitiativeOverViewComponent,
         InitiativeFormComponent,
+        InitiativeMilestoneFormComponent,
 
     ],
     imports: [
@@ -53,6 +55,7 @@ import { InitiativeFormComponent } from './initiative-form/initiative-form.compo
         InitiativeRisksComponent,
         InitiativeOverViewComponent,
         InitiativeFormComponent,
+        InitiativeMilestoneFormComponent,
     ]
 })
 export class InitiativesModule {

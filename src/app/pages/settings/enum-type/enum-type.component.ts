@@ -19,7 +19,7 @@ import {EnumTypeCommand} from "./core/models/enum-type.command";
 export class EnumTypeComponent extends TableComponentBase<IEnumType, EnumTypeCommand> {
     @Input() category: EnumTypeCategory = EnumTypeCategory.KPIStatus;
     @Input() nameFieldTitle: string = 'الاسم';
-    @Input() headers: ITableHeader[] = [];
+    @Input() override headers: ITableHeader[] = [];
     @Input() withMetadata: boolean = false;
     
     constructor(route: ActivatedRoute, router: Router, api: ApiService, modal: ModalService) {

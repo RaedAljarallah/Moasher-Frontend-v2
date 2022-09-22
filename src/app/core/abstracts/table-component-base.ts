@@ -21,6 +21,7 @@ export abstract class TableComponentBase<TType extends IIdentifiable, TCommand> 
     public command!: TCommand;
     public formAction: FormAction = FormAction.Create;
     public formTitle: string = '';
+    public headers: ITableHeader[] = [];
     public filterFields: IFilter[] = [];
     public summary: ITableBreadcrumb[] = [];
     public data$: Observable<IResponse<TType[]>>;
@@ -31,7 +32,6 @@ export abstract class TableComponentBase<TType extends IIdentifiable, TCommand> 
     protected abstract _updateFormTitle: string;
     protected abstract _deleteFormTitle: string;
     protected abstract _createFormTitle: string;
-    public abstract headers: ITableHeader[];
     protected abstract queryParams: { key: string, defaultValue?: string }[];
     protected abstract loadItems(params: HttpParams): Observable<IResponse<TType[]>>;
 
