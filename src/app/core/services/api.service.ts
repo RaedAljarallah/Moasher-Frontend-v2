@@ -24,7 +24,7 @@ export class ApiService {
     public get<TResult>(url: string, options?: { params?: HttpParams }): Observable<IResponse<TResult>> {
         return this.http.get<IResponse<TResult>>(this.getCompleteUrl(url), {params: options?.params}).pipe(
             map((res: IResponse<TResult>) => {
-                return {result: res.result, pagination: ApiService.generatePagination(res.pagination)}
+                return {result: res.result, pagination: this.generatePagination(res.pagination)}
             })
         );
     }
@@ -44,7 +44,7 @@ export class ApiService {
         })
             .pipe(
                 catchError(failure => {
-                    return throwError(() => ApiService.getResponseError(failure))
+                    return throwError(() => this.getResponseError(failure))
                 }),
                 map((res: TResponse) => {
                     return {result: res}
@@ -58,7 +58,7 @@ export class ApiService {
             params: options?.params
         }).pipe(
             catchError(failure => {
-                return throwError(() => ApiService.getResponseError(failure))
+                return throwError(() => this.getResponseError(failure))
             }),
             map((res: TResponse) => {
                 return {result: res}
@@ -72,7 +72,7 @@ export class ApiService {
             params: options?.params
         }).pipe(
             catchError(failure => {
-                return throwError(() => ApiService.getResponseError(failure))
+                return throwError(() => this.getResponseError(failure))
             }),
             map((res: any) => {
                 return {result: undefined}
@@ -89,7 +89,7 @@ export class ApiService {
         return `${this.baseUrl}${url}`;
     }
 
-    private static generatePagination(pagination: Pagination | undefined): Pagination | undefined {
+    private generatePagination(pagination: Pagination | undefined): Pagination | undefined {
         if (pagination) {
             const {pageSize, currentPage, totalCount} = pagination;
             let pager = new Pagination();
@@ -103,7 +103,7 @@ export class ApiService {
         return pagination;
     }
 
-    private static getResponseError(failure: any): IResponseError {
+    private getResponseError(failure: any): IResponseError {
         console.log(failure);
         let errors: IResponseError;
         failure.status === 400

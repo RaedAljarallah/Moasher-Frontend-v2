@@ -16,6 +16,9 @@ import { InitiativeRisksComponent } from './initiative-risks/initiative-risks.co
 import { InitiativeOverViewComponent } from './initiative-over-view/initiative-over-view.component';
 import { InitiativeFormComponent } from './initiative-form/initiative-form.component';
 import { InitiativeMilestoneFormComponent } from './initiative-milestones/initiative-milestone-form/initiative-milestone-form.component';
+import { InitiativeDeliverableFormComponent } from './initiative-deliverables/initiative-deliverable-form/initiative-deliverable-form.component';
+import { InitiativeApprovedCostFormComponent } from './initiative-approved-costs/initiative-approved-cost-form/initiative-approved-cost-form.component';
+import { InitiativeBudgetFormComponent } from './initiative-budgets/initiative-budget-form/initiative-budget-form.component';
 
 
 @NgModule({
@@ -34,6 +37,9 @@ import { InitiativeMilestoneFormComponent } from './initiative-milestones/initia
         InitiativeOverViewComponent,
         InitiativeFormComponent,
         InitiativeMilestoneFormComponent,
+        InitiativeDeliverableFormComponent,
+        InitiativeApprovedCostFormComponent,
+        InitiativeBudgetFormComponent,
 
     ],
     imports: [
@@ -56,6 +62,9 @@ import { InitiativeMilestoneFormComponent } from './initiative-milestones/initia
         InitiativeOverViewComponent,
         InitiativeFormComponent,
         InitiativeMilestoneFormComponent,
+        InitiativeDeliverableFormComponent,
+        InitiativeApprovedCostFormComponent,
+        InitiativeBudgetFormComponent,
     ]
 })
 export class InitiativesModule {

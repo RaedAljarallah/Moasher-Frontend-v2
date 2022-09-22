@@ -1,1 +1,29 @@
-<p>initiative-budgets works!</p>
+<app-table [headers]="headers" [filterFields]="filterFields" [items]="data$ | async" [breadcrumbs]="summary"
+           (addClicked)="onCreate()">
+    <ng-template #tableCell let-data="data">
+        <td>{{ data.approvalDate | isoDate }}</td>
+        <td>{{ data.initialAmount | isoDate }}</td>
+        <td>{{ data.amount | localCurrency }}</td>
+        <td class="flex space-x-1 space-x-reverse justify-end items-center">
+            <button class="btn px-2 py-1 text-xs btn-white border-none rounded" (click)="onUpdate(data)">
+                <i class="fa fa-edit"></i>
+            </button>
+            <div class="border-l border-l-theme-gray-300 py-2"></div>
+            <button class="btn px-2 py-1 text-xs btn-white border-none" (click)="onDelete(data)">
+                <i class="fa fa-trash-alt px-0.5"></i>
+            </button>
+        </td>
+    </ng-template>
+</app-table>
+
+<app-modal modalId="BudgetModal" size="lg" #modal>
+    <p class="text-sm font-semibold ml-2" modal-head>{{ formTitle }}</p>
+    <div modal-body>
+        <app-initiative-budget-form
+                *ngIf="modal.showBody"
+                [inputCommand]="command"
+                [formAction]="formAction"
+                (formSubmitted)="updateItems($event)">
+        </app-initiative-budget-form>
+    </div>
+</app-modal>

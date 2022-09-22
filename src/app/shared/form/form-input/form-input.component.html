@@ -11,7 +11,7 @@
     <div class="relative" *ngIf="type === 'date'">
         <input appDatePicker autocomplete="off" [id]="id" type="text" [formControl]="control"
                (dateChange)="control.setValue($event)" [placeholder]="placeholder"
-               class="mt-2 block px-3 py-1.5 text-sm w-full rounded-lg border shadow-sm 
+               class="mt-1 block px-3 py-1.5 text-sm w-full rounded-lg border shadow-sm 
            focus:outline-none focus:ring focus:ring-opacity-50"
                [ngClass]="control.invalid && (control.dirty || control.touched) 
         ? 'border-red-400 focus:border-red-300 focus:ring focus:ring-red-200' 
