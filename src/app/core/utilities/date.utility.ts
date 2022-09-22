@@ -1,10 +1,11 @@
-﻿import { format, getQuarter, getYear, isDate } from 'date-fns';
+﻿import {format, getQuarter, getYear, addHours } from 'date-fns';
 
 export class DateUtility {
-    static getDate(): string {
-        return format(new Date(), 'YYYY-MM-DD');
+    static getDate(date?: Date | null): string {
+        return format(date ? date : new Date(), 'yyyy-MM-dd');
     }
-
+    
+    
     static getCurrentQuarter(): number {
         return getQuarter(new Date());
     }
@@ -18,7 +19,7 @@ export class DateUtility {
     }
 
     static getQuarterMonths(quarter: number): number[] {
-        const quarterFirstMonth = ((quarter -1) * 3) + 1;
+        const quarterFirstMonth = ((quarter - 1) * 3) + 1;
         return [quarterFirstMonth, quarterFirstMonth + 1, quarterFirstMonth + 2];
     }
 
@@ -30,5 +31,13 @@ export class DateUtility {
             range.push(i);
         }
         return range;
+    }
+
+    static toUTCNow(date: Date | null): Date | null {
+        if (date) {
+            return addHours(date, 3);
+        }
+
+        return null;
     }
 }

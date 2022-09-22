@@ -6,6 +6,7 @@ import {ApiService} from "../services/api.service";
 import {finalize, Observable} from "rxjs";
 import {IResponse} from "../models/response.model";
 import {IResponseError} from "../models/response-error.model";
+import {DateUtility} from "../utilities/date.utility";
 
 @Component({
     template: ''
@@ -68,9 +69,9 @@ export abstract class FormBase<TType, TCommand extends IIdentifiable> {
         
     }
 
-    protected getDate(date: Date | null | undefined): Date | null {
+    protected getDate(date?: Date | null): Date | string | null {
         if (date) {
-            return new Date(date);
+            return DateUtility.getDate(new Date(date));
         }
 
         return null;
