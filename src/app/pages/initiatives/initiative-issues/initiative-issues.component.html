@@ -1,1 +1,47 @@
-<p>initiative-issues works!</p>
+<app-table [headers]="headers" [filterFields]="filterFields" [items]="data$ | async" [breadcrumbs]="summary"
+           (addClicked)="onCreate()">
+    <ng-template #tableCell let-data="data">
+        <td *ngIf="fullList">{{ data.initiativeName }}</td>
+        <td *ngIf="fullList">{{ data.entityName }}</td>
+        <td>{{ data.description }}</td>
+        <td><span class="rounded-full px-2" [ngClass]="data.scope.style">{{ data.scope.name }}</span></td>
+        <td><span class="rounded-full px-2" [ngClass]="data.status.style">{{ data.status.name }}</span></td>
+        <td><span class="rounded-full px-2" [ngClass]="data.impact.style">{{ data.impact.name }}</span></td>
+        <td>{{ data.impactDescription }}</td>
+        <td>{{ data.source }}</td>
+        <td>{{ data.reason }}</td>
+        <td>{{ data.resolution }}</td>
+        <td>{{ data.estimatedResolutionDate | isoDate }}</td>
+        <td>{{ data.raisedAt | isoDate }}</td>
+        <td>{{ data.raisedBy }}</td>
+        <td>{{ data.closedAt | isoDate }}</td>
+        <td class="flex space-x-1 space-x-reverse justify-end items-center">
+            <button class="btn px-2 py-1 text-xs btn-white border-none rounded" (click)="onUpdate(data)" [disabled]="isFormLoading">
+                <i class="fa fa-edit" *ngIf="!isFormLoading"></i>
+                <svg class="animate-spin h-4 w-[0.85rem] text-theme-gray-800" *ngIf="isFormLoading"
+                     xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                            stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor"
+                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+            </button>
+            <div class="border-l border-l-theme-gray-300 py-2"></div>
+            <button class="btn px-2 py-1 text-xs btn-white border-none" (click)="onDelete(data)">
+                <i class="fa fa-trash-alt px-0.5"></i>
+            </button>
+        </td>
+    </ng-template>
+</app-table>
+
+<app-modal modalId="IssueModal" size="xl" #modal>
+    <p class="text-sm font-semibold ml-2" modal-head>{{ formTitle }}</p>
+    <div modal-body>
+        <app-initiative-issue-form
+                *ngIf="modal.showBody"
+                [inputCommand]="command"
+                [formAction]="formAction"
+                (formSubmitted)="updateItems($event)">
+        </app-initiative-issue-form>
+    </div>
+</app-modal>

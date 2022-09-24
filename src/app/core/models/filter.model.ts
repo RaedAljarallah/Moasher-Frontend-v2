@@ -5,4 +5,5 @@
     listPlaceholder?: string;
     staticListItems?: { name: string, value: string }[];
     dynamicListUrl?: string;
+    isBadgeList?: boolean;
 }

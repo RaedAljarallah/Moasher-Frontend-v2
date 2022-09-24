@@ -26,15 +26,7 @@ export class KpisListComponent extends ListComponentBase<IKpi, KpiCommand> {
     protected loadItems(params: HttpParams): Observable<IResponse<IKpi[]>> {
         return this.api.get<IKpi[]>(this._url, {params: params});
     }
-    protected queryParams: { key: string; defaultValue?: string }[] = [
-        {key: 'entityId'},
-        {key: 'programId'},
-        {key: 'l1Id'},
-        {key: 'l2Id'},
-        {key: 'l3Id'},
-        {key: 'l4Id'},
-        {key: 'stId'}
-    ];
+    
     override filterFields: IFilter[] = [
         {
             name: 'الجهة',
@@ -80,10 +72,20 @@ export class KpisListComponent extends ListComponentBase<IKpi, KpiCommand> {
         },
         {
             name: 'حالة التنفيذ',
-            id: 'stId',
+            id: 'statusId',
             type: "dynamic-list",
             dynamicListUrl: `enum-types?category=${EnumTypeCategory.KPIStatus}`,
-            listPlaceholder: 'الرجاء إختيار حالة التنفيذ'
+            listPlaceholder: 'الرجاء إختيار حالة التنفيذ',
+            isBadgeList: true
         }
-    ]
+    ];
+    protected queryParams: { key: string; defaultValue?: string }[] = [
+        {key: 'entityId'},
+        {key: 'programId'},
+        {key: 'l1Id'},
+        {key: 'l2Id'},
+        {key: 'l3Id'},
+        {key: 'l4Id'},
+        {key: 'statusId'}
+    ];
 }

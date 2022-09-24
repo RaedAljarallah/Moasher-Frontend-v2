@@ -44,7 +44,6 @@ export class InitiativeApprovedCostsComponent extends TableComponentBase<IApprov
     }
 
     protected queryParams: { key: string; defaultValue?: string }[] = [
-        {key: 'q'},
         {key: 'from'},
         {key: 'to'},
     ];

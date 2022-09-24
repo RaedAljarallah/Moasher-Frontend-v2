@@ -8,6 +8,10 @@ import {ModalService} from "../../../shared/modal/modal.service";
 import {HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {IResponse} from "../../../core/models/response.model";
+import {
+    schedulableFilterFields,
+    schedulableQueryParameters
+} from "../../../core/constants/schedulable-query-parameters";
 
 
 @Component({
@@ -35,27 +39,9 @@ export class InitiativeDeliverablesComponent extends TableComponentBase<IDeliver
             {value: 'الإنجاز الفعلي', classes: 'w-28'},
             {value: '', classes: 'w-full'}
         ];
-        this.filterFields = [
-            {name: 'مخطط من', id: 'pf', type: 'date'},
-            {name: 'مخطط حتى', id: 'pt', type: 'date'},
-            {name: 'منجز من', id: 'af', type: 'date'},
-            {name: 'منجز حتى', id: 'at', type: 'date'},
-            {name: 'مستحق حتى', id: 'du', type: 'date'},
-            {
-                name: 'الحالة',
-                id: 'st',
-                type: 'static-list',
-                listPlaceholder: 'الرجاء إختيار الحالة',
-                staticListItems: [
-                    {name: 'منجزة', value: 'completed'},
-                    {name: 'غير منجزة', value: 'uncompleted'},
-                    {name: 'متأخرة', value: 'late'},
-                    {name: 'مستحقة', value: 'due'}
-                ]
-            },
-        ];
+        this.filterFields = schedulableFilterFields;
         this.summary = [
-            {name: 'جميع المعالم', value: '25'},
+            {name: 'جميع المخرجات', value: '25'},
             {name: 'منجزة', value: '25'},
             {name: 'غير منجزة', value: '25'},
             {name: 'متأخرة', value: '25'},
@@ -67,15 +53,7 @@ export class InitiativeDeliverablesComponent extends TableComponentBase<IDeliver
         return this.api.get<IDeliverable[]>(`deliverables?initiativeId=${this.initiativeId}`, {params: params});
     }
 
-    protected queryParams: { key: string; defaultValue?: string }[] = [
-        {key: 'q'},
-        {key: 'pf'},
-        {key: 'pt'},
-        {key: 'af'},
-        {key: 'at'},
-        {key: 'du'},
-        {key: 'st'}
-    ];
+    protected queryParams: { key: string; defaultValue?: string }[] = schedulableQueryParameters;
 
     protected initCommand(item: IDeliverable | null): void {
         this.command = new DeliverableCommand(item).setInitiativeId(this.initiativeId);

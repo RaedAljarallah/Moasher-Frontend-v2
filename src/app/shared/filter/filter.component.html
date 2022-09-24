@@ -22,6 +22,7 @@
                          [listUrl]="filter.selectedFilterField!.dynamicListUrl!"
                          [placeholder]="filter.selectedFilterField!.listPlaceholder!"
                          [propertyName]="filter.selectedFilterField!.id!" 
+                         [badgeTemplate]="filter.selectedFilterField!.isBadgeList ?? false"
                          (filterChanged)="updateFilterValue(i, $event.value)">
         </app-select-list>
 

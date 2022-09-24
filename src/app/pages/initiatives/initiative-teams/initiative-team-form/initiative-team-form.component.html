@@ -1,0 +1,30 @@
+<app-form [form]="form" (formSubmitted)="onSubmit()">
+    <ul class="bg-red-100 p-2 border border-red-300 rounded-lg" *ngIf="globalErrors.length">
+        <li class="text-sm text-red-500" *ngFor="let error of globalErrors">- {{ error }}</li>
+    </ul>
+    <ng-container *ngIf="!isDeleteRequest; else deletePrompt">
+        <div class="grid grid-cols-12 gap-2">
+            <div class="col-span-full sm:col-span-6">
+                <app-form-input [control]="name" id="name" name="الاسم"></app-form-input>
+            </div>
+            <div class="col-span-full sm:col-span-6">
+                <app-form-input [control]="email" id="email" name="البريد الإلكتروني"></app-form-input>
+            </div>
+            <div class="col-span-full sm:col-span-6">
+                <app-form-input [control]="phone" id="phone" name="رقم الهاتف" placeholder="0555555555"></app-form-input>
+            </div>
+            <div class="col-span-full sm:col-span-6">
+                <app-form-input [control]="roleEnumId" id="roleEnumId" name="الدور" type="list" [badgeList]="true"
+                                [dynamicListDefaultItems]="currentRole"
+                                [listUrl]="roleUrl"></app-form-input>
+            </div>
+        </div>
+    </ng-container>
+    <div class="flex justify-end border-t border-t-theme-gray-200 pt-4">
+        <button type="submit" class="btn py-1.5 w-20 btn-secondary text-center text-sm">{{isDeleteRequest ? 'حذف' : 'حفظ'}}</button>
+    </div>
+</app-form>
+
+<ng-template #deletePrompt>
+    <p class="text-sm font-semibold">هل تريد الإستمرار في حذف العضو؟</p>
+</ng-template>

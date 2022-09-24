@@ -18,6 +18,14 @@
            (search)="searchForItem($event)"
            (scrollToEnd)="getMoreListItems()"
            (change)="selectItem($event)">
+    <ng-container *ngIf="badgeTemplate">
+        <ng-template ng-label-tmp let-item="item">
+            <span class="rounded-full px-2 text-xs" [ngClass]="item.style">{{item.name}}</span>
+        </ng-template>
+        <ng-template ng-option-tmp let-item="item" let-index="index">
+            <span class="rounded-full px-2 text-xs" [ngClass]="item.style">{{item.name}}</span>
+        </ng-template>
+    </ng-container>
 </ng-select>
 
 <ng-select *ngIf="type === 'static'"

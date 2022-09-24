@@ -48,11 +48,11 @@
 
         <div [@stepper]="step" class="pb-2">
             <div class="grid grid-cols-12 gap-2" [ngClass]="step === 1 ? 'show' : 'hide invisible h-0'">
-                <div class="col-span-6">
+                <div class="col-span-full sm:col-span-6">
                     <app-form-input [control]="unifiedCode" id="unifiedCode"
                                     name="رمز المبادرة الموحد"></app-form-input>
                 </div>
-                <div class="col-span-6">
+                <div class="col-span-full sm:col-span-6">
                     <app-form-input [control]="codeByProgram" id="codeByProgram"
                                     name="رمز المبادرة في البرنامج"></app-form-input>
                 </div>
@@ -131,7 +131,7 @@
 
                 </div>
                 <div class="col-span-full" *ngIf="showStatus">
-                    <app-form-input [control]="statusEnumId" id="statusEnumId" name="حالة التنفذ" type="list"
+                    <app-form-input [control]="statusEnumId" id="statusEnumId" name="حالة التنفذ" type="list" [badgeList]="true"
                                     [dynamicListDefaultItems]="currentStatus"
                                     [listUrl]="statusUrl"></app-form-input>
                 </div>
@@ -139,7 +139,7 @@
 
             <div class="grid grid-cols-12 gap-2" [ngClass]="step === 3 ? 'show' : 'hide invisible h-0'">
                 <div class="col-span-full sm:col-span-6">
-                    <app-form-input [control]="fundStatusEnumId" id="fundStatusEnumId" name="حالة التمويل" type="list"
+                    <app-form-input [control]="fundStatusEnumId" id="fundStatusEnumId" name="حالة التمويل" type="list" [badgeList]="true"
                                     [dynamicListDefaultItems]="currentFundStatus"
                                     [listUrl]="fundStatusUrl"></app-form-input>
                 </div>

@@ -9,7 +9,6 @@ import {IResponse} from "../../core/models/response.model";
 import {Pagination} from "../../core/models/pagination.model";
 import {collapse} from "../animations/app-animations.animation";
 import {IFilter} from "../../core/models/filter.model";
-import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
     selector: 'app-collection',
@@ -44,7 +43,7 @@ export class CollectionComponent implements OnInit, OnChanges, AfterViewInit {
     public showFilter: boolean = false;
     public filterApplied: boolean = false;
     
-    constructor(private route: ActivatedRoute, private router: Router, private cd: ChangeDetectorRef) {
+    constructor(private cd: ChangeDetectorRef) {
     }
     
     public ngOnInit(): void {

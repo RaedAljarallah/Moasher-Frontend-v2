@@ -118,7 +118,7 @@
 
                 </div>
                 <div class="col-span-full" *ngIf="showStatus">
-                    <app-form-input [control]="statusEnumId" id="statusEnumId" name="حالة التنفذ" type="list"
+                    <app-form-input [control]="statusEnumId" id="statusEnumId" name="حالة التنفذ" type="list" [badgeList]="true"
                                     [dynamicListDefaultItems]="currentStatus"
                                     [listUrl]="statusUrl"></app-form-input>
                 </div>

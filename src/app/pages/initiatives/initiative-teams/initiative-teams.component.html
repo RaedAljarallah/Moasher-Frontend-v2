@@ -1,19 +1,10 @@
 <app-table [headers]="headers" [filterFields]="filterFields" [items]="data$ | async" [breadcrumbs]="summary"
            (addClicked)="onCreate()">
     <ng-template #tableCell let-data="data">
-        <td *ngIf="fullList">{{ data.initiativeName }}</td>
-        <td *ngIf="fullList">{{ data.entityName }}</td>
-        <td>{{ data.description }}</td>
-        <td><span class="rounded-full px-2" [ngClass]="data.scope.style">{{ data.scope.name }}</span></td>
-        <td><span class="rounded-full px-2" [ngClass]="data.type.style">{{ data.type.name }}</span></td>
-        <td><span class="rounded-full px-2" [ngClass]="data.priority.style">{{ data.priority.name }}</span></td>
-        <td><span class="rounded-full px-2" [ngClass]="data.probability.style">{{ data.probability.name }}</span></td>
-        <td><span class="rounded-full px-2" [ngClass]="data.impact.style">{{ data.impact.name }}</span></td>
-        <td>{{ data.impactDescription }}</td>
-        <td>{{ data.owner }}</td>
-        <td>{{ data.responsePlane }}</td>
-        <td>{{ data.raisedAt | isoDate }}</td>
-        <td>{{ data.raisedBy }}</td>
+        <td>{{ data.name }}</td>
+        <td>{{ data.email }}</td>
+        <td>{{ data.phone }}</td>
+        <td><span class="rounded-full px-2" [ngClass]="data.role.style">{{ data.role.name }}</span></td>
         <td class="flex space-x-1 space-x-reverse justify-end items-center">
             <button class="btn px-2 py-1 text-xs btn-white border-none rounded" (click)="onUpdate(data)" [disabled]="isFormLoading">
                 <i class="fa fa-edit" *ngIf="!isFormLoading"></i>
@@ -33,14 +24,14 @@
     </ng-template>
 </app-table>
 
-<app-modal modalId="RiskModal" size="xl" #modal>
+<app-modal modalId="TeamModal" size="lg" #modal>
     <p class="text-sm font-semibold ml-2" modal-head>{{ formTitle }}</p>
     <div modal-body>
-        <app-initiative-risk-form
+        <app-initiative-team-form
                 *ngIf="modal.showBody"
                 [inputCommand]="command"
                 [formAction]="formAction"
                 (formSubmitted)="updateItems($event)">
-        </app-initiative-risk-form>
+        </app-initiative-team-form>
     </div>
 </app-modal>

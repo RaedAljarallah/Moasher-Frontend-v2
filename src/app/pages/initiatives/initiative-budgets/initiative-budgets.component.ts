@@ -46,7 +46,6 @@ export class InitiativeBudgetsComponent extends TableComponentBase<IBudget, Budg
     }
 
     protected queryParams: { key: string; defaultValue?: string }[] = [
-        {key: 'q'},
         {key: 'from'},
         {key: 'to'},
     ];

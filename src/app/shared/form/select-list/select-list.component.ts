@@ -8,6 +8,7 @@ import * as _ from "lodash";
 import {distinctUntilChanged, switchMap, tap} from "rxjs/operators";
 import {HttpParams} from "@angular/common/http";
 import {IFilterOutput} from "../../../core/models/filter-output.model";
+import {queryParameters} from "../../../core/constants/query-parameters.constant";
 
 @Component({
     selector: 'app-select-list',
@@ -102,9 +103,9 @@ export class SelectListComponent implements OnInit {
             tap(() => this.control.setValue(null)),
             switchMap((params: { ps: number, pn: number, q: string }) => {
                 const httpParams = new HttpParams()
-                    .append('ps', params.ps)
-                    .append('pn', params.pn)
-                    .append('q', params.q)
+                    .append(queryParameters.pageSize, params.ps)
+                    .append(queryParameters.pageNumber, params.pn)
+                    .append(queryParameters.search, params.q)
 
                 return this.api.get<any[]>(this.listUrl, { params: httpParams })
             }),

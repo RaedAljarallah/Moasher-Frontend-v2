@@ -23,8 +23,11 @@ export class ApiService {
 
     public get<TResult>(url: string, options?: { params?: HttpParams }): Observable<IResponse<TResult>> {
         return this.http.get<IResponse<TResult>>(this.getCompleteUrl(url), {params: options?.params}).pipe(
-            map((res: IResponse<TResult>) => {
-                return {result: res.result, pagination: this.generatePagination(res.pagination)}
+            map((res: any) => {
+                if (res.hasOwnProperty('result')) {
+                    return {result: res.result, pagination: this.generatePagination(res.pagination)}
+                }
+                return {result: res }
             })
         );
     }

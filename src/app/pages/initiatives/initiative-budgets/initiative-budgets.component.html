@@ -2,7 +2,7 @@
            (addClicked)="onCreate()">
     <ng-template #tableCell let-data="data">
         <td>{{ data.approvalDate | isoDate }}</td>
-        <td>{{ data.initialAmount | isoDate }}</td>
+        <td>{{ data.initialAmount | localCurrency }}</td>
         <td>{{ data.amount | localCurrency }}</td>
         <td class="flex space-x-1 space-x-reverse justify-end items-center">
             <button class="btn px-2 py-1 text-xs btn-white border-none rounded" (click)="onUpdate(data)">

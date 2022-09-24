@@ -11,6 +11,7 @@ import {IFilterOutput} from "../models/filter-output.model";
 import {IIdentifiable} from "../models/identifiable.model";
 import {UrlUtility} from "../utilities/url.utility";
 import {IFilter} from "../models/filter.model";
+import {queryParameters} from "../constants/query-parameters.constant";
 
 @Component({
     template: ''
@@ -31,7 +32,10 @@ export abstract class ListComponentBase<TType extends IIdentifiable, TCommand> i
                           protected api: ApiService, protected modal: ModalService) {
 
         this.data$ = new Observable<IResponse<TType[]>>();
-        this.refresh$ = new BehaviorSubject<{ [k: string]: string }>({ps: '10', pn: '1'});
+        this.refresh$ = new BehaviorSubject<{ [k: string]: string }>({
+            [queryParameters.pageSize]: '10',
+            [queryParameters.pageNumber]: '1'
+        });
     }
 
     public ngOnInit(): void {
@@ -77,8 +81,8 @@ export abstract class ListComponentBase<TType extends IIdentifiable, TCommand> i
 
     private getQueryParams(params: Params): { [key: string]: string } {
         let queryParams: { [key: string]: string } = {
-            ps: params['ps'] ?? '10',
-            pn: params['pn'] ?? '1'
+            [queryParameters.pageSize]: params['ps'] ?? '10',
+            [queryParameters.pageNumber]: params['pn'] ?? '1'
         };
 
         for (let qp of this.queryParams) {

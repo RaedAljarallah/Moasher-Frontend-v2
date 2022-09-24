@@ -1,1 +1,48 @@
-<p>initiative-over-view works!</p>
+<div class="bg-white rounded-lg border border-theme-gray-300 flex flex-col divide-y divide-theme-gray-300" *ngIf="result$ | async as initiative; else loading">
+    <div class="grid auto-cols-max sm:grid-flow-col sm:divide-x sm:divide-x-reverse divide-theme-gray-300">
+        <div class="p-2">
+            <span class="text-sm text-theme-gray-500">رمز المبادرة الموحد</span>
+        </div>
+        <div class="p-2">
+            <span class="text-sm">{{ initiative.unifiedCode }}</span>
+        </div>
+        <div class="p-2">
+            <span class="text-sm text-theme-gray-500">رمز المبادرة في البرنامج</span>
+        </div>
+        <div class="p-2">
+            <span class="text-sm">{{ initiative.codeByProgram }}</span>
+        </div>
+        <div class="p-2">
+            <span class="text-sm text-theme-gray-500">اسم المبادرة</span>
+        </div>
+        <div class="p-2">
+            <span class="text-sm">{{ initiative.name }}</span>
+        </div>
+    </div>
+
+    <div class="grid auto-cols-max sm:grid-flow-col sm:divide-x sm:divide-x-reverse divide-theme-gray-300">
+        <div class="p-2">
+            <span class="text-sm text-theme-gray-500">النطاق</span>
+        </div>
+        <div class="p-2">
+            <span class="text-sm">{{ initiative.scope }}</span>
+        </div>
+        <div class="p-2">
+            <span class="text-sm text-theme-gray-500">الشريحة المستهدفة</span>
+        </div>
+        <div class="p-2">
+            <span class="text-sm">{{ initiative.targetSegment }}</span>
+        </div>
+<!--        <div class="p-2">-->
+<!--            <span class="text-sm text-theme-gray-500">اسم المبادرة</span>-->
+<!--        </div>-->
+<!--        <div class="p-2">-->
+<!--            <span class="text-sm">{{ initiative.name }}</span>-->
+<!--        </div>-->
+    </div>
+    
+</div>
+
+<ng-template #loading>
+    <p>Loading ...</p>
+</ng-template>

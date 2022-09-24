@@ -27,20 +27,7 @@ export class InitiativesListComponent extends ListComponentBase<IInitiative, Ini
     protected loadItems(params: HttpParams): Observable<IResponse<IInitiative[]>> {
         return this.api.get<IInitiative[]>(this._url, {params: params});
     }
-
-    protected queryParams: { key: string; defaultValue?: string }[] = [
-        {key: 'entityId'},
-        {key: 'programId'},
-        {key: 'portfolioId'},
-        {key: 'l1Id'},
-        {key: 'l2Id'},
-        {key: 'l3Id'},
-        {key: 'l4Id'},
-        {key: 'stId'},
-        {key: 'fstId'},
-        {key: 'issueId'},
-        {key: 'riskId'},
-    ];
+    
     override filterFields: IFilter[] = [
         {
             name: 'الجهة',
@@ -93,31 +80,49 @@ export class InitiativesListComponent extends ListComponentBase<IInitiative, Ini
         },
         {
             name: 'حالة التنفيذ',
-            id: 'stId',
+            id: 'statusId',
             type: "dynamic-list",
             dynamicListUrl: `enum-types?category=${EnumTypeCategory.InitiativeStatus}`,
-            listPlaceholder: 'الرجاء إختيار حالة التنفيذ'
+            listPlaceholder: 'الرجاء إختيار حالة التنفيذ',
+            isBadgeList: true
         },
         {
             name: 'حالة التمويل',
-            id: 'fstId',
+            id: 'fundStatusId',
             type: "dynamic-list",
             dynamicListUrl: `enum-types?category=${EnumTypeCategory.InitiativeFundStatus}`,
-            listPlaceholder: 'الرجاء إختيار حالة التمويل'
+            listPlaceholder: 'الرجاء إختيار حالة التمويل',
+            isBadgeList: true
         },
         {
             name: 'حالة المعوقات',
-            id: 'issueId',
+            id: 'issueStatusId',
             type: "dynamic-list",
             dynamicListUrl: `enum-types?category=${EnumTypeCategory.InitiativeIssueStatus}`,
-            listPlaceholder: 'الرجاء إختيار حالة المعوقات'
+            listPlaceholder: 'الرجاء إختيار حالة المعوقات',
+            isBadgeList: true
         },
         {
             name: 'آثار المخاطر',
-            id: 'riskId',
+            id: 'riskImpactId',
             type: "dynamic-list",
             dynamicListUrl: `enum-types?category=${EnumTypeCategory.InitiativeRiskImpact}`,
-            listPlaceholder: 'الرجاء إختيار آثار المخاطر'
+            listPlaceholder: 'الرجاء إختيار آثار المخاطر',
+            isBadgeList: true
         }
-    ]
+    ];
+
+    protected queryParams: { key: string; defaultValue?: string }[] = [
+        {key: 'entityId'},
+        {key: 'programId'},
+        {key: 'portfolioId'},
+        {key: 'l1Id'},
+        {key: 'l2Id'},
+        {key: 'l3Id'},
+        {key: 'l4Id'},
+        {key: 'statusId'},
+        {key: 'fundStatusId'},
+        {key: 'issueStatusId'},
+        {key: 'riskImpactId'},
+    ];
 }

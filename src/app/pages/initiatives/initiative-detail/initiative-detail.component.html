@@ -4,15 +4,16 @@
                  (editClicked)="update()">
     <ng-container *ngIf="detailPageState">
         <app-initiative-performance *ngIf="selectedTab === 'performance'"></app-initiative-performance>
-        <app-initiative-issues *ngIf="selectedTab === 'issues'"></app-initiative-issues>
-        <app-initiative-risks *ngIf="selectedTab === 'risks'"></app-initiative-risks>
+        <app-initiative-issues [initiativeId]="detailPageState.id" *ngIf="selectedTab === 'issues'"></app-initiative-issues>
+        <app-initiative-risks [initiativeId]="detailPageState.id" *ngIf="selectedTab === 'risks'"></app-initiative-risks>
         <app-initiative-milestones [initiativeId]="detailPageState.id" *ngIf="selectedTab === 'milestones'"></app-initiative-milestones>
         <app-initiative-deliverables [initiativeId]="detailPageState.id" *ngIf="selectedTab === 'deliverables'"></app-initiative-deliverables>
         <app-initiative-approved-costs [initiativeId]="detailPageState.id" *ngIf="selectedTab === 'approved-costs'"></app-initiative-approved-costs>
         <app-initiative-contracts *ngIf="selectedTab === 'contracts'"></app-initiative-contracts>
         <app-initiative-budgets [initiativeId]="detailPageState.id" *ngIf="selectedTab === 'budgets'"></app-initiative-budgets>
         <app-initiative-expenditures *ngIf="selectedTab === 'expenditures'"></app-initiative-expenditures>
-        <app-initiative-over-view *ngIf="selectedTab === 'over-view'"></app-initiative-over-view>
+        <app-initiative-teams [initiativeId]="detailPageState.id" *ngIf="selectedTab === 'teams'"></app-initiative-teams>
+        <app-initiative-over-view [initiativeId]="detailPageState.id" *ngIf="selectedTab === 'over-view'"></app-initiative-over-view>
     </ng-container>
 </app-detail-page>
 

@@ -43,6 +43,7 @@ export class InitiativeDetailComponent extends DetailComponentBase<IInitiative, 
         {id: 'budgets', value: 'الميزانيات'},
         {id: 'expenditures', value: 'المصروفات'},
         {id: 'analytics', value: 'التحليل'},
+        {id: 'teams', value: 'الفريق'},
         {id: 'over-view', value: 'التفاصيل'},
         {id: 'documents', value: 'المستندات'}
     ];

@@ -123,13 +123,11 @@ export class InitiativeFormComponent extends FormBase<IInitiative, InitiativeCom
                 Validators.required,
             ]);
             this.actualStart = new FormControl(this.getDate(this.inputCommand.actualStart));
-            this.actualFinish = new FormControl(this.getDate(this.inputCommand.actualFinish), [
-                //Validators.GraterOrEqual
-            ]);
+            this.actualFinish = new FormControl(this.getDate(this.inputCommand.actualFinish));
             this.requiredCost = new FormControl(this.inputCommand.requiredCost, [
                 Validators.required,
                 Validators.min(0),
-                //Validators.number()
+                Validators.pattern('^-?[0-9]\\d*(\\.\\d{1,5})?$')
             ]);
             this.capexCode = new FormControl(this.inputCommand.capexCode, [
                 Validators.maxLength(255),
