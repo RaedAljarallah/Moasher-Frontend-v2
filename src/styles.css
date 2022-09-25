@@ -94,6 +94,10 @@
         @apply bg-theme-blue-400 border-theme-blue-400
     }
     
+    .btn.btn-secondary:disabled {
+        @apply opacity-75 brightness-90
+    }
+    
     .step-active {
         @apply bg-white border-theme-teal-500
     }

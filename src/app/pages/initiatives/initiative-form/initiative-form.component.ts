@@ -258,7 +258,7 @@ export class InitiativeFormComponent extends FormBase<IInitiative, InitiativeCom
         for (let control of stepControls) {
             control.markAsTouched();
             if (canMove) {
-                canMove = control.valid;
+                canMove = !control.invalid;
             }
         }
 

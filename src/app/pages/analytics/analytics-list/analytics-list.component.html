@@ -1,0 +1,30 @@
+<app-table [headers]="headers" [filterFields]="filterFields" [items]="data$ | async" [breadcrumbs]="summary"
+           (addClicked)="onCreate()">
+    <ng-template #tableCell let-data="data">
+        <td>{{ data.description }}</td>
+        <td>{{ data.analyzedAt | isoDate  }}</td>
+        <td>{{ data.analyzedBy }}</td>
+        <td class="flex space-x-1 space-x-reverse justify-end items-center">
+            <button class="btn px-2 py-1 text-xs btn-white border-none rounded" (click)="onUpdate(data)">
+                <i class="fa fa-edit"></i>
+            </button>
+            <div class="border-l border-l-theme-gray-300 py-2"></div>
+            <button class="btn px-2 py-1 text-xs btn-white border-none" (click)="onDelete(data)">
+                <i class="fa fa-trash-alt px-0.5"></i>
+            </button>
+        </td>
+    </ng-template>
+</app-table>
+
+<app-modal modalId="AnalyticsModal" size="lg" #modal>
+    <p class="text-sm font-semibold ml-2" modal-head>{{ formTitle }}</p>
+    <div modal-body>
+        <app-analytic-form
+                *ngIf="modal.showBody"
+                [parentType]="parentType"
+                [inputCommand]="command"
+                [formAction]="formAction"
+                (formSubmitted)="updateItems($event)">
+        </app-analytic-form>
+    </div>
+</app-modal>

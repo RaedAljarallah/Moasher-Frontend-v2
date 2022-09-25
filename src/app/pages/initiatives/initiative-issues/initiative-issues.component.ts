@@ -34,7 +34,7 @@ export class InitiativeIssuesComponent extends TableComponentBase<IIssue, IssueC
     protected override onInit() {
         this.command = new IssueCommand(null).setInitiativeId(this.initiativeId);
         this.headers = [
-            {value: 'وصف المعوق', classes: 'xl:min-w-28'},
+            {value: 'وصف المعوق', classes: 'xl:min-w-[28rem]'},
             {value: 'نطاق المعوق', classes: 'w-28'},
             {value: 'الحالة', classes: 'w-28'},
             {value: 'الأثر', classes: 'w-28'},

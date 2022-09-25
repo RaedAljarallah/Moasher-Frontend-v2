@@ -246,7 +246,7 @@ export class KpiFormComponent extends FormBase<IKpi, KpiCommand> implements OnIn
         for (let control of stepControls) {
             control.markAsTouched();
             if (canMove) {
-                canMove = control.valid;
+                canMove = !control.invalid;
             }
         }
 

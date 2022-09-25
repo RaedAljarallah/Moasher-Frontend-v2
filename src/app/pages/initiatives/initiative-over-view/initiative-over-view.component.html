@@ -1,48 +1,163 @@
-<div class="bg-white rounded-lg border border-theme-gray-300 flex flex-col divide-y divide-theme-gray-300" *ngIf="result$ | async as initiative; else loading">
-    <div class="grid auto-cols-max sm:grid-flow-col sm:divide-x sm:divide-x-reverse divide-theme-gray-300">
-        <div class="p-2">
-            <span class="text-sm text-theme-gray-500">رمز المبادرة الموحد</span>
-        </div>
-        <div class="p-2">
-            <span class="text-sm">{{ initiative.unifiedCode }}</span>
-        </div>
-        <div class="p-2">
-            <span class="text-sm text-theme-gray-500">رمز المبادرة في البرنامج</span>
-        </div>
-        <div class="p-2">
-            <span class="text-sm">{{ initiative.codeByProgram }}</span>
-        </div>
-        <div class="p-2">
+<div class="bg-white rounded-lg border border-theme-gray-300 flex flex-col divide-y divide-theme-gray-300">
+    <div class="grid grid-cols-12 divide-x divide-x-reverse divide-theme-gray-300">
+        <div class="p-2 grid items-center">
             <span class="text-sm text-theme-gray-500">اسم المبادرة</span>
         </div>
-        <div class="p-2">
+        <div class="col-span-5 p-2 grid items-center">
             <span class="text-sm">{{ initiative.name }}</span>
         </div>
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">الرمز الموحد</span>
+        </div>
+        <div class="p-2 grid items-center">
+            <span class="text-sm">{{ initiative.unifiedCode }}</span>
+        </div>
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">الرمز في البرنامج</span>
+        </div>
+        <div class="p-2 grid items-center">
+            <span class="text-sm">{{ initiative.codeByProgram }}</span>
+        </div>
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">الحالة</span>
+        </div>
+        <div class="p-2 grid items-center">
+            <span class="rounded-full px-2 max-w-fit w-full text-sm" [ngClass]="initiative.status?.style">{{ initiative.status?.name }}</span>
+        </div>
     </div>
 
-    <div class="grid auto-cols-max sm:grid-flow-col sm:divide-x sm:divide-x-reverse divide-theme-gray-300">
-        <div class="p-2">
+    <div class="grid grid-cols-12 divide-x divide-x-reverse divide-theme-gray-300">
+        <div class="p-2 grid items-center">
             <span class="text-sm text-theme-gray-500">النطاق</span>
         </div>
-        <div class="p-2">
+        <div class="col-span-5 p-2 grid items-center">
             <span class="text-sm">{{ initiative.scope }}</span>
         </div>
-        <div class="p-2">
+        <div class="p-2 grid items-center">
             <span class="text-sm text-theme-gray-500">الشريحة المستهدفة</span>
         </div>
-        <div class="p-2">
+        <div class="col-span-5 p-2 grid items-center">
             <span class="text-sm">{{ initiative.targetSegment }}</span>
         </div>
-<!--        <div class="p-2">-->
-<!--            <span class="text-sm text-theme-gray-500">اسم المبادرة</span>-->
-<!--        </div>-->
-<!--        <div class="p-2">-->
-<!--            <span class="text-sm">{{ initiative.name }}</span>-->
-<!--        </div>-->
     </div>
-    
-</div>
 
-<ng-template #loading>
-    <p>Loading ...</p>
-</ng-template>
+    <div class="grid grid-cols-12 divide-x divide-x-reverse divide-theme-gray-300">
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">الهدف الإستراتيجي المستوى الأول</span>
+        </div>
+        <div class="col-span-2 p-2 grid items-center">
+            <span class="text-sm">{{ initiative.levelOneStrategicObjectiveName }}</span>
+        </div>
+
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">الهدف الإستراتيجي المستوى الثاني</span>
+        </div>
+        <div class="col-span-2 p-2 grid items-center">
+            <span class="text-sm">{{ initiative.levelTwoStrategicObjectiveName }}</span>
+        </div>
+
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">الهدف الإستراتيجي المستوى الثالث</span>
+        </div>
+        <div class="col-span-2 p-2 grid items-center">
+            <span class="text-sm">{{ initiative.levelThreeStrategicObjectiveName }}</span>
+        </div>
+
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">الهدف الإستراتيجي المستوى الرابع</span>
+        </div>
+        <div class="col-span-2 p-2 grid items-center">
+            <span class="text-sm">{{ initiative.levelFourStrategicObjectiveName }}</span>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-12 divide-x divide-x-reverse divide-theme-gray-300">
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">المساهمة في تحقيق الهدف الإستراتيجي</span>
+        </div>
+        <div class="col-span-11 p-2 grid items-center">
+            <span class="text-sm">{{ initiative.contributionOnStrategicObjective }}</span>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-12 divide-x divide-x-reverse divide-theme-gray-300">
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">الجهة</span>
+        </div>
+        <div class="col-span-2 p-2 grid items-center">
+            <span class="text-sm">{{ initiative.entityName }}</span>
+        </div>
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">المحفظة</span>
+        </div>
+        <div class="col-span-2 p-2 grid items-center">
+            <span class="text-sm">{{ initiative.portfolioName }}</span>
+        </div>
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">البرنامج</span>
+        </div>
+        <div class="col-span-5 p-2 grid items-center">
+            <span class="text-sm">{{ initiative.programName }}</span>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-12 divide-x divide-x-reverse divide-theme-gray-300">
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">تاريخ البداية المخطط</span>
+        </div>
+        <div class="col-span-2 p-2 grid items-center">
+            <span class="text-sm">{{ initiative.plannedStart | isoDate }}</span>
+        </div>
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500 xl:whitespace-nowrap">تاريخ الإنتهاء المخطط</span>
+        </div>
+        <div class="col-span-2 p-2 grid items-center">
+            <span class="text-sm">{{ initiative.plannedFinish | isoDate }}</span>
+        </div>
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">تاريخ البداية الفعلي</span>
+        </div>
+        <div class="col-span-2 p-2 grid items-center">
+            <span class="text-sm">{{ initiative.actualStart | isoDate }}</span>
+        </div>
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">تاريخ الإنتهاء الفعلي</span>
+        </div>
+        <div class="col-span-2 p-2 grid items-center">
+            <span class="text-sm">{{ initiative.actualFinish | isoDate }}</span>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-12 divide-x divide-x-reverse divide-theme-gray-300">
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">التكاليف المطلوبة</span>
+        </div>
+        <div class="p-2 grid items-center">
+            <span class="text-sm">{{ initiative.requiredCost | localCurrency }}</span>
+        </div>
+        <div class="col-span-2 p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">التكاليف المعتمدة من فريق العمل الدائم</span>
+        </div>
+        <div class="p-2 grid items-center">
+            <span class="text-sm">{{ initiative.approvedCost | localCurrency }}</span>
+        </div>
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">حالة التمويل</span>
+        </div>
+        <div class="p-2 grid items-center">
+            <span class="rounded-full px-2 max-w-fit w-full text-sm" [ngClass]="initiative.fundStatus.style">{{ initiative.fundStatus.name }}</span>
+        </div>
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">الرمز الرأسمالي</span>
+        </div>
+        <div class="p-2 grid items-center">
+            <span class="text-sm">{{ initiative.capexCode }}</span>
+        </div>
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">الرمز التشغيلي</span>
+        </div>
+        <div class="col-span-2 p-2 grid items-center">
+            <span class="text-sm">{{ initiative.opexCode }}</span>
+        </div>
+    </div>
+</div>

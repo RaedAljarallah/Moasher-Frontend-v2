@@ -32,7 +32,7 @@ export class InitiativeTeamsComponent extends TableComponentBase<ITeam, TeamComm
     protected override onInit() {
         this.command = new TeamCommand(null).setInitiativeId(this.initiativeId);
         this.headers = [
-            {value: 'الاسم', classes: 'xl:min-w-28'},
+            {value: 'الاسم', classes: 'xl:min-w-[12rem]'},
             {value: 'البريد الإلكتروني', classes: 'w-28'},
             {value: 'رقم الهاتف', classes: 'w-28'},
             {value: 'الدور', classes: 'w-28'},

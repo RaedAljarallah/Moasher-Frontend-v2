@@ -34,7 +34,7 @@ export class InitiativeRisksComponent extends TableComponentBase<IRisk, RiskComm
     protected override onInit() {
         this.command = new RiskCommand(null).setInitiativeId(this.initiativeId);
         this.headers = [
-            {value: 'وصف الخطر', classes: 'xl:min-w-28'},
+            {value: 'وصف الخطر', classes: 'xl:min-w-[28rem]'},
             {value: 'نطاق الخطر', classes: 'w-28'},
             {value: 'نوع الخطر', classes: 'w-28'},
             {value: 'الأولوية', classes: 'w-28'},

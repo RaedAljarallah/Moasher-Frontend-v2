@@ -23,6 +23,7 @@ import { InitiativeIssueFormComponent } from './initiative-issues/initiative-iss
 import { InitiativeRiskFormComponent } from './initiative-risks/initiative-risk-form/initiative-risk-form.component';
 import { InitiativeTeamsComponent } from './initiative-teams/initiative-teams.component';
 import { InitiativeTeamFormComponent } from './initiative-teams/initiative-team-form/initiative-team-form.component';
+import {AnalyticsModule} from "../analytics/analytics.module";
 
 
 @NgModule({
@@ -53,6 +54,7 @@ import { InitiativeTeamFormComponent } from './initiative-teams/initiative-team-
     imports: [
         CommonModule,
         InitiativesRoutingModule,
+        AnalyticsModule,
         SharedModule
     ],
     exports: [

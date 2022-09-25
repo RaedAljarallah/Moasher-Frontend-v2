@@ -6,7 +6,7 @@ import {DatePipe} from "@angular/common";
 })
 export class IsoDatePipe implements PipeTransform {
 
-    transform(value: string | null, ...args: unknown[]): string | null {
+    transform(value: string | Date | null | undefined, ...args: unknown[]): string | null {
         if (value) {
             return new DatePipe('en-GB').transform(value, 'y-MM-dd');
         }

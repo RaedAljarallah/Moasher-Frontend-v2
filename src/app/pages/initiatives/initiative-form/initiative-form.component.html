@@ -66,14 +66,14 @@
                     <app-form-input [control]="targetSegment" id="targetSegment" name="الشريحة المستهدفة"
                                     type="textarea"></app-form-input>
                 </div>
-                <div class="col-span-full sm:col-span-6">
+                <div class="col-span-full">
                     <app-form-input [control]="levelThreeStrategicObjectiveId" id="levelThreeStrategicObjectiveId"
                                     listUrl="strategic-objectives?level=3"
                                     [dynamicListDefaultItems]="currentLevelThreeObjective"
                                     name="الهدف الإستراتيجي (المستوى الثالث)" type="list" (listValueSelected)="onLevelThreeSelected($event)">
                     </app-form-input>
                 </div>
-                <div class="col-span-full sm:col-span-6">
+                <div class="col-span-full">
                     <app-form-input [control]="levelFourStrategicObjectiveId" id="levelFourStrategicObjectiveId"
                                     [listUrl]="levelFourUrl"
                                     [dynamicListDefaultItems]="currentLevelFourObjective"
