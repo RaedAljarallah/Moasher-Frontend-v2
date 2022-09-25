@@ -4,10 +4,10 @@
     </ul>
     <ng-container *ngIf="!isDeleteRequest; else deletePrompt">
         <div class="grid grid-cols-12 gap-2">
-            <div class="col-span-6">
+            <div class="col-span-full sm:col-span-6">
                 <app-form-input [control]="name" id="name" [name]="title"></app-form-input>
             </div>
-            <div class="col-span-6">
+            <div class="col-span-full sm:col-span-6">
                 <app-form-input [control]="style" id="style" name="اللون" type="list" listType="static" 
                                 [staticListItems]="enumTypeColors" [badgeList]="true">
                     

@@ -1,80 +1,3 @@
-<!--<div class="md:flex h-screen w-screen">-->
-<!--    <aside class="bg-theme-gray-800 transition-all ease-out duration-200 h-16 md:h-full md:w-64" [ngClass]="{'h-64 md:w-18': !navExpanded}">-->
-<!--        <div class="flex items-center py-4 px-3">-->
-<!--            <img class="w-9 h-auto ml-2 mr-1" src="assets/img/logos/small.png" alt="logo">-->
-<!--            <a href="#" class="text-white text-lg transform origin-right ease-out duration-200"-->
-<!--               [ngClass]="{ 'md:scale-x-0': !navExpanded }">مؤشر</a>-->
-<!--            <div class="cursor-pointer mr-auto text-white hover:text-theme-gray-200 active:text-theme-gray-400 md:hidden" (click)="toggleNav()">-->
-<!--                <i class="lnr lnr-menu font-bold text-2xl "></i>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </aside>-->
-<!--    <main class="h-full md:flex-1 relative">-->
-<!--        <header class="sticky bg-white h-12 md:h-17 p-4 border border-b-theme-gray-300 drop-shadow-sm shadow-sm flex items-center">-->
-<!--            <div class="hidden md:block py-1 ml-4 cursor-pointer" (click)="toggleNav()">-->
-<!--                <i class="lnr lnr-menu font-bold text-2xl text-theme-gray-700 hover:text-theme-gray-900"></i>-->
-<!--            </div>-->
-<!--            <div class="w-[36rem] rounded-full bg-theme-gray-100 p-1 pr-4 pl-2 ml-4 flex items-center">-->
-<!--                <input type="text" class="bg-transparent text-sm text-theme-gray-900 focus:outline-none w-full"-->
-<!--                       placeholder="بحث ...">-->
-<!--                <i class="lnr lnr-magnifier font-bold text-theme-gray-500 mr-1"></i>-->
-<!--            </div>-->
-<!--            <div class="mr-auto flex items-center">-->
-<!--                <div class="inline relative cursor-pointer group">-->
-<!--                    <i class="lnr lnr-alarm text-theme-gray-700 text-xl group-hover:text-theme-gray-900"></i>-->
-<!--                    <div class="absolute top-1 -right-0.5 block h-1.5 w-1.5 rounded-full bg-red-500">-->
-<!--                    </div>-->
-<!--                </div>-->
-
-<!--                &lt;!&ndash; Dropdown &ndash;&gt;-->
-<!--                <div class="flex mr-5 items-center cursor-pointer group relative z-50" (click)="toggleDropdown()">-->
-<!--                    <span class="ml-1.5 text-sm font-semibold text-theme-gray-700 group-hover:text-theme-gray-900 whitespace-nowrap"-->
-<!--                          [ngClass]="{'text-theme-gray-900': dropdownOpen}">Raed Aljarallah</span>-->
-<!--                    <i class="fas fa-chevron-down fa-xs text-theme-gray-700 group-hover:text-theme-gray-900"-->
-<!--                       [ngClass]="{'text-theme-gray-900': dropdownOpen}"></i>-->
-<!--                    <div class="w-40 bg-white py-2 border border-theme-gray-300 rounded-md shadow-md absolute left-0 top-8"-->
-<!--                         *ngIf="dropdownOpen">-->
-
-<!--                        <a href="#"-->
-<!--                           class="block px-4 py-2 text-sm font-semibold text-theme-gray-700 hover:bg-theme-gray-100 hover:text-theme-gray-900">-->
-<!--                            <i class="fas fa-user ml-2"></i>-->
-<!--                            <span>الحساب</span>-->
-<!--                        </a>-->
-<!--                        <a href="#"-->
-<!--                           class="block px-4 py-2 text-sm font-semibold text-theme-gray-700 hover:bg-theme-gray-100 hover:text-theme-gray-900">-->
-<!--                            <i class="fas fa-cog ml-2"></i>-->
-<!--                            <span>الإعدادات</span>-->
-<!--                        </a>-->
-<!--                        <a href="#"-->
-<!--                           class="block px-4 py-2 text-sm font-semibold text-theme-gray-700 hover:bg-theme-gray-100 hover:text-theme-gray-900">-->
-<!--                            <i class="fas fa-sign-out-alt ml-2"></i>-->
-<!--                            <span>تسجيل الخروج</span>-->
-<!--                        </a>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--                <div *ngIf="dropdownOpen" class="fixed h-screen w-screen inset-0 z-40" (click)="toggleDropdown()"></div>-->
-
-<!--            </div>-->
-<!--        </header>-->
-<!--        <div class="pb-32 md:pb-20 p-4 h-screen overflow-auto no-scrollbar" [@routeAnimations]="prepareRoute(outlet)">-->
-<!--            <app-table [items]="data$ | async" [headers]="tableHeader" [searchFields]="searchFields">-->
-<!--                <ng-template #tableCell let-data="data">-->
-<!--                    <td class="td">-->
-<!--                        {{ data.name }}-->
-<!--                    </td>-->
-<!--                    <td class="td">-->
-<!--                        {{ data.age }}-->
-<!--                    </td>-->
-<!--                    <td class="td">-->
-<!--                        {{ data.address }}-->
-<!--                    </td>-->
-<!--                </ng-template>-->
-<!--            </app-table>-->
-<!--            <router-outlet #outlet="outlet"></router-outlet>-->
-<!--        </div>-->
-<!--    </main>-->
-<!--</div>-->
-
 <div class="min-h-screen lg:flex">
     <header class="lg:w-64 lg:flex-shrink-0 transition-all duration-150 ease-out"
             [ngClass]="navExpanded ? 'lg:w-60' : 'lg:w-18'">
@@ -223,10 +146,6 @@
             </div>
         </section>
         <main class="relative pb-32 lg:pb-20 p-4 h-screen overflow-auto no-scrollbar" [@routeAnimations]="prepareRoute(outlet)">
-<!--            <app-table [headers]="headers">-->
-<!--            </app-table>-->
-<!--            <app-loading-button [isLoading]="showLoading" (onClick)="showLoading = !showLoading"></app-loading-button>-->
-            
             <router-outlet #outlet="outlet"></router-outlet>
         </main>
     </div>

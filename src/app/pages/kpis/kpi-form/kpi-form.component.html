@@ -42,26 +42,31 @@
                     <app-form-input [control]="ownerName" id="ownerName" name="اسم مالك المؤشر"></app-form-input>
                 </div>
                 <div class="col-span-full sm:col-span-6">
-                    <app-form-input [control]="ownerEmail" id="ownerEmail" name="البريد الإلكتروني لمالك المؤشر"></app-form-input>
+                    <app-form-input [control]="ownerEmail" id="ownerEmail"
+                                    name="البريد الإلكتروني لمالك المؤشر"></app-form-input>
                 </div>
                 <div class="col-span-full sm:col-span-6">
                     <app-form-input [control]="ownerPhoneNumber" id="ownerPhoneNumber" name="رقم الهاتف لمالك المؤشر"
-                    placeholder="0555555555"></app-form-input>
+                                    placeholder="0555555555"></app-form-input>
                 </div>
                 <div class="col-span-full sm:col-span-6">
-                    <app-form-input [control]="ownerPosition" id="ownerPosition" name="منصب مالك المؤشر"></app-form-input>
+                    <app-form-input [control]="ownerPosition" id="ownerPosition"
+                                    name="منصب مالك المؤشر"></app-form-input>
                 </div>
                 <div class="col-span-full">
-                    <app-form-input [control]="description" id="description" name="وصف المؤشر" type="textarea"></app-form-input>
+                    <app-form-input [control]="description" id="description" name="وصف المؤشر"
+                                    type="textarea"></app-form-input>
                 </div>
                 <div class="col-span-full">
-                    <app-form-input [control]="formula" id="formula" name="معادلة المؤشر" type="textarea"></app-form-input>
+                    <app-form-input [control]="formula" id="formula" name="معادلة المؤشر"
+                                    type="textarea"></app-form-input>
                 </div>
                 <div class="col-span-full sm:col-span-6">
                     <app-form-input [control]="baselineValue" id="baselineValue" name="قيمة خط الأساس"></app-form-input>
                 </div>
                 <div class="col-span-full sm:col-span-6">
-                    <app-form-input [control]="baselineYear" id="baselineYear" name="سنة قياس خط الأساس"></app-form-input>
+                    <app-form-input [control]="baselineYear" id="baselineYear"
+                                    name="سنة قياس خط الأساس"></app-form-input>
                 </div>
                 <div class="col-span-full">
                     <app-form-input [control]="dataSource" id="dataSource" name="مصدر البيانات"></app-form-input>
@@ -70,7 +75,8 @@
 
             <div class="grid grid-cols-12 gap-2" [ngClass]="step === 2 ? 'show' : 'hide invisible h-0'">
                 <div class="col-span-full sm:col-span-6">
-                    <app-form-input [control]="frequency" id="frequency" name="فترة تكرار القياس" type="list" listType="static"
+                    <app-form-input [control]="frequency" id="frequency" name="فترة تكرار القياس" type="list"
+                                    listType="static"
                                     [staticListItems]="frequencySelectList">
                     </app-form-input>
                 </div>
@@ -80,12 +86,14 @@
                     </app-form-input>
                 </div>
                 <div class="col-span-full sm:col-span-6">
-                    <app-form-input [control]="validationStatus" id="validationStatus" name="حالة التوثيق" type="list" listType="static"
+                    <app-form-input [control]="validationStatus" id="validationStatus" name="حالة التوثيق" type="list"
+                                    listType="static"
                                     [staticListItems]="validationStatusSelectList">
                     </app-form-input>
                 </div>
                 <div class="col-span-full sm:col-span-6">
-                    <app-form-input [control]="measurementUnit" id="measurementUnit" name="وحدة القياس"></app-form-input>
+                    <app-form-input [control]="measurementUnit" id="measurementUnit"
+                                    name="وحدة القياس"></app-form-input>
                 </div>
                 <div class="col-span-full">
                     <app-form-input [control]="entityId" id="entityId" name="الجهة" type="list"
@@ -96,7 +104,8 @@
                     <app-form-input [control]="levelThreeStrategicObjectiveId" id="levelThreeStrategicObjectiveId"
                                     listUrl="strategic-objectives?level=3"
                                     [dynamicListDefaultItems]="currentLevelThreeObjective"
-                                    name="الهدف الإستراتيجي (المستوى الثالث)" type="list" (listValueSelected)="onLevelThreeSelected($event)">
+                                    name="الهدف الإستراتيجي (المستوى الثالث)" type="list"
+                                    (listValueSelected)="onLevelThreeSelected($event)">
                     </app-form-input>
                 </div>
                 <div class="col-span-full sm:col-span-6">
@@ -118,7 +127,8 @@
 
                 </div>
                 <div class="col-span-full" *ngIf="showStatus">
-                    <app-form-input [control]="statusEnumId" id="statusEnumId" name="حالة التنفذ" type="list" [badgeList]="true"
+                    <app-form-input [control]="statusEnumId" id="statusEnumId" name="حالة التنفذ" type="list"
+                                    [badgeList]="true"
                                     [dynamicListDefaultItems]="currentStatus"
                                     [listUrl]="statusUrl"></app-form-input>
                 </div>
@@ -127,13 +137,16 @@
     </ng-container>
 
     <div class="flex justify-end space-x-2 space-x-reverse border-t border-t-theme-gray-200 pt-4">
-        <button type="button" class="btn py-1.5 w-20 btn-white border-none text-center text-sm" *ngIf="step > 1 && !isDeleteRequest" (click)="stepBack()">
+        <button type="button" class="btn py-1.5 w-20 btn-white border-none text-center text-sm"
+                *ngIf="step > 1 && !isDeleteRequest" (click)="stepBack()">
             السابق
         </button>
-        <button type="button" class="btn py-1.5 w-20 btn-secondary text-center text-sm" *ngIf="step >=1 && step < 2 && !isDeleteRequest"
+        <button type="button" class="btn py-1.5 w-20 btn-secondary text-center text-sm"
+                *ngIf="step >=1 && step < 2 && !isDeleteRequest"
                 (click)="stepForward()">التالي
         </button>
-        <button type="submit" class="btn py-1.5 w-20 btn-secondary text-center text-sm"
+        <button type="submit" class="btn py-1.5 w-20 btn-secondary text-center text-sm" appLoadingBtn
+                [isLoading]="isLoading" [disabled]="isLoading"
                 *ngIf="step === 2 || isDeleteRequest">{{isDeleteRequest ? 'حذف' : 'حفظ'}}</button>
     </div>
 

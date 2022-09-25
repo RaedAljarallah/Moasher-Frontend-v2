@@ -4,8 +4,18 @@
     </ul>
     <ng-container *ngIf="!isDeleteRequest; else deletePrompt">
         <div class="grid grid-cols-12 gap-2">
-            <div class="col-span-full">
-                <app-form-input [control]="name" id="name" name="اسم المخرج"></app-form-input>
+            <div class="col-span-full sm:col-span-4">
+                <app-form-input [control]="year" id="year" name="السنة"></app-form-input>
+            </div>
+            <div class="col-span-full sm:col-span-8">
+                <app-form-input [control]="measurementPeriod" id="measurementPeriod" name="قترة القياس" type="list" listType="static"
+                                [staticListItems]="measurementPeriods"></app-form-input>
+            </div>
+            <div class="col-span-full sm:col-span-6">
+                <app-form-input [control]="targetValue" id="targetValue" name="القيمة المستهدفة"></app-form-input>
+            </div>
+            <div class="col-span-full sm:col-span-6">
+                <app-form-input [control]="actualValue" id="actualValue" name="القيمة الفعلية"></app-form-input>
             </div>
             <div class="col-span-full sm:col-span-6">
                 <app-form-input [control]="plannedFinish" id="plannedFinish" name="تاريخ الإنجاز المخطط"
@@ -24,5 +34,5 @@
 </app-form>
 
 <ng-template #deletePrompt>
-    <p class="text-sm font-semibold">هل تريد الإستمرار في حذف المخرج؟</p>
+    <p class="text-sm font-semibold">هل تريد الإستمرار في حذف المستهدف؟</p>
 </ng-template>

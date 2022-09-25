@@ -14,15 +14,11 @@ import { SidenavItemComponent } from './sidenav/sidenav-item/sidenav-item.compon
 import { SidenavDividerComponent } from './sidenav/sidenav-divider/sidenav-divider.component';
 import { SidenavItemGroupComponent } from './sidenav/sidenav-item-group/sidenav-item-group.component';
 import {RouterModule} from "@angular/router";
-import { IsoDatePipe } from './pipes/iso-date.pipe';
-import { LocalCurrencyPipe } from './pipes/local-currency.pipe';
-import { VariancePipe } from './pipes/variance.pipe';
-import { BooleanToStringPipe } from './pipes/boolean-to-string.pipe';
 import { ModalComponent } from './modal/modal.component';
-import { LoadingButtonComponent } from './loading-button/loading-button.component';
 import {AppFormModule} from "./form/app-form.module";
 import {PipesModule} from "./pipes/pipes.module";
 import { FilterComponent } from './filter/filter.component';
+import {LoadingBtnDirective} from "./directives/loading-btn.directive";
 
 @NgModule({
     declarations: [
@@ -35,8 +31,8 @@ import { FilterComponent } from './filter/filter.component';
         SidenavDividerComponent,
         SidenavItemGroupComponent,
         ModalComponent,
-        LoadingButtonComponent,
         FilterComponent,
+        LoadingBtnDirective
     ],
     imports: [
         CommonModule,
@@ -61,9 +57,9 @@ import { FilterComponent } from './filter/filter.component';
         SidenavDividerComponent,
         SidenavItemGroupComponent,
         ModalComponent,
-        LoadingButtonComponent,
         PipesModule,
-        FilterComponent
+        FilterComponent,
+        LoadingBtnDirective
     ]
 })
 export class SharedModule {

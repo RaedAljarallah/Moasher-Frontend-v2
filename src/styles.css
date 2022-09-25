@@ -50,7 +50,7 @@
 
 @layer components {
     .btn {
-        @apply whitespace-nowrap cursor-pointer rounded-md active:shadow-inner border
+        @apply whitespace-nowrap cursor-pointer rounded-md active:shadow-inner border transition-all duration-200
     }
     
     .btn.btn-lg {

@@ -13,9 +13,6 @@ import {ProgramsModule} from "./pages/programs/programs.module";
 import {StrategicObjectivesModule} from "./pages/strategic-objectives/strategic-objectives.module";
 import {InitiativesModule} from "./pages/initiatives/initiatives.module";
 import {SettingsModule} from "./pages/settings/settings.module";
-import {ApiService} from "./core/services/api.service";
-import {environment} from "../environments/environment";
-import {ApiDevService} from "./core/services/api.dev.service";
 import {PortfoliosModule} from "./pages/portfolios/portfolios.module";
 import {KPIsModule} from "./pages/kpis/kpis.module";
 
@@ -39,9 +36,7 @@ import {KPIsModule} from "./pages/kpis/kpis.module";
         AppRoutingModule,
         SharedModule,
     ],
-    providers: [
-        // { provide: ApiService, useClass: environment.production ? ApiService : ApiDevService }
-    ],
+    providers: [],
     bootstrap: [AppComponent]
 })
 export class AppModule {

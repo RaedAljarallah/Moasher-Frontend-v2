@@ -22,7 +22,7 @@ import {ApiService} from "./core/services/api.service";
 export class AppComponent implements OnInit {
     public navExpanded: boolean = true;
     public dropdownOpen: boolean = false;
-    public title = 'MoasherAngular';
+    public title = 'مؤشر';
     
     private _searchQuery: string = '';
     public search$: BehaviorSubject<string> = new BehaviorSubject<string>('');

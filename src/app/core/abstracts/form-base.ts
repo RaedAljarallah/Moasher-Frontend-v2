@@ -29,6 +29,7 @@ export abstract class FormBase<TType, TCommand extends IIdentifiable> {
     protected abstract initCommand(): void
     
     public onSubmit() {
+        this.form.markAllAsTouched();
         if (this.form.valid) {
             this.isLoading = true;
             this.initCommand();

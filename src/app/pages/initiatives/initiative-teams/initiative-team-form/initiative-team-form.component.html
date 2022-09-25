@@ -11,7 +11,8 @@
                 <app-form-input [control]="email" id="email" name="البريد الإلكتروني"></app-form-input>
             </div>
             <div class="col-span-full sm:col-span-6">
-                <app-form-input [control]="phone" id="phone" name="رقم الهاتف" placeholder="0555555555"></app-form-input>
+                <app-form-input [control]="phone" id="phone" name="رقم الهاتف"
+                                placeholder="0555555555"></app-form-input>
             </div>
             <div class="col-span-full sm:col-span-6">
                 <app-form-input [control]="roleEnumId" id="roleEnumId" name="الدور" type="list" [badgeList]="true"
@@ -21,7 +22,8 @@
         </div>
     </ng-container>
     <div class="flex justify-end border-t border-t-theme-gray-200 pt-4">
-        <button type="submit" class="btn py-1.5 w-20 btn-secondary text-center text-sm">{{isDeleteRequest ? 'حذف' : 'حفظ'}}</button>
+        <button type="submit" class="btn py-1.5 w-20 btn-secondary text-center text-sm" appLoadingBtn
+                [isLoading]="isLoading" [disabled]="isLoading">{{isDeleteRequest ? 'حذف' : 'حفظ'}}</button>
     </div>
 </app-form>
 

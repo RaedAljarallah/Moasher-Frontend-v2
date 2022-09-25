@@ -3,6 +3,8 @@
                  (deleteClicked)="delete()"
                  (editClicked)="update()">
     <ng-container *ngIf="detailPageState">
+        <app-kpi-performance *ngIf="selectedTab === 'performance'"></app-kpi-performance>
+        <app-kpi-values [frequency]="detailPageState.frequency" [kpiId]="detailPageState.id" *ngIf="selectedTab === 'values'"></app-kpi-values>
     </ng-container>
 </app-detail-page>
 

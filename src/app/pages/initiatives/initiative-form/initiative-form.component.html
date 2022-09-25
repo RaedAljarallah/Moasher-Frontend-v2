@@ -57,7 +57,7 @@
                                     name="رمز المبادرة في البرنامج"></app-form-input>
                 </div>
                 <div class="col-span-full">
-                    <app-form-input [control]="name" id="name" name="إسم المبادرة"></app-form-input>
+                    <app-form-input [control]="name" id="name" name="اسم المبادرة"></app-form-input>
                 </div>
                 <div class="col-span-full">
                     <app-form-input [control]="scope" id="scope" name="نطاق المبادرة" type="textarea"></app-form-input>
@@ -70,7 +70,8 @@
                     <app-form-input [control]="levelThreeStrategicObjectiveId" id="levelThreeStrategicObjectiveId"
                                     listUrl="strategic-objectives?level=3"
                                     [dynamicListDefaultItems]="currentLevelThreeObjective"
-                                    name="الهدف الإستراتيجي (المستوى الثالث)" type="list" (listValueSelected)="onLevelThreeSelected($event)">
+                                    name="الهدف الإستراتيجي (المستوى الثالث)" type="list"
+                                    (listValueSelected)="onLevelThreeSelected($event)">
                     </app-form-input>
                 </div>
                 <div class="col-span-full">
@@ -117,7 +118,7 @@
                 <div class="col-span-full sm:col-span-full">
                     <app-form-input [control]="programId" id="programId" name="البرنامج" type="list"
                                     [dynamicListDefaultItems]="currentProgram"
-                                    listUrl="programs" ></app-form-input>
+                                    listUrl="programs"></app-form-input>
                 </div>
                 <div class="col-span-full">
                     <div class="flex flex-col space-y-2 sm:space-y-0 sm:flex-row sm:items-center sm:justify-between mt-2">
@@ -131,7 +132,8 @@
 
                 </div>
                 <div class="col-span-full" *ngIf="showStatus">
-                    <app-form-input [control]="statusEnumId" id="statusEnumId" name="حالة التنفذ" type="list" [badgeList]="true"
+                    <app-form-input [control]="statusEnumId" id="statusEnumId" name="حالة التنفذ" type="list"
+                                    [badgeList]="true"
                                     [dynamicListDefaultItems]="currentStatus"
                                     [listUrl]="statusUrl"></app-form-input>
                 </div>
@@ -139,7 +141,8 @@
 
             <div class="grid grid-cols-12 gap-2" [ngClass]="step === 3 ? 'show' : 'hide invisible h-0'">
                 <div class="col-span-full sm:col-span-6">
-                    <app-form-input [control]="fundStatusEnumId" id="fundStatusEnumId" name="حالة التمويل" type="list" [badgeList]="true"
+                    <app-form-input [control]="fundStatusEnumId" id="fundStatusEnumId" name="حالة التمويل" type="list"
+                                    [badgeList]="true"
                                     [dynamicListDefaultItems]="currentFundStatus"
                                     [listUrl]="fundStatusUrl"></app-form-input>
                 </div>
@@ -158,13 +161,16 @@
     </ng-container>
 
     <div class="flex justify-end space-x-2 space-x-reverse border-t border-t-theme-gray-200 pt-4">
-        <button type="button" class="btn py-1.5 w-20 btn-white border-none text-center text-sm" *ngIf="step > 1 && !isDeleteRequest" (click)="stepBack()">
+        <button type="button" class="btn py-1.5 w-20 btn-white border-none text-center text-sm"
+                *ngIf="step > 1 && !isDeleteRequest" (click)="stepBack()">
             السابق
         </button>
-        <button type="button" class="btn py-1.5 w-20 btn-secondary text-center text-sm" *ngIf="step >=1 && step < 3 && !isDeleteRequest"
+        <button type="button" class="btn py-1.5 w-20 btn-secondary text-center text-sm"
+                *ngIf="step >=1 && step < 3 && !isDeleteRequest"
                 (click)="stepForward()">التالي
         </button>
         <button type="submit" class="btn py-1.5 w-20 btn-secondary text-center text-sm"
+                appLoadingBtn [isLoading]="isLoading" [disabled]="isLoading"
                 *ngIf="step === 3 || isDeleteRequest">{{isDeleteRequest ? 'حذف' : 'حفظ'}}</button>
     </div>
 

@@ -15,29 +15,30 @@
                                 (listValueSelected)="addInitiative($event)"
                                 listUrl="initiatives"></app-form-input>
             </div>
-            
+
             <div class="col-span-full" *ngIf="relatedInitiatives.length">
                 <div class="overflow-x-auto overflow-y-hidden rounded-lg border border-theme-gray-200 shadow-sm scrollbar">
                     <table class="w-full table-auto">
                         <thead class="bg-white border-b-2 border-theme-gray-200">
-                            <tr>
-                                <th>اسم المبادرة</th>
-                                <th>الجهة المالكة</th>
-                                <th>المحفظة</th>
-                                <th class="w-full"></th>
-                            </tr>
+                        <tr>
+                            <th>اسم المبادرة</th>
+                            <th>الجهة المالكة</th>
+                            <th>المحفظة</th>
+                            <th class="w-full"></th>
+                        </tr>
                         </thead>
                         <tbody class="divide-y divide-theme-gray-100">
-                            <tr class="bg-white" *ngFor="let initiative of relatedInitiatives">
-                                <td>{{ initiative.name }}</td>
-                                <td>{{ initiative.entityName }}</td>
-                                <td>{{ initiative.portfolioName }}</td>
-                                <td class="flex space-x-1 space-x-reverse justify-end items-center">
-                                    <button class="btn px-2 py-1 text-xs btn-white border-none" (click)="removeInitiative(initiative)">
-                                        <i class="fa fa-trash-alt px-0.5"></i>
-                                    </button>
-                                </td>
-                            </tr>
+                        <tr class="bg-white" *ngFor="let initiative of relatedInitiatives">
+                            <td>{{ initiative.name }}</td>
+                            <td>{{ initiative.entityName }}</td>
+                            <td>{{ initiative.portfolioName }}</td>
+                            <td class="flex space-x-1 space-x-reverse justify-end items-center">
+                                <button class="btn px-2 py-1 text-xs btn-white border-none"
+                                        (click)="removeInitiative(initiative)">
+                                    <i class="fa fa-trash-alt px-0.5"></i>
+                                </button>
+                            </td>
+                        </tr>
                         </tbody>
                     </table>
                 </div>
@@ -45,7 +46,8 @@
         </div>
     </ng-container>
     <div class="flex justify-end border-t border-t-theme-gray-200 pt-4">
-        <button type="submit" class="btn py-1.5 w-20 btn-secondary text-center text-sm">{{isDeleteRequest ? 'حذف' : 'حفظ'}}</button>
+        <button type="submit" class="btn py-1.5 w-20 btn-secondary text-center text-sm" appLoadingBtn
+                [isLoading]="isLoading" [disabled]="isLoading">{{isDeleteRequest ? 'حذف' : 'حفظ'}}</button>
     </div>
 </app-form>
 

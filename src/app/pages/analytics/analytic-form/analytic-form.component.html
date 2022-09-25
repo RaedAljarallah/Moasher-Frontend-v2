@@ -5,7 +5,8 @@
     <ng-container *ngIf="!isDeleteRequest; else deletePrompt">
         <div class="grid grid-cols-12 gap-2">
             <div class="col-span-full">
-                <app-form-input [control]="description" id="description" name="التحليل" type="textarea">></app-form-input>
+                <app-form-input [control]="description" id="description" name="التحليل" type="textarea">>
+                </app-form-input>
             </div>
             <div class="col-span-full sm:col-span-6">
                 <app-form-input [control]="analyzedAt" id="analyzedAt" name="حلل بتاريخ" type="date"></app-form-input>
@@ -16,7 +17,8 @@
         </div>
     </ng-container>
     <div class="flex justify-end border-t border-t-theme-gray-200 pt-4">
-        <button type="submit" class="btn py-1.5 w-20 btn-secondary text-center text-sm">{{isDeleteRequest ? 'حذف' : 'حفظ'}}</button>
+        <button type="submit" class="btn py-1.5 w-20 btn-secondary text-center text-sm" appLoadingBtn
+                [isLoading]="isLoading" [disabled]="isLoading">{{isDeleteRequest ? 'حذف' : 'حفظ'}}</button>
     </div>
 </app-form>
 

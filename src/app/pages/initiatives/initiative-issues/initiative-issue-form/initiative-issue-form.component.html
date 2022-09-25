@@ -5,7 +5,8 @@
     <ng-container *ngIf="!isDeleteRequest; else deletePrompt">
         <div class="grid grid-cols-12 gap-2">
             <div class="col-span-full">
-                <app-form-input [control]="description" id="description" name="وصف المعوق" type="textarea"></app-form-input>
+                <app-form-input [control]="description" id="description" name="وصف المعوق"
+                                type="textarea"></app-form-input>
             </div>
             <div class="col-span-full sm:col-span-6">
                 <app-form-input [control]="reason" id="reason" name="سبب المعوق"></app-form-input>
@@ -14,23 +15,28 @@
                 <app-form-input [control]="source" id="source" name="مصدر المعوق"></app-form-input>
             </div>
             <div class="col-span-full sm:col-span-6">
-                <app-form-input [control]="scopeEnumId" id="scopeEnumId" name="نطاق المعوق" type="list" [badgeList]="true"
+                <app-form-input [control]="scopeEnumId" id="scopeEnumId" name="نطاق المعوق" type="list"
+                                [badgeList]="true"
                                 [dynamicListDefaultItems]="currentScope"
                                 [listUrl]="scopeUrl"></app-form-input>
             </div>
             <div class="col-span-full sm:col-span-6">
-                <app-form-input [control]="impactEnumId" id="impactEnumId" name="أثر المعوق" type="list" [badgeList]="true"
+                <app-form-input [control]="impactEnumId" id="impactEnumId" name="أثر المعوق" type="list"
+                                [badgeList]="true"
                                 [dynamicListDefaultItems]="currentImpact"
                                 [listUrl]="impactUrl"></app-form-input>
             </div>
             <div class="col-span-full">
-                <app-form-input [control]="impactDescription" id="impactDescription" name="وصف الأثر" type="textarea"></app-form-input>
+                <app-form-input [control]="impactDescription" id="impactDescription" name="وصف الأثر"
+                                type="textarea"></app-form-input>
             </div>
             <div class="col-span-full">
-                <app-form-input [control]="resolution" id="resolution" name="الحل المقترح" type="textarea"></app-form-input>
+                <app-form-input [control]="resolution" id="resolution" name="الحل المقترح"
+                                type="textarea"></app-form-input>
             </div>
             <div class="col-span-full sm:col-span-6">
-                <app-form-input [control]="estimatedResolutionDate" id="estimatedResolutionDate" name="تاريخ الحل المتوقع"
+                <app-form-input [control]="estimatedResolutionDate" id="estimatedResolutionDate"
+                                name="تاريخ الحل المتوقع"
                                 type="date"></app-form-input>
             </div>
             <div class="col-span-full sm:col-span-6">
@@ -43,14 +49,16 @@
                 <app-form-input [control]="closedAt" id="closedAt" name="أغلق بتاريخ" type="date"></app-form-input>
             </div>
             <div class="col-span-full">
-                <app-form-input [control]="statusEnumId" id="statusEnumId" name="حالة المعوق" type="list" [badgeList]="true"
+                <app-form-input [control]="statusEnumId" id="statusEnumId" name="حالة المعوق" type="list"
+                                [badgeList]="true"
                                 [dynamicListDefaultItems]="currentStatus"
                                 [listUrl]="statusUrl"></app-form-input>
             </div>
         </div>
     </ng-container>
     <div class="flex justify-end border-t border-t-theme-gray-200 pt-4">
-        <button type="submit" class="btn py-1.5 w-20 btn-secondary text-center text-sm">{{isDeleteRequest ? 'حذف' : 'حفظ'}}</button>
+        <button type="submit" class="btn py-1.5 w-20 btn-secondary text-center text-sm" appLoadingBtn
+                [isLoading]="isLoading" [disabled]="isLoading">{{isDeleteRequest ? 'حذف' : 'حفظ'}}</button>
     </div>
 </app-form>
 

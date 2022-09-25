@@ -11,7 +11,7 @@ export class DatePickerDirective implements AfterViewInit  {
     constructor(private el: ElementRef) {
     }
 
-    ngAfterViewInit(): void {
+    public ngAfterViewInit(): void {
         this.datePicker = new Datepicker(this.el.nativeElement, {
             autohide: true,
             format: 'y-mm-dd',
