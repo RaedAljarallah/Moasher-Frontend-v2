@@ -10,20 +10,25 @@ import {HttpParams} from "@angular/common/http";
 import {map, tap} from "rxjs/operators";
 import {IKeyable} from "../models/keyable.model";
 
+export interface IRouterState<TType> {
+    item: TType,
+    returnUrl?: string
+}
+
 @Component({
     template: ''
 })
 export abstract class DetailComponentBase<TType extends IKeyable, TCommand> implements OnInit, OnDestroy {
     @ViewChild(DetailPageComponent) detailPage!: DetailPageComponent;
-    public detailPageState: TType | undefined;
+    public detailPageState?: TType;
     public notFoundState: boolean = false;
     public command!: TCommand;
     public formAction: FormAction = FormAction.Update;
     public formTitle: string = '';
-    public selectedTab: string = 'performance';
-
+    public selectedTab: string = 'over-view';
+    public returnUrl?: string;
     public abstract tabs: ITab[];
-
+    
     protected abstract initCommand(): void;
     protected abstract _modalId: string;
     protected abstract _updateFormTitle: string;
@@ -32,7 +37,9 @@ export abstract class DetailComponentBase<TType extends IKeyable, TCommand> impl
     protected abstract loadItems(params: HttpParams): Observable<IResponse<TType[]>>;
 
     protected constructor(protected route: ActivatedRoute, protected router: Router, protected api: ApiService, protected modal: ModalService) {
-        this.detailPageState = this.router.getCurrentNavigation()?.extras.state as TType;
+        const routerState = this.router.getCurrentNavigation()?.extras.state as IRouterState<TType>;
+        this.detailPageState = routerState?.item;
+        this.returnUrl = routerState?.returnUrl;
     }
 
     public ngOnInit(): void {

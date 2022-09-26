@@ -7,8 +7,8 @@ const routes: Routes = [
     {
         path: 'kpis',
         children: [
-            { path: '', pathMatch: 'full', component: KpisListComponent, data: { animation: 'isLeft' } },
-            { path: ':id', component: KpiDetailComponent, data: { animation: 'isRight' } }
+            { path: '', pathMatch: 'full', component: KpisListComponent, data: { animation: 'kpiList' } },
+            { path: ':id', component: KpiDetailComponent, data: { animation: 'kpiDetail' } }
         ]
     }
 ];

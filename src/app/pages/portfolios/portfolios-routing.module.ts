@@ -8,8 +8,8 @@ const routes: Routes = [
     {
         path: 'portfolios',
         children: [
-            { path: '', pathMatch: 'full', component: PortfoliosListComponent, data: { animation: 'isLeft' }},
-            { path: ':id', component: PortfolioDetailComponent, data: { animation: 'isRight' } }
+            { path: '', pathMatch: 'full', component: PortfoliosListComponent, data: { animation: 'portfolioList' }},
+            { path: ':id', component: PortfolioDetailComponent, data: { animation: 'portfolioDetail' } }
         ]
     }
 ];

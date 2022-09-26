@@ -7,8 +7,8 @@ const routes: Routes = [
     {
         path: 'programs',
         children: [
-            { path: '', pathMatch: 'full', component: ProgramsListComponent, data: { animation: 'isLeft' }},
-            { path: ':id', component: ProgramDetailComponent, data: { animation: 'isRight' } }
+            { path: '', pathMatch: 'full', component: ProgramsListComponent, data: { animation: 'programList' }},
+            { path: ':id', component: ProgramDetailComponent, data: { animation: 'programDetail' } }
         ]
     }
 ];

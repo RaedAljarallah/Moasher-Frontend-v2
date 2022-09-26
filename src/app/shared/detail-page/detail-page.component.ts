@@ -4,7 +4,7 @@ import {
     EventEmitter,
     Input,
     OnInit,
-    Output, QueryList, 
+    Output, QueryList,
     ViewChildren
 } from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
@@ -30,6 +30,7 @@ export class DetailPageComponent implements OnInit, AfterViewInit {
     @Input() selectedTab: string = ''; // selectedTab
     @Input() titleKey: string = 'name';
     @Input() editBtnLoading: boolean = false;
+    @Input() returnUrl?: string;
     @Output() editClicked: EventEmitter<void> = new EventEmitter<void>();
     @Output() deleteClicked: EventEmitter<void> = new EventEmitter<void>();
     @Output() selectedTabChange: EventEmitter<string> = new EventEmitter<string>();
@@ -90,7 +91,11 @@ export class DetailPageComponent implements OnInit, AfterViewInit {
     
     public async back(e?: Event): Promise<void> {
         e?.preventDefault();
-        await this.router.navigate(['../'], { relativeTo: this.route });
+        if (this.returnUrl) {
+            await this.router.navigateByUrl(this.returnUrl); 
+        } else {
+            await this.router.navigate(['../'], { relativeTo: this.route });
+        }
     }
     
     public nextTab() {
@@ -129,4 +134,5 @@ export class DetailPageComponent implements OnInit, AfterViewInit {
         }
         this.tabSlideMargin = `translateX(${this.currentTabSlideMargin}px)`;
     }
+    
 }

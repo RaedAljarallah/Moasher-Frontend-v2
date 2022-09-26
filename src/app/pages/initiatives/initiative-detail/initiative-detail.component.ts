@@ -19,7 +19,7 @@ export class InitiativeDetailComponent extends DetailComponentBase<IInitiative, 
     constructor(route: ActivatedRoute, router: Router, api: ApiService, modal: ModalService) {
         super(route, router, api, modal);
     }
-
+    
     protected _deleteFormTitle: string = 'حذف مبادرة';
     protected _updateFormTitle: string = 'تعديل مبادرة';
     protected _modalId: string = 'InitiativeDetail';

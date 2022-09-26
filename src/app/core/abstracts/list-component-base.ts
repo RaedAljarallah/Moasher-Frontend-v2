@@ -1,4 +1,4 @@
-﻿import {Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
+﻿import {Component, Input, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {CollectionComponent} from "../../shared/collection/collection.component";
 import {BehaviorSubject, Observable} from "rxjs";
 import {IResponse} from "../models/response.model";
@@ -7,7 +7,6 @@ import {ApiService} from "../services/api.service";
 import {ModalService} from "../../shared/modal/modal.service";
 import {distinctUntilChanged, map, switchMap} from "rxjs/operators";
 import {HttpParams} from "@angular/common/http";
-import {IFilterOutput} from "../models/filter-output.model";
 import {IIdentifiable} from "../models/identifiable.model";
 import {UrlUtility} from "../utilities/url.utility";
 import {IFilter} from "../models/filter.model";
@@ -17,6 +16,7 @@ import {queryParameters} from "../constants/query-parameters.constant";
     template: ''
 })
 export abstract class ListComponentBase<TType extends IIdentifiable, TCommand> implements OnInit, OnDestroy {
+    @Input() subList: boolean = false;
     @ViewChild(CollectionComponent) collection!: CollectionComponent;
     public data$: Observable<IResponse<TType[]>>;
     public refresh$: BehaviorSubject<{ [k: string]: string }>;
@@ -25,7 +25,7 @@ export abstract class ListComponentBase<TType extends IIdentifiable, TCommand> i
     protected abstract _modalId: string;
     protected abstract queryParams: { key: string, defaultValue?: string }[];
     public abstract command: TCommand;
-    
+
     protected abstract loadItems(params: HttpParams): Observable<IResponse<TType[]>>
 
     protected constructor(protected route: ActivatedRoute, protected router: Router,
@@ -48,7 +48,7 @@ export abstract class ListComponentBase<TType extends IIdentifiable, TCommand> i
     }
 
     public async showDetail(item: TType): Promise<void> {
-        await this.router.navigateByUrl(`${this._url}/${item.id}`, {state: item})
+        await this.router.navigateByUrl(`${this._url}/${item.id}`, {state: {item: item, returnUrl: this.router.url}})
     }
 
     public onCreate(): void {

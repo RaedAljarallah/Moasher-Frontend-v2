@@ -1,9 +1,9 @@
  <div class="bg-white rounded-lg border border-theme-gray-300">
     <div class="flex flex-col p-3 border-b border-b-theme-gray-300 relative">
         <div class="flex justify-between items-center">
-            <h1 class="text-xl font-semibold">{{ title }} [{{ items?.pagination?.totalCount ?? 0}}]</h1>
+            <h1 class="font-semibold" [ngClass]="subList ? 'text-base' : 'text-xl'">{{ title }} [{{ items?.pagination?.totalCount ?? 0}}]</h1>
 
-            <div class="flex items-center">
+            <div class="flex items-center" *ngIf="!subList">
                 <button class="btn btn-sm btn-white relative ml-2" (click)="toggleFilter()" *ngIf="withFilters">
                     <i class="ion ion-ios-funnel text-xs md:text-sm text-theme-gray-800"></i>
                     <span class="flex h-2 w-2 md:h-2.5 md:w-2.5 absolute -top-1 right-full -mr-1" *ngIf="filterApplied">
@@ -19,7 +19,7 @@
             </div>
         </div>
 
-        <div [@collapse]="showFilter ? 'open' : 'close'"
+        <div [@collapse]="showFilter ? 'open' : 'close'" *ngIf="!subList"
              class="absolute bg-white md:max-w-2xl w-full p-2 top-12 left-3 z-10 border border-theme-gray-300 rounded-lg shadow-sm drop-shadow-sm">
             <app-filter [filterFields]="filterFields" [(showFilterPing)]="filterApplied"
                         (filterApplied)="toggleFilter()"></app-filter>

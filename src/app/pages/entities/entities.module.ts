@@ -7,6 +7,7 @@ import {SharedModule} from "../../shared/shared.module";
 import { EntityFormComponent } from './entity-form/entity-form.component';
 import { EntityDetailComponent } from './entity-detail/entity-detail.component';
 import { EntityPerformanceComponent } from './entity-performance/entity-performance.component';
+import {InitiativesModule} from "../initiatives/initiatives.module";
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import { EntityPerformanceComponent } from './entity-performance/entity-performa
     imports: [
         CommonModule,
         EntitiesRoutingModule,
+        InitiativesModule,
         SharedModule
     ],
     exports: [

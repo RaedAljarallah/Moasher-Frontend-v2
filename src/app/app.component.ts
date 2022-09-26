@@ -55,7 +55,7 @@ export class AppComponent implements OnInit {
         this.dropdownOpen = !this.dropdownOpen;
     }
 
-    public prepareRoute(outlet: RouterOutlet): boolean {
+    public prepareRoute(outlet: RouterOutlet): string {
         return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
     }
     

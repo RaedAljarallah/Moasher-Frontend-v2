@@ -34,6 +34,7 @@ export class CollectionComponent implements OnInit, OnChanges, AfterViewInit {
     @Input() statusStyle: string | null = null;
     @Input() withFilters: boolean = true;
     @Input() filterFields: IFilter[] = [];
+    @Input() subList: boolean = false;
     @ContentChild("listView") listViewTemplate!: TemplateRef<any>;
     @Output() itemSelected: EventEmitter<any> = new EventEmitter<any>();
     @Output() addClicked: EventEmitter<void> = new EventEmitter<void>();

@@ -1,4 +1,4 @@
-<app-collection [items]="data$ | async" title="المبادرات" addBtnTitle="مبادرة جديدة" 
+<app-collection [items]="data$ | async" title="المبادرات" addBtnTitle="مبادرة جديدة" [subList]="subList"
                 (itemSelected)="showDetail($event)" (addClicked)="onCreate()" [filterFields]="filterFields">
     <ng-template #listView let-data="data">
         <div class="md:max-w-xs lg:max-w-sm xl:max-w-md 2xl:max-w-4xl w-full">

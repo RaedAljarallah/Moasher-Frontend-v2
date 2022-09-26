@@ -1,8 +1,10 @@
-<app-detail-page [tabs]="tabs" [state]="detailPageState" titleKey="name" [(selectedTab)]="selectedTab" [notFound]="notFoundState"
+<app-detail-page [tabs]="tabs" [state]="detailPageState" [returnUrl]="returnUrl" titleKey="name" 
+                 [(selectedTab)]="selectedTab" [notFound]="notFoundState"
                  (deleteClicked)="delete()"
                  (editClicked)="update()">
     <ng-container *ngIf="detailPageState">
         <app-entity-performance *ngIf="selectedTab === 'performance'"></app-entity-performance>
+        <app-initiatives-list [subList]="true" *ngIf="selectedTab === 'initiatives'"></app-initiatives-list>
     </ng-container>
 </app-detail-page>
 
