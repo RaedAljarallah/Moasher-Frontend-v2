@@ -32,6 +32,7 @@ export class DetailPageComponent implements OnInit, AfterViewInit {
     @Input() editBtnLoading: boolean = false;
     @Output() editClicked: EventEmitter<void> = new EventEmitter<void>();
     @Output() deleteClicked: EventEmitter<void> = new EventEmitter<void>();
+    @Output() selectedTabChange: EventEmitter<string> = new EventEmitter<string>();
     @ViewChildren('tabsList') tabsList: QueryList<ElementRef> = new QueryList<ElementRef>();
 
     private currentTabIndex: number = 0;
@@ -75,6 +76,7 @@ export class DetailPageComponent implements OnInit, AfterViewInit {
         if (tab.id === this.selectedTab) return;
         this.selectedTab = tab.id;
         this.getTranslateMargin(this.tabs.findIndex(t => t.id === tab.id));
+        this.selectedTabChange.emit(this.selectedTab);
         await this.router.navigate([], {
             queryParams: {
                 s: this.selectedTab

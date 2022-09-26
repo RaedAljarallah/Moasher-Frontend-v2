@@ -7,7 +7,7 @@ import {ModalService} from "../../shared/modal/modal.service";
 import {IResponse} from "../models/response.model";
 import {Observable} from "rxjs";
 import {HttpParams} from "@angular/common/http";
-import {map, tap} from "rxjs/operators";
+import {distinctUntilChanged, map, tap} from "rxjs/operators";
 import {IKeyable} from "../models/keyable.model";
 
 @Component({
@@ -40,9 +40,7 @@ export abstract class DetailComponentBase<TType extends IKeyable, TCommand> impl
         if (!this.detailPageState) {
             this.getData(this.route.snapshot.paramMap.get('id')!).subscribe(result => this.detailPageState = result);
         }
-        this.route.queryParamMap.subscribe(param => {
-            this.selectedTab = param.get('s') ?? this.selectedTab;
-        });
+        this.selectedTab = this.route.snapshot.queryParamMap.get('s') ?? this.selectedTab;
     }
 
     public getData(id: string): Observable<TType> {

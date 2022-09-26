@@ -1,4 +1,4 @@
-<app-detail-page [tabs]="tabs" [state]="detailPageState" titleKey="name" [editBtnLoading]="isFormLoading" [selectedTab]="selectedTab"
+<app-detail-page [tabs]="tabs" [state]="detailPageState" titleKey="name" [editBtnLoading]="isFormLoading" [(selectedTab)]="selectedTab"
                  [notFound]="notFoundState"
                  (deleteClicked)="delete()" 
                  (editClicked)="update()">

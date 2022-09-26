@@ -47,7 +47,7 @@
                 </div>
                 <div class="col-span-full sm:col-span-6">
                     <app-form-input [control]="ownerPhoneNumber" id="ownerPhoneNumber" name="رقم الهاتف لمالك المؤشر"
-                                    placeholder="0555555555"></app-form-input>
+                                    placeholder="05xxxxxxxx"></app-form-input>
                 </div>
                 <div class="col-span-full sm:col-span-6">
                     <app-form-input [control]="ownerPosition" id="ownerPosition"
@@ -100,7 +100,7 @@
                                     [dynamicListDefaultItems]="currentEntity"
                                     listUrl="entities"></app-form-input>
                 </div>
-                <div class="col-span-full sm:col-span-6">
+                <div class="col-span-full">
                     <app-form-input [control]="levelThreeStrategicObjectiveId" id="levelThreeStrategicObjectiveId"
                                     listUrl="strategic-objectives?level=3"
                                     [dynamicListDefaultItems]="currentLevelThreeObjective"
@@ -108,7 +108,7 @@
                                     (listValueSelected)="onLevelThreeSelected($event)">
                     </app-form-input>
                 </div>
-                <div class="col-span-full sm:col-span-6">
+                <div class="col-span-full">
                     <app-form-input [control]="levelFourStrategicObjectiveId" id="levelFourStrategicObjectiveId"
                                     [listUrl]="levelFourUrl"
                                     [dynamicListDefaultItems]="currentLevelFourObjective"
