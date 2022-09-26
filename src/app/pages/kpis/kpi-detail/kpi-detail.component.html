@@ -5,6 +5,8 @@
     <ng-container *ngIf="detailPageState">
         <app-kpi-performance *ngIf="selectedTab === 'performance'"></app-kpi-performance>
         <app-kpi-values [frequency]="detailPageState.frequency" [kpiId]="detailPageState.id" *ngIf="selectedTab === 'values'"></app-kpi-values>
+        <app-analytics-list parentType="KPI" [parentId]="detailPageState.id" *ngIf="selectedTab === 'analytics'"></app-analytics-list>
+        <app-kpi-over-view [kpi]="detailPageState" *ngIf="selectedTab === 'over-view'"></app-kpi-over-view>
     </ng-container>
 </app-detail-page>
 

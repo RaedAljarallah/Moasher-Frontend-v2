@@ -24,6 +24,8 @@ export interface IKpi extends IBaseModel{
     actualProgress?: number;
     status?: IEnumValue;
     entityName: string;
+    levelOneStrategicObjectiveName: string,
+    levelTwoStrategicObjectiveName: string,
     levelThreeStrategicObjectiveName: string;
     levelFourStrategicObjectiveName?: string;
 }

@@ -1,0 +1,144 @@
+<div class="bg-white rounded-lg border border-theme-gray-300 flex flex-col divide-y divide-theme-gray-300">
+    <div class="grid grid-cols-12 divide-x divide-x-reverse divide-theme-gray-300">
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">اسم المؤشر</span>
+        </div>
+        <div class="col-span-4 p-2 grid items-center">
+            <span class="text-sm">{{ kpi.name }}</span>
+        </div>
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">رمز المؤشر</span>
+        </div>
+        <div class="p-2 grid items-center">
+            <span class="text-sm">{{ kpi.code }}</span>
+        </div>
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">الجهة</span>
+        </div>
+        <div class="col-span-2 p-2 grid items-center">
+            <span class="text-sm">{{ kpi.entityName }}</span>
+        </div>
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">الحالة</span>
+        </div>
+        <div class="p-2 grid items-center">
+            <span class="rounded-full px-2 max-w-fit w-full text-sm" [ngClass]="kpi.status?.style">{{ kpi.status?.name }}</span>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-12 divide-x divide-x-reverse divide-theme-gray-300">
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">مالك المؤشر</span>
+        </div>
+        <div class="col-span-2 p-2 grid items-center">
+            <span class="text-sm">{{ kpi.ownerName }}</span>
+        </div>
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">البريد الإلكتروني</span>
+        </div>
+        <div class="col-span-2 p-2 grid items-center">
+            <span class="text-sm">{{ kpi.ownerEmail }}</span>
+        </div>
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">رقم الهاتف</span>
+        </div>
+        <div class="col-span-2 p-2 grid items-center">
+            <span class="text-sm">{{ kpi.ownerPhoneNumber }}</span>
+        </div>
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">المنصب</span>
+        </div>
+        <div class="col-span-2 p-2 grid items-center">
+            <span class="text-sm">{{ kpi.ownerPosition }}</span>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-12 divide-x divide-x-reverse divide-theme-gray-300">
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">وصف المؤشر</span>
+        </div>
+        <div class="col-span-5 p-2 grid items-center">
+            <span class="text-sm">{{ kpi.description }}</span>
+        </div>
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">معادلة المؤشر</span>
+        </div>
+        <div class="col-span-5 p-2 grid items-center">
+            <span class="text-sm">{{ kpi.formula }}</span>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-12 divide-x divide-x-reverse divide-theme-gray-300">
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">الهدف الإستراتيجي المستوى الأول</span>
+        </div>
+        <div class="col-span-2 p-2 grid items-center">
+            <span class="text-sm">{{ kpi.levelOneStrategicObjectiveName }}</span>
+        </div>
+
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">الهدف الإستراتيجي المستوى الثاني</span>
+        </div>
+        <div class="col-span-2 p-2 grid items-center">
+            <span class="text-sm">{{ kpi.levelTwoStrategicObjectiveName }}</span>
+        </div>
+
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">الهدف الإستراتيجي المستوى الثالث</span>
+        </div>
+        <div class="col-span-2 p-2 grid items-center">
+            <span class="text-sm">{{ kpi.levelThreeStrategicObjectiveName }}</span>
+        </div>
+
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">الهدف الإستراتيجي المستوى الرابع</span>
+        </div>
+        <div class="col-span-2 p-2 grid items-center">
+            <span class="text-sm">{{ kpi.levelFourStrategicObjectiveName }}</span>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-12 divide-x divide-x-reverse divide-theme-gray-300">
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">حالة التوثيق</span>
+        </div>
+        <div class="p-2 grid items-center">
+            <span class="text-sm">{{ translateValidationStatus(kpi.validationStatus) }}</span>
+        </div>
+
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">قطبية المؤشر</span>
+        </div>
+        <div class="p-2 grid items-center">
+            <span class="text-sm">{{ translatePolarity(kpi.polarity) }}</span>
+        </div>
+
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">تكرار القياس</span>
+        </div>
+        <div class="p-2 grid items-center">
+            <span class="text-sm">{{ translateFrequency(kpi.frequency) }}</span>
+        </div>
+
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">وحدة القياس</span>
+        </div>
+        <div class="p-2 grid items-center">
+            <span class="text-sm">{{ kpi.measurementUnit }}</span>
+        </div>
+
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">قيمة خط الأساس</span>
+        </div>
+        <div class="p-2 grid items-center">
+            <span class="text-sm">{{ kpi.baselineValue | localCurrency }}</span>
+        </div>
+
+        <div class="p-2 grid items-center">
+            <span class="text-sm text-theme-gray-500">سنة خط الأساس</span>
+        </div>
+        <div class="p-2 grid items-center">
+            <span class="text-sm">{{ kpi.baselineYear }}</span>
+        </div>
+    </div>
+</div>

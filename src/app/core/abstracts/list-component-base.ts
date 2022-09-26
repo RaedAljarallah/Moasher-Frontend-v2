@@ -69,7 +69,9 @@ export abstract class ListComponentBase<TType extends IIdentifiable, TCommand> i
 
     private getDate(refresh$: BehaviorSubject<{ [k: string]: string }>): Observable<IResponse<TType[]>> {
         return refresh$.pipe(
-            distinctUntilChanged(),
+            distinctUntilChanged((previous: any, current: any) => {
+                return previous !== current;
+            }),
             map((params: { [k: string]: string }) => {
                 return UrlUtility.getHttpParams(params);
             }),

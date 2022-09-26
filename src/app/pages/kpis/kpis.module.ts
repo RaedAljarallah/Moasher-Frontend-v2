@@ -9,6 +9,8 @@ import { KpiFormComponent } from './kpi-form/kpi-form.component';
 import { KpiValuesComponent } from './kpi-values/kpi-values.component';
 import { KpiValueFormComponent } from './kpi-values/kpi-value-form/kpi-value-form.component';
 import { KpiPerformanceComponent } from './kpi-performance/kpi-performance.component';
+import {AnalyticsModule} from "../analytics/analytics.module";
+import { KpiOverViewComponent } from './kpi-over-view/kpi-over-view.component';
 
 
 @NgModule({
@@ -18,11 +20,13 @@ import { KpiPerformanceComponent } from './kpi-performance/kpi-performance.compo
         KpiFormComponent,
         KpiValuesComponent,
         KpiValueFormComponent,
-        KpiPerformanceComponent
+        KpiPerformanceComponent,
+        KpiOverViewComponent
     ],
     imports: [
         CommonModule,
         KPIsRoutingModule,
+        AnalyticsModule,
         SharedModule
     ],
     exports: [
@@ -31,7 +35,8 @@ import { KpiPerformanceComponent } from './kpi-performance/kpi-performance.compo
         KpiFormComponent,
         KpiValuesComponent,
         KpiValueFormComponent,
-        KpiPerformanceComponent
+        KpiPerformanceComponent,
+        KpiOverViewComponent
     ]
 })
 export class KPIsModule {

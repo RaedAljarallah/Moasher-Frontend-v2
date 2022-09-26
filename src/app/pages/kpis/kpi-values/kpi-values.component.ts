@@ -35,7 +35,6 @@ export class KpiValuesComponent extends TableComponentBase<IKpiValue, KpiValueCo
     protected _modalId: string = 'KpiValueModal';
 
     protected override onInit() {
-        console.log('hi');
         this.command = new KpiValueCommand(null)
             .setKpiId(this.kpiId)
             .setFrequency(this.frequency);
