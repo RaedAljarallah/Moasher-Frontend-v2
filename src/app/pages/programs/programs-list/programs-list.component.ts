@@ -19,11 +19,11 @@ export class ProgramsListComponent extends ListComponentBase<IProgram, ProgramCo
         super(route, router, api, modal);
     }
     protected _modalId: string = 'createProgram';
-    protected _url: string = 'programs';
+    protected _rootUrl: string = 'programs';
     public command: ProgramCommand = new ProgramCommand(null);
 
     protected loadItems(params: HttpParams): Observable<IResponse<IProgram[]>> {
-        return this.api.get<IProgram[]>(this._url, { params: params });
+        return this.api.get<IProgram[]>(this._rootUrl, { params: params });
     }
 
     protected queryParams: { key: string; defaultValue?: string }[] = [];

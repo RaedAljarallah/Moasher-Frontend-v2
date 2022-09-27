@@ -25,7 +25,7 @@ export abstract class DetailComponentBase<TType extends IKeyable, TCommand> impl
     public command!: TCommand;
     public formAction: FormAction = FormAction.Update;
     public formTitle: string = '';
-    public selectedTab: string = 'over-view';
+    public selectedTab: string = 'performance';
     public returnUrl?: string;
     public abstract tabs: ITab[];
     
@@ -48,8 +48,11 @@ export abstract class DetailComponentBase<TType extends IKeyable, TCommand> impl
             this.getData(this.route.snapshot.paramMap.get('id')!).subscribe(result => this.detailPageState = result);
         }
         this.selectedTab = this.route.snapshot.queryParamMap.get('s') ?? this.selectedTab;
+        this.onInit();
     }
-
+    
+    public onInit(): void { }
+    
     public getData(id: string): Observable<TType> {
         return this.loadItems(new HttpParams().append('id', id)).pipe(
             map(res => {

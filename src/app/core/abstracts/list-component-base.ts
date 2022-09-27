@@ -17,11 +17,12 @@ import {queryParameters} from "../constants/query-parameters.constant";
 })
 export abstract class ListComponentBase<TType extends IIdentifiable, TCommand> implements OnInit, OnDestroy {
     @Input() subList: boolean = false;
+    @Input() url?: string;
     @ViewChild(CollectionComponent) collection!: CollectionComponent;
     public data$: Observable<IResponse<TType[]>>;
     public refresh$: BehaviorSubject<{ [k: string]: string }>;
     public filterFields: IFilter[] = [];
-    protected abstract _url: string;
+    protected abstract _rootUrl: string;
     protected abstract _modalId: string;
     protected abstract queryParams: { key: string, defaultValue?: string }[];
     public abstract command: TCommand;
@@ -48,7 +49,7 @@ export abstract class ListComponentBase<TType extends IIdentifiable, TCommand> i
     }
 
     public async showDetail(item: TType): Promise<void> {
-        await this.router.navigateByUrl(`${this._url}/${item.id}`, {state: {item: item, returnUrl: this.router.url}})
+        await this.router.navigateByUrl(`${this._rootUrl}/${item.id}`, {state: {item: item, returnUrl: this.router.url}})
     }
 
     public onCreate(): void {

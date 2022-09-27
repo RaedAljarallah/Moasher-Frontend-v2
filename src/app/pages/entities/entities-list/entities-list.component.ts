@@ -19,11 +19,11 @@ export class EntitiesListComponent extends ListComponentBase<IEntity, EntityComm
         super(route, router, api, modal);
     }
     protected _modalId: string = 'createEntity';
-    protected _url: string = 'entities';
+    protected _rootUrl: string = 'entities';
     public command: EntityCommand = new EntityCommand(null);
     
     protected loadItems(params: HttpParams): Observable<IResponse<IEntity[]>> {
-        return this.api.get<IEntity[]>(this._url, { params: params });
+        return this.api.get<IEntity[]>(this._rootUrl, { params: params });
     }
 
     protected queryParams: { key: string; defaultValue?: string }[] = [];

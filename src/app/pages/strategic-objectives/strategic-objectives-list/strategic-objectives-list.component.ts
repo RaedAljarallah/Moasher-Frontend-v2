@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {ListComponentBase} from "../../../core/abstracts/list-component-base";
 import {IStrategicObjectiveBase} from "../core/models/strategic-objective-base.model";
 import {StrategicObjectiveCommand} from "../core/models/strategic-objective.command";
@@ -15,21 +15,30 @@ import {IResponse} from "../../../core/models/response.model";
     styles: []
 })
 export class StrategicObjectivesListComponent extends ListComponentBase<IStrategicObjectiveBase, StrategicObjectiveCommand> {
+    @Input() level = 1;
+
     constructor(route: ActivatedRoute, router: Router, api: ApiService, modal: ModalService) {
         super(route, router, api, modal);
     }
+
     protected _modalId: string = 'createObjective';
-    protected _url: string = 'strategic-objectives';
+    protected _rootUrl: string = 'strategic-objectives';
     protected queryParams: { key: string; defaultValue?: string }[] = [
-        { key: 'level', defaultValue: '1' }
+        {key: 'level', defaultValue: '1'}
     ];
-    
+
     public command: StrategicObjectiveCommand = new StrategicObjectiveCommand(null);
-    public level: number = 1;
+
     protected loadItems(params: HttpParams): Observable<IResponse<IStrategicObjectiveBase[]>> {
-        return this.api.get<IStrategicObjectiveBase[]>(this._url, { params: params });
+        if (!this.url) {
+            this.url = this._rootUrl;
+        }
+        if (this.subList) {
+            params = params.delete('level');
+        }
+        return this.api.get<IStrategicObjectiveBase[]>(this.url, {params: params});
     }
-    
+
     public async setLevel(e: Event, level: number): Promise<void> {
         e.preventDefault();
         await this.router.navigate([], {
@@ -43,7 +52,12 @@ export class StrategicObjectivesListComponent extends ListComponentBase<IStrateg
     }
 
     protected override onInit() {
-        const level = parseInt(this.route.snapshot.queryParamMap.get('level') ?? '1');
-        this.level = !isNaN(level) ? level : 1;
+        if (this.subList) {
+            this.queryParams = [];
+        }
+        if (!this.subList) {
+            const level = parseInt(this.route.snapshot.queryParamMap.get('level') ?? '1');
+            this.level = !isNaN(level) ? level : 1;
+        }
     }
 }

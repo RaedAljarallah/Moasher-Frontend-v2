@@ -20,11 +20,11 @@ export class PortfoliosListComponent extends ListComponentBase<IPortfolio, Portf
     super(route, router, api, modal);
   }
   protected _modalId: string = 'createPortfolio';
-  protected _url: string = 'portfolios';
+  protected _rootUrl: string = 'portfolios';
   public command: PortfolioCommand = new PortfolioCommand(null);
 
   protected loadItems(params: HttpParams): Observable<IResponse<IPortfolio[]>> {
-    return this.api.get<IPortfolio[]>(this._url, { params: params });
+    return this.api.get<IPortfolio[]>(this._rootUrl, { params: params });
   }
 
   protected queryParams: { key: string; defaultValue?: string }[] = [];

@@ -1,10 +1,16 @@
-<app-detail-page [tabs]="tabs" [state]="detailPageState" [returnUrl]="returnUrl" titleKey="name" 
+<app-detail-page [tabs]="tabs" [state]="detailPageState" [returnUrl]="returnUrl" titleKey="name"
                  [(selectedTab)]="selectedTab" [notFound]="notFoundState"
                  (deleteClicked)="delete()"
                  (editClicked)="update()">
     <ng-container *ngIf="detailPageState">
         <app-entity-performance *ngIf="selectedTab === 'performance'"></app-entity-performance>
-        <app-initiatives-list [subList]="true" *ngIf="selectedTab === 'initiatives'"></app-initiatives-list>
+        <app-initiatives-list [subList]="true" [url]="'initiatives?entityId=' + detailPageState.id"
+                              *ngIf="selectedTab === 'initiatives'"></app-initiatives-list>
+        <app-kpis-list [subList]="true" [url]="'kpis?entityId=' + detailPageState.id"
+                       *ngIf="selectedTab === 'kpis'"></app-kpis-list>
+        <app-strategic-objectives-list [subList]="true" *ngIf="selectedTab === 'objectives'" [level]="3"
+                                       [url]="'strategic-objectives?level=3&entityId=' + detailPageState.id">
+        </app-strategic-objectives-list>
     </ng-container>
 </app-detail-page>
 

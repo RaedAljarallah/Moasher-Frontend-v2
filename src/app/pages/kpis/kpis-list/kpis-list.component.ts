@@ -21,10 +21,13 @@ export class KpisListComponent extends ListComponentBase<IKpi, KpiCommand> {
         super(route, router, api, modal);
     }
     protected _modalId: string = 'createKPI';
-    protected _url: string = 'kpis';
+    protected _rootUrl: string = 'kpis';
     public command: KpiCommand = new KpiCommand(null);
     protected loadItems(params: HttpParams): Observable<IResponse<IKpi[]>> {
-        return this.api.get<IKpi[]>(this._url, {params: params});
+        if (!this.url) {
+            this.url = this._rootUrl
+        }
+        return this.api.get<IKpi[]>(this.url, {params: params});
     }
     
     override filterFields: IFilter[] = [
@@ -88,4 +91,10 @@ export class KpisListComponent extends ListComponentBase<IKpi, KpiCommand> {
         {key: 'l4Id'},
         {key: 'statusId'}
     ];
+
+    protected override onInit() {
+        if (this.subList) {
+            this.queryParams = [];
+        }
+    }
 }

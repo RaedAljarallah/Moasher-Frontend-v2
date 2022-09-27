@@ -1,11 +1,14 @@
-<app-detail-page [tabs]="tabs" [state]="detailPageState" titleKey="name" [editBtnLoading]="isFormLoading" [(selectedTab)]="selectedTab"
+<app-detail-page [tabs]="tabs" [state]="detailPageState" [returnUrl]="returnUrl" titleKey="name"
+                 [editBtnLoading]="isFormLoading" [(selectedTab)]="selectedTab"
                  [notFound]="notFoundState"
                  (deleteClicked)="delete()"
                  (editClicked)="update()">
     <ng-container *ngIf="detailPageState">
         <app-kpi-performance *ngIf="selectedTab === 'performance'"></app-kpi-performance>
-        <app-kpi-values [frequency]="detailPageState.frequency" [kpiId]="detailPageState.id" *ngIf="selectedTab === 'values'"></app-kpi-values>
-        <app-analytics-list parentType="KPI" [parentId]="detailPageState.id" *ngIf="selectedTab === 'analytics'"></app-analytics-list>
+        <app-kpi-values [frequency]="detailPageState.frequency" [kpiId]="detailPageState.id"
+                        *ngIf="selectedTab === 'values'"></app-kpi-values>
+        <app-analytics-list parentType="KPI" [parentId]="detailPageState.id"
+                            *ngIf="selectedTab === 'analytics'"></app-analytics-list>
         <app-kpi-over-view [kpi]="detailPageState" *ngIf="selectedTab === 'over-view'"></app-kpi-over-view>
     </ng-container>
 </app-detail-page>
@@ -14,7 +17,7 @@
     <p class="text-sm font-semibold ml-2" modal-head>{{ formTitle }}</p>
     <div modal-body>
         <app-kpi-form *ngIf="modal.showBody" [inputCommand]="command" [formAction]="formAction"
-                             (formSubmitted)="onSubmit($event)">
+                      (formSubmitted)="onSubmit($event)">
         </app-kpi-form>
     </div>
 </app-modal>

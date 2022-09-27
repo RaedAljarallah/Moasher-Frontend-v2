@@ -1,14 +1,15 @@
-<div class="flex items-center space-x-reverse space-x-2 mb-2">
-    <a href="#" class="py-1.5 w-32 text-sm hover:text-theme-teal-500" (click)="setLevel($event, 1)" 
+<div class="flex items-center space-x-reverse space-x-2 mb-2" *ngIf="!subList">
+    <a href="#" class="py-1.5 w-32 text-sm hover:text-theme-teal-500" (click)="setLevel($event, 1)"
        [ngClass]="{'text-theme-teal-500': level === 1, 'text-theme-gray-500': level !== 1}">المستوى الأول</a>
-    <a href="#" class="py-1.5 w-32 text-sm hover:text-theme-teal-500" (click)="setLevel($event, 2)" 
+    <a href="#" class="py-1.5 w-32 text-sm hover:text-theme-teal-500" (click)="setLevel($event, 2)"
        [ngClass]="{'text-theme-teal-500': level === 2, 'text-theme-gray-500': level !== 2}">المستوى الثاني</a>
-    <a href="#" class="py-1.5 w-32 text-sm hover:text-theme-teal-500" (click)="setLevel($event, 3)" 
+    <a href="#" class="py-1.5 w-32 text-sm hover:text-theme-teal-500" (click)="setLevel($event, 3)"
        [ngClass]="{'text-theme-teal-500': level === 3, 'text-theme-gray-500': level !== 3}">المستوى الثالث</a>
-    <a href="#" class="py-1.5 w-32 text-sm hover:text-theme-teal-500" (click)="setLevel($event, 4)" 
+    <a href="#" class="py-1.5 w-32 text-sm hover:text-theme-teal-500" (click)="setLevel($event, 4)"
        [ngClass]="{'text-theme-teal-500': level === 4, 'text-theme-gray-500': level !== 4}">المستوى الرابع</a>
 </div>
-<app-collection [items]="data$ | async" title="الأهداف الإستراتيجية" addBtnTitle="هدف جديد" [showStatus]="false" [withFilters]="false"
+<app-collection [items]="data$ | async" title="الأهداف الإستراتيجية" addBtnTitle="هدف جديد" [showStatus]="false"
+                [withFilters]="false" [subList]="subList"
                 (itemSelected)="showDetail($event)" (addClicked)="onCreate()">
     <ng-template #listView let-data="data">
         <div class="md:max-w-xs lg:max-w-sm xl:max-w-md 2xl:max-w-4xl w-full">
@@ -72,7 +73,7 @@
                     <span class="text-sm text-theme-gray-900">{{ data.levelThree?.name }}</span>
                 </div>
             </ng-container>
-            
+
             <div class="text-center">
                 <small class="text-theme-gray-500 text-xs block">المؤشرات</small>
                 <span class="text-sm text-theme-gray-900">{{ data.kpIsCount }}</span>
@@ -88,7 +89,7 @@
 <app-modal modalId="createObjective" size="lg" #modal>
     <p class="text-sm font-semibold ml-2" modal-head>هدف إستراتيجي جديد</p>
     <div modal-body>
-        <app-strategic-objective-form 
+        <app-strategic-objective-form
                 *ngIf="modal.showBody" [inputCommand]="command" [level]="level"
                 (formSubmitted)="updateItems($event)"></app-strategic-objective-form>
     </div>

@@ -23,7 +23,7 @@ export class EntityDetailComponent extends DetailComponentBase<IEntity, EntityCo
     protected _deleteFormTitle: string = 'حذف جهة';
     protected _updateFormTitle: string = 'تعديل جهة';
     protected _modalId: string = 'EntityDetail';
-
+    
     protected initCommand(): void {
         this.command = new EntityCommand(this.detailPageState!)
     }

@@ -21,11 +21,14 @@ export class InitiativesListComponent extends ListComponentBase<IInitiative, Ini
     }
 
     protected _modalId: string = 'createInitiative';
-    protected _url: string = 'initiatives';
+    protected _rootUrl: string = 'initiatives';
     public command: InitiativeCommand = new InitiativeCommand(null);
 
     protected loadItems(params: HttpParams): Observable<IResponse<IInitiative[]>> {
-        return this.api.get<IInitiative[]>(this._url, {params: params});
+        if (!this.url) {
+            this.url = this._rootUrl;
+        }
+        return this.api.get<IInitiative[]>(this.url, {params: params});
     }
     
     override filterFields: IFilter[] = [
@@ -125,4 +128,10 @@ export class InitiativesListComponent extends ListComponentBase<IInitiative, Ini
         {key: 'issueStatusId'},
         {key: 'riskImpactId'},
     ];
+    
+    protected override onInit() {
+        if (this.subList) {
+            this.queryParams = [];
+        }
+    }
 }
