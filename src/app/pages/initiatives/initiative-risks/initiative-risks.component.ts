@@ -20,7 +20,7 @@ export class InitiativeRisksComponent extends TableComponentBase<IRisk, RiskComm
     @Input() initiativeId: string = '';
     @Input() fullList: boolean = false;
 
-    public isFormLoading: boolean = false;
+    public isFormLoading: {[key: string]: boolean} = {};
 
     constructor(route: ActivatedRoute, router: Router, api: ApiService, modal: ModalService) {
         super(route, router, api, modal);
@@ -34,7 +34,7 @@ export class InitiativeRisksComponent extends TableComponentBase<IRisk, RiskComm
     protected override onInit() {
         this.command = new RiskCommand(null).setInitiativeId(this.initiativeId);
         this.headers = [
-            {value: 'وصف الخطر', classes: 'xl:min-w-[28rem]'},
+            {value: 'وصف الخطر', classes: this.fullList ? 'w-28' : 'xl:min-w-[28rem]'},
             {value: 'نطاق الخطر', classes: 'w-28'},
             {value: 'نوع الخطر', classes: 'w-28'},
             {value: 'الأولوية', classes: 'w-28'},
@@ -94,7 +94,7 @@ export class InitiativeRisksComponent extends TableComponentBase<IRisk, RiskComm
 
         if (this.fullList) {
             this.headers.unshift(...[
-                {value: 'المبادرة', classes: 'w-28'},
+                {value: 'المبادرة', classes: 'xl:min-w-[28rem]'},
                 {value: 'الجهة', classes: 'w-28'}
             ]);
 
@@ -118,7 +118,11 @@ export class InitiativeRisksComponent extends TableComponentBase<IRisk, RiskComm
     }
 
     protected loadItems(params: HttpParams): Observable<IResponse<IRisk[]>> {
-        return this.api.get<IRisk[]>(`risks?initiativeId=${this.initiativeId}`, {params: params});
+        let url = 'risks';
+        if (!this.fullList) {
+            url = `${url}?initiativeId=${this.initiativeId}`;
+        }
+        return this.api.get<IRisk[]>(url, {params: params});
     }
 
     protected queryParams: { key: string; defaultValue?: string }[] = [
@@ -143,13 +147,12 @@ export class InitiativeRisksComponent extends TableComponentBase<IRisk, RiskComm
     override onUpdate(item: IRisk) {
         this.formTitle = this._updateFormTitle;
         this.formAction = FormAction.Update;
-        this.isFormLoading = true;
+        this.isFormLoading[item.id] = true;
         this.api.edit<RiskCommand>(`risks/${item.id}/edit`).pipe(
-            finalize(() => this.isFormLoading = false)
+            finalize(() => this.isFormLoading[item.id] = false)
         ).subscribe(res => {
             this.command = res.result;
             this.modal.open(this._modalId);
         })
     }
-
 }

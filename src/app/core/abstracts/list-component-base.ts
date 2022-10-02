@@ -41,6 +41,12 @@ export abstract class ListComponentBase<TType extends IIdentifiable, TCommand> i
 
     public ngOnInit(): void {
         this.modal.register(this._modalId);
+        if (this.subList) {
+            this.queryParams = [];
+        }
+        if (!this.url) {
+            this.url = this._rootUrl;
+        }
         this.route.queryParams.subscribe((params: Params) => {
             this.refresh$.next(this.getQueryParams(params));
             this.data$ = this.getDate(this.refresh$);

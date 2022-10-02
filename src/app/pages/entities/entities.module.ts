@@ -10,6 +10,7 @@ import { EntityPerformanceComponent } from './entity-performance/entity-performa
 import {InitiativesModule} from "../initiatives/initiatives.module";
 import {KPIsModule} from "../kpis/kpis.module";
 import {StrategicObjectivesModule} from "../strategic-objectives/strategic-objectives.module";
+import {AnalyticsModule} from "../analytics/analytics.module";
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import {StrategicObjectivesModule} from "../strategic-objectives/strategic-objec
         InitiativesModule,
         KPIsModule,
         StrategicObjectivesModule,
+        AnalyticsModule,
         SharedModule
     ],
     exports: [

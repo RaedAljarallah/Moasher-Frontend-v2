@@ -30,13 +30,10 @@ export class StrategicObjectivesListComponent extends ListComponentBase<IStrateg
     public command: StrategicObjectiveCommand = new StrategicObjectiveCommand(null);
 
     protected loadItems(params: HttpParams): Observable<IResponse<IStrategicObjectiveBase[]>> {
-        if (!this.url) {
-            this.url = this._rootUrl;
-        }
         if (this.subList) {
             params = params.delete('level');
         }
-        return this.api.get<IStrategicObjectiveBase[]>(this.url, {params: params});
+        return this.api.get<IStrategicObjectiveBase[]>(this.url!, {params: params});
     }
 
     public async setLevel(e: Event, level: number): Promise<void> {
@@ -52,9 +49,6 @@ export class StrategicObjectivesListComponent extends ListComponentBase<IStrateg
     }
 
     protected override onInit() {
-        if (this.subList) {
-            this.queryParams = [];
-        }
         if (!this.subList) {
             const level = parseInt(this.route.snapshot.queryParamMap.get('level') ?? '1');
             this.level = !isNaN(level) ? level : 1;

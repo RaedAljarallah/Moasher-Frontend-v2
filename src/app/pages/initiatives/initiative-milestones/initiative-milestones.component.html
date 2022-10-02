@@ -5,14 +5,11 @@
         <td>{{ data.weight }}%</td>
         <td>{{ data.plannedFinish | isoDate }}</td>
         <td>{{ data.actualFinish | isoDate }}</td>
-        <td class="flex space-x-1 space-x-reverse justify-end items-center">
-            <button class="btn px-2 py-1 text-xs btn-white border-none rounded" (click)="onUpdate(data)">
-                <i class="fa fa-edit"></i>
-            </button>
-            <div class="border-l border-l-theme-gray-300 py-2"></div>
-            <button class="btn px-2 py-1 text-xs btn-white border-none" (click)="onDelete(data)">
-                <i class="fa fa-trash-alt px-0.5"></i>
-            </button>
+        <td>
+            <app-table-actions-buttons
+                    (UpdateBtnClicked)="onUpdate(data)"
+                    (DeleteBtnClicked)="onDelete(data)">
+            </app-table-actions-buttons>
         </td>
     </ng-template>
 </app-table>

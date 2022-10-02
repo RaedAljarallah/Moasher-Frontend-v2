@@ -23,7 +23,8 @@ export class ProgramsListComponent extends ListComponentBase<IProgram, ProgramCo
     public command: ProgramCommand = new ProgramCommand(null);
 
     protected loadItems(params: HttpParams): Observable<IResponse<IProgram[]>> {
-        return this.api.get<IProgram[]>(this._rootUrl, { params: params });
+        params = params.append('withKPIs', true);
+        return this.api.get<IProgram[]>(this.url!, { params: params });
     }
 
     protected queryParams: { key: string; defaultValue?: string }[] = [];

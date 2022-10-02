@@ -20,7 +20,7 @@ export class InitiativeIssuesComponent extends TableComponentBase<IIssue, IssueC
     @Input() initiativeId: string = '';
     @Input() fullList: boolean = false;
 
-    public isFormLoading: boolean = false;
+    public isFormLoading: {[key: string]: boolean} = {};
 
     constructor(route: ActivatedRoute, router: Router, api: ApiService, modal: ModalService) {
         super(route, router, api, modal);
@@ -34,7 +34,7 @@ export class InitiativeIssuesComponent extends TableComponentBase<IIssue, IssueC
     protected override onInit() {
         this.command = new IssueCommand(null).setInitiativeId(this.initiativeId);
         this.headers = [
-            {value: 'وصف المعوق', classes: 'xl:min-w-[28rem]'},
+            {value: 'وصف المعوق', classes: this.fullList ? 'w-28' : 'xl:min-w-[28rem]'},
             {value: 'نطاق المعوق', classes: 'w-28'},
             {value: 'الحالة', classes: 'w-28'},
             {value: 'الأثر', classes: 'w-28'},
@@ -81,7 +81,7 @@ export class InitiativeIssuesComponent extends TableComponentBase<IIssue, IssueC
 
         if (this.fullList) {
             this.headers.unshift(...[
-                {value: 'المبادرة', classes: 'w-28'},
+                {value: 'المبادرة', classes: 'xl:min-w-[28rem]'},
                 {value: 'الجهة', classes: 'w-28'}
             ]);
 
@@ -105,7 +105,11 @@ export class InitiativeIssuesComponent extends TableComponentBase<IIssue, IssueC
     }
 
     protected loadItems(params: HttpParams): Observable<IResponse<IIssue[]>> {
-        return this.api.get<IIssue[]>(`issues?initiativeId=${this.initiativeId}`, {params: params});
+        let url = 'issues';
+        if (!this.fullList) {
+            url = `${url}?initiativeId=${this.initiativeId}`;
+        }
+        return this.api.get<IIssue[]>(url, {params: params});
     }
 
     protected queryParams: { key: string; defaultValue?: string }[] = [
@@ -130,9 +134,9 @@ export class InitiativeIssuesComponent extends TableComponentBase<IIssue, IssueC
     override onUpdate(item: IIssue) {
         this.formTitle = this._updateFormTitle;
         this.formAction = FormAction.Update;
-        this.isFormLoading = true;
+        this.isFormLoading[item.id] = true;
         this.api.edit<IssueCommand>(`issues/${item.id}/edit`).pipe(
-            finalize(() => this.isFormLoading = false)
+            finalize(() => this.isFormLoading[item.id] = false)
         ).subscribe(res => {
             this.command = res.result;
             this.modal.open(this._modalId);

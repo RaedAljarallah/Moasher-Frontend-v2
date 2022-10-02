@@ -3,6 +3,15 @@
                  (editClicked)="update()">
     <ng-container *ngIf="detailPageState">
         <app-program-performance *ngIf="selectedTab === 'performance'"></app-program-performance>
+        <app-initiatives-list [subList]="true" [url]="'initiatives?programId=' + detailPageState.id"
+                              *ngIf="selectedTab === 'initiatives'"></app-initiatives-list>
+        <app-kpis-list [subList]="true" [url]="'kpis?programId=' + detailPageState.id"
+                       *ngIf="selectedTab === 'kpis'"></app-kpis-list>
+        <app-strategic-objectives-list [subList]="true" *ngIf="selectedTab === 'objectives'" [level]="3"
+                                       [url]="'strategic-objectives?level=3&programId=' + detailPageState.id">
+        </app-strategic-objectives-list>
+        <app-entities-list [subList]="true" [url]="'entities?programId=' + detailPageState.id"
+                       *ngIf="selectedTab === 'entities'"></app-entities-list>
     </ng-container>
 </app-detail-page>
 

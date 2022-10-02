@@ -43,6 +43,7 @@ export class SettingsPageComponent implements OnInit {
     }
 
     public async selectEnumType(e: Event, enumType: EnumTypeCategory): Promise<void> {
+        // TODO: fix the issue of refresh the page with category
         e.preventDefault();
         this.selectedEnumType = enumType;
         await this.router.navigate([], {

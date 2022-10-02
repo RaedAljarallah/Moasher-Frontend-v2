@@ -39,6 +39,8 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
     @Input() filterFields: IFilter[] = [];
     @Input() breadcrumbs: ITableBreadcrumb[] | null = null;
     @Input() withFilters: boolean = true;
+    @Input() subList: boolean = false;
+    @Input() withPagination: boolean = true;
     @Output() addClicked: EventEmitter<void> = new EventEmitter<void>();
     
     public pager?: Pagination;

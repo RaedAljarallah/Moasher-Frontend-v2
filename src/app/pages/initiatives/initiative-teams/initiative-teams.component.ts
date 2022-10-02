@@ -18,7 +18,7 @@ import {FormAction} from "../../../core/models/data-types/form-action.data-type"
 })
 export class InitiativeTeamsComponent extends TableComponentBase<ITeam, TeamCommand> {
     @Input() initiativeId: string = '';
-    public isFormLoading: boolean = false;
+    public isFormLoading: {[key: string]: boolean} = {};
     
     constructor(route: ActivatedRoute, router: Router, api: ApiService, modal: ModalService) {
         super(route, router, api, modal);
@@ -66,9 +66,9 @@ export class InitiativeTeamsComponent extends TableComponentBase<ITeam, TeamComm
     override onUpdate(item: ITeam) {
         this.formTitle = this._updateFormTitle;
         this.formAction = FormAction.Update;
-        this.isFormLoading = true;
+        this.isFormLoading[item.id] = true;
         this.api.edit<TeamCommand>(`initiative-teams/${item.id}/edit`).pipe(
-            finalize(() => this.isFormLoading = false)
+            finalize(() => this.isFormLoading[item.id] = false)
         ).subscribe(res => {
             this.command = res.result;
             this.modal.open(this._modalId);

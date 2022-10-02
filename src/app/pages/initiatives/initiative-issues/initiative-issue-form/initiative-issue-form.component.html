@@ -4,6 +4,10 @@
     </ul>
     <ng-container *ngIf="!isDeleteRequest; else deletePrompt">
         <div class="grid grid-cols-12 gap-2">
+            <div class="col-span-full" *ngIf="showInitiative">
+                <app-form-input [control]="initiativeId" id="initiativeId" name="المبادرة" type="list"
+                                listUrl="initiatives"></app-form-input>
+            </div>
             <div class="col-span-full">
                 <app-form-input [control]="description" id="description" name="وصف المعوق"
                                 type="textarea"></app-form-input>

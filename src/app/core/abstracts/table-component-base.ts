@@ -1,4 +1,4 @@
-﻿import {Component, OnDestroy, OnInit, ViewChild} from "@angular/core";
+﻿import {Component, Input, OnDestroy, OnInit, ViewChild} from "@angular/core";
 import {IIdentifiable} from "../models/identifiable.model";
 import {ITableBreadcrumb, ITableHeader, TableComponent} from "../../shared/table/table.component";
 import {IFilter} from "../models/filter.model";
@@ -17,6 +17,8 @@ import {queryParameters} from "../constants/query-parameters.constant";
     template: ''
 })
 export abstract class TableComponentBase<TType extends IIdentifiable, TCommand> implements OnInit, OnDestroy {
+    @Input() subList: boolean = false;
+    @Input() withPagination: boolean = true;
     @ViewChild(TableComponent) table!: TableComponent;
 
     public command!: TCommand;

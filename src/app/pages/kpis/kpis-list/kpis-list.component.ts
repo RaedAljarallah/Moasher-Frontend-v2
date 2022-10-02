@@ -24,10 +24,7 @@ export class KpisListComponent extends ListComponentBase<IKpi, KpiCommand> {
     protected _rootUrl: string = 'kpis';
     public command: KpiCommand = new KpiCommand(null);
     protected loadItems(params: HttpParams): Observable<IResponse<IKpi[]>> {
-        if (!this.url) {
-            this.url = this._rootUrl
-        }
-        return this.api.get<IKpi[]>(this.url, {params: params});
+        return this.api.get<IKpi[]>(this.url!, {params: params});
     }
     
     override filterFields: IFilter[] = [
@@ -91,10 +88,4 @@ export class KpisListComponent extends ListComponentBase<IKpi, KpiCommand> {
         {key: 'l4Id'},
         {key: 'statusId'}
     ];
-
-    protected override onInit() {
-        if (this.subList) {
-            this.queryParams = [];
-        }
-    }
 }

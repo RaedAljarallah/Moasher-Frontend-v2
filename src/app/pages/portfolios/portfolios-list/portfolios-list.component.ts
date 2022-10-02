@@ -24,7 +24,7 @@ export class PortfoliosListComponent extends ListComponentBase<IPortfolio, Portf
   public command: PortfolioCommand = new PortfolioCommand(null);
 
   protected loadItems(params: HttpParams): Observable<IResponse<IPortfolio[]>> {
-    return this.api.get<IPortfolio[]>(this._rootUrl, { params: params });
+    return this.api.get<IPortfolio[]>(this.url!, { params: params });
   }
 
   protected queryParams: { key: string; defaultValue?: string }[] = [];

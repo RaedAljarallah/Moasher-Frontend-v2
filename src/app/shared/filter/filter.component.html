@@ -1,6 +1,6 @@
 <div class="flex flex-col space-y-2">
     <div class="flex space-x-reverse space-x-2 items-center" *ngFor="let filter of appliedFilters; let i = index">
-        <ng-select class="theme-select w-1/3"
+        <ng-select class="theme-select min-w-[8rem] max-w-[8rem] w-full"
                    [items]="filterFields"
                    [compareWith]="compareFn"
                    bindLabel="name"
@@ -11,22 +11,28 @@
                    [clearable]="false"
                    [(ngModel)]="filter.selectedFilterField"
                    (change)="changeFilterType(i, $event)">
+            <ng-template ng-option-tmp let-item="item">
+                <div title="{{item.name}}">{{item.name}}</div>
+            </ng-template>
         </ng-select>
 
-        <input appDatePicker [value]="filter.value ?? null" type="text" autocomplete="off" *ngIf="filter.selectedFilterField?.type === 'date'"
+        <input appDatePicker [value]="filter.value ?? null" type="text" autocomplete="off"
+               *ngIf="filter.selectedFilterField?.type === 'date'"
                class="pr-2 py-1 text-sm w-full rounded-md border border-theme-gray-300 focus:outline-none"
                (dateChange)="updateFilterValue(i, $event)"/>
 
-        <app-select-list class="w-full" *ngIf="filter.selectedFilterField?.type === 'dynamic-list'"
+        <app-select-list class="sm:min-w-[22rem] sm:max-w-[24.25rem] md:min-w-[18rem] md:max-w-[22.25rem] xl:min-w-[22rem] xl:max-w-[24.25rem] w-full"
+                         *ngIf="filter.selectedFilterField?.type === 'dynamic-list'"
                          theme="theme-select"
                          [listUrl]="filter.selectedFilterField!.dynamicListUrl!"
                          [placeholder]="filter.selectedFilterField!.listPlaceholder!"
-                         [propertyName]="filter.selectedFilterField!.id!" 
+                         [propertyName]="filter.selectedFilterField!.id!"
                          [badgeTemplate]="filter.selectedFilterField!.isBadgeList ?? false"
                          (filterChanged)="updateFilterValue(i, $event.value)">
         </app-select-list>
 
-        <ng-select class="theme-select w-full" *ngIf="filter.selectedFilterField?.type === 'static-list'"
+        <ng-select class="theme-select sm:min-w-[22rem] sm:max-w-[24.25rem] md:min-w-[18rem] md:max-w-[22.25rem] xl:min-w-[22rem] xl:max-w-[24.25rem] w-full"
+                   *ngIf="filter.selectedFilterField?.type === 'static-list'"
                    [items]="filter.selectedFilterField!.staticListItems!"
                    bindLabel="name"
                    bindValue="value"
@@ -39,15 +45,17 @@
         </ng-select>
 
         <input type="text" autocomplete="off" [disabled]="true" *ngIf="!filter.selectedFilterField"
-               class="pr-2 py-1 text-sm w-full rounded-md border border-theme-gray-300 bg-theme-gray-100" />
+               class="pr-2 py-1 text-sm w-full rounded-md border border-theme-gray-300 bg-theme-gray-100"/>
 
-        <button class="btn px-2 py-1.5 text-xs btn-white border-none" *ngIf="appliedFilters.length > 1"
-                (click)="removeFilter(i)">
-            <i class="fa fa-trash-alt"></i>
-        </button>
-        <button class="btn px-2 py-1.5 text-xs btn-white border-none" (click)="addNewFilter()">
-            <i class="fas fa-plus"></i>
-        </button>
+        <div class="flex">
+            <button class="btn px-2 py-1.5 text-xs btn-white border-none" *ngIf="appliedFilters.length > 1"
+                    (click)="removeFilter(i)">
+                <i class="fa fa-trash-alt"></i>
+            </button>
+            <button class="btn px-2 py-1.5 text-xs btn-white border-none" (click)="addNewFilter()">
+                <i class="fas fa-plus"></i>
+            </button>
+        </div>
     </div>
 
     <div class="flex space-x-reverse space-x-2 items-center justify-end pt-3">

@@ -7,6 +7,10 @@ import { ProgramsListComponent } from './programs-list/programs-list.component';
 import { ProgramDetailComponent } from './program-detail/program-detail.component';
 import { ProgramFormComponent } from './program-form/program-form.component';
 import { ProgramPerformanceComponent } from './program-performance/program-performance.component';
+import {InitiativesModule} from "../initiatives/initiatives.module";
+import {KPIsModule} from "../kpis/kpis.module";
+import {EntitiesModule} from "../entities/entities.module";
+import {StrategicObjectivesModule} from "../strategic-objectives/strategic-objectives.module";
 
 
 @NgModule({
@@ -19,6 +23,10 @@ import { ProgramPerformanceComponent } from './program-performance/program-perfo
     imports: [
         CommonModule,
         ProgramsRoutingModule,
+        InitiativesModule,
+        KPIsModule,
+        EntitiesModule,
+        StrategicObjectivesModule,
         SharedModule
     ],
     exports: [

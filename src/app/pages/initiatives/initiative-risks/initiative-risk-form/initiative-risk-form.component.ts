@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormBase} from "../../../../core/abstracts/form-base";
 import {RiskCommand} from "../../core/models/risk/risk.command";
 import {IRisk} from "../../core/models/risk/risk.model";
@@ -14,6 +14,7 @@ import {FormAction} from "../../../../core/models/data-types/form-action.data-ty
     styles: []
 })
 export class InitiativeRiskFormComponent extends FormBase<IRisk, RiskCommand> implements OnInit {
+    @Input() fullList: boolean = false;
     constructor(api: ApiService) {
         super(api);
     }
@@ -21,11 +22,15 @@ export class InitiativeRiskFormComponent extends FormBase<IRisk, RiskCommand> im
     protected _url: string = 'risks';
 
     protected initCommand(): void {
-        this.command = new RiskCommand(this.form)
-            .setInitiativeId(this.inputCommand.initiativeId);
+        this.command = new RiskCommand(this.form);
+        if (!this.showInitiative) {
+            this.command = this.command
+                .setInitiativeId(this.inputCommand.initiativeId);
+        }
         this.command.id = this.inputCommand.id;
     }
 
+    public initiativeId!: FormControl;
     public description!: FormControl;
     public impactDescription!: FormControl;
     public owner!: FormControl;
@@ -50,8 +55,11 @@ export class InitiativeRiskFormComponent extends FormBase<IRisk, RiskCommand> im
     public currentImpact: IEnumType[] = [];
     public currentScope: IEnumType[] = [];
 
+    public showInitiative: boolean = false;
+    
     public ngOnInit(): void {
         this.isDeleteRequest = (this.formAction == FormAction.Delete);
+        this.showInitiative = this.fullList && this.formAction === FormAction.Create;
         
         if (this.formAction === FormAction.Update) {
             this.currentType.push(this.inputCommand.type);
@@ -95,7 +103,11 @@ export class InitiativeRiskFormComponent extends FormBase<IRisk, RiskCommand> im
             this.scopeEnumId = new FormControl(this.inputCommand.scopeEnumId, [
                 Validators.required
             ]);
-            
+            if (this.showInitiative) {
+                this.initiativeId = new FormControl(null, [
+                    Validators.required
+                ]);
+            }
             this.form = new FormGroup({
                 
                 description: this.description,
@@ -109,7 +121,11 @@ export class InitiativeRiskFormComponent extends FormBase<IRisk, RiskCommand> im
                 probabilityEnumId: this.probabilityEnumId,
                 impactEnumId: this.impactEnumId,
                 scopeEnumId: this.scopeEnumId,
-            })
+            });
+
+            if (this.showInitiative) {
+                this.form.addControl('initiativeId', this.initiativeId);
+            }
         }
     }
 }

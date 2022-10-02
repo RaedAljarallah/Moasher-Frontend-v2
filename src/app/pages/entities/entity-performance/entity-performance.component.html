@@ -1,1 +1,30 @@
-<p>entity-performance works!</p>
+<div class="grid grid-cols-12 gap-2">
+    <div class="col-span-full">
+        <app-analytics-list [parentId]="entityId" parentType="entity" [latest]="true" model="initiatives"
+                            [subList]="true" [withPagination]="false" nameFieldTitle="الوضح الحالي" [showParentName]="true">
+        </app-analytics-list>
+    </div>
+    <div class="col-span-full">
+        <app-analytics-list [parentId]="entityId" parentType="entity" [latest]="true" model="kpis"
+                            [subList]="true" [withPagination]="false" nameFieldTitle="الوضح الحالي" [showParentName]="true">
+        </app-analytics-list>
+    </div>
+    <div class="bg-white border border-theme-gray-300 rounded col-span-full sm:col-span-6 md:col-span-4 2xl:col-span-2">
+        <app-performance-card [values]="fundingPerformance"></app-performance-card>
+    </div>
+    <div class="bg-white border border-theme-gray-300 rounded col-span-full sm:col-span-6 md:col-span-4 2xl:col-span-2">
+        <app-performance-card [values]="contractingPerformance"></app-performance-card>
+    </div>
+    <div class="bg-white border border-theme-gray-300 rounded col-span-full sm:col-span-6 md:col-span-4 2xl:col-span-2">
+        <app-performance-card [values]="allTimeSpendingPerformance"></app-performance-card>
+    </div>
+    <div class="bg-white border border-theme-gray-300 rounded col-span-full sm:col-span-6 md:col-span-4 2xl:col-span-2">
+        <app-performance-card [values]="currentPeriodSpendingPerformance"></app-performance-card>
+    </div>
+    <div class="bg-white border border-theme-gray-300 rounded col-span-full sm:col-span-6 md:col-span-4 2xl:col-span-2">
+        <app-performance-card [values]="currentPeriodContractingPerformance"></app-performance-card>
+    </div>
+    <div class="bg-white border border-theme-gray-300 rounded col-span-full sm:col-span-6 md:col-span-4 2xl:col-span-2">
+        <app-performance-card [values]="currentYearSpendingPerformance"></app-performance-card>
+    </div>
+</div>

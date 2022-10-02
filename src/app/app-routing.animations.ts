@@ -43,7 +43,6 @@ export const slider =
 
 
 function slideTo(direction: string) {
-    console.log(direction);
     const optional = { optional: true };
     return [
         query(':enter, :leave', [

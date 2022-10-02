@@ -1,4 +1,4 @@
-<div class="flex flex-col w-full mb-1">
+<div class="flex flex-col w-full mb-1" *ngIf="!subList">
     <ul class="flex divide-x-reverse px-1 divide-x divide-theme-gray-300 mb-3" *ngIf="breadcrumbs">
         <li *ngFor="let item of breadcrumbs; let first = first; let last = last"
             [ngClass]="{ 'pl-3': first, 'pr-3': last, 'px-3': !first && !last }">
@@ -54,8 +54,30 @@
         </tbody>
     </table>
 </div>
-
-<div class="pt-2">
+<!--<div class="flex flex-col">-->
+<!--    <div class="py-2 -my-2 overflow-x-auto overflow-y-hidden scrollbar">-->
+<!--        <div class="inline-block min-w-full overflow-hidden align-middle rounded-lg border border-theme-gray-300">-->
+<!--            <table class="min-w-full">-->
+<!--                <thead class="bg-white border-b-2 border-theme-gray-200">-->
+<!--                    <tr>-->
+<!--                        <th *ngFor="let header of headers">-->
+<!--                            {{ header.value }}-->
+<!--                        </th>-->
+<!--                    </tr>-->
+<!--                </thead>-->
+<!--                <tbody class="divide-y divide-theme-gray-100" *ngIf="items; else loading">-->
+<!--                    <ng-container *ngIf="items.result.length; else noData">-->
+<!--                        <tr class="bg-white" *ngFor="let item of items.result">-->
+<!--                            <ng-template [ngTemplateOutlet]="tableCellTemplate"-->
+<!--                                         [ngTemplateOutletContext]="{data: item}"></ng-template>-->
+<!--                        </tr>-->
+<!--                    </ng-container>-->
+<!--                </tbody>-->
+<!--            </table>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<div class="pt-2" *ngIf="withPagination">
     <app-pagination [pager]="pager" (pageChange)="changePager()"></app-pagination>
 </div>
 

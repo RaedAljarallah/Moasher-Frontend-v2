@@ -15,6 +15,8 @@ import {InitiativesModule} from "./pages/initiatives/initiatives.module";
 import {SettingsModule} from "./pages/settings/settings.module";
 import {PortfoliosModule} from "./pages/portfolios/portfolios.module";
 import {KPIsModule} from "./pages/kpis/kpis.module";
+import {RisksRegisterModule} from "./pages/risks-register/risks-register.module";
+import {IssuesLogModule} from "./pages/issues-log/issues-log.module";
 
 @NgModule({
     declarations: [
@@ -32,6 +34,8 @@ import {KPIsModule} from "./pages/kpis/kpis.module";
         ProgramsModule,
         StrategicObjectivesModule,
         PortfoliosModule,
+        RisksRegisterModule,
+        IssuesLogModule,
         SettingsModule,
         AppRoutingModule,
         SharedModule,

@@ -25,10 +25,7 @@ export class InitiativesListComponent extends ListComponentBase<IInitiative, Ini
     public command: InitiativeCommand = new InitiativeCommand(null);
 
     protected loadItems(params: HttpParams): Observable<IResponse<IInitiative[]>> {
-        if (!this.url) {
-            this.url = this._rootUrl;
-        }
-        return this.api.get<IInitiative[]>(this.url, {params: params});
+        return this.api.get<IInitiative[]>(this.url!, {params: params});
     }
     
     override filterFields: IFilter[] = [
@@ -128,10 +125,4 @@ export class InitiativesListComponent extends ListComponentBase<IInitiative, Ini
         {key: 'issueStatusId'},
         {key: 'riskImpactId'},
     ];
-    
-    protected override onInit() {
-        if (this.subList) {
-            this.queryParams = [];
-        }
-    }
 }

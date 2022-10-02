@@ -20,7 +20,7 @@
         </div>
 
         <div [@collapse]="showFilter ? 'open' : 'close'" *ngIf="!subList"
-             class="absolute bg-white md:max-w-2xl w-full p-2 top-12 left-3 z-10 border border-theme-gray-300 rounded-lg shadow-sm drop-shadow-sm">
+             class="absolute bg-white md:max-w-lg xl:max-w-xl w-full p-2 top-12 left-0.5 md:left-3 z-10 border border-theme-gray-300 rounded-lg shadow-sm drop-shadow-sm">
             <app-filter [filterFields]="filterFields" [(showFilterPing)]="filterApplied"
                         (filterApplied)="toggleFilter()"></app-filter>
         </div>
@@ -30,7 +30,7 @@
         <div *ngIf="items.result.length; else noData">
             <div @fade class="flex flex-col divide-y divide-theme-gray-300">
                 <div class="bg-white transition-all duration-150
-                            overflow-hidden overflow-x-auto hover:bg-theme-gray-100 active:shadow-inner active:bg-theme-gray-200
+                            overflow-hidden overflow-x-auto scrollbar hover:bg-theme-gray-100 active:shadow-inner active:bg-theme-gray-200
                             cursor-pointer" *ngFor="let item of items.result" (click)="selectItem(item)">
                     <div class="inline-flex space-x-10 space-x-reverse whitespace-nowrap md:whitespace-normal justify-between items-center min-w-full 
                                 py-3 px-2 pl-4" [ngClass]="getStatusClass(item)">

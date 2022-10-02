@@ -19,6 +19,7 @@ import {AppFormModule} from "./form/app-form.module";
 import {PipesModule} from "./pipes/pipes.module";
 import { FilterComponent } from './filter/filter.component';
 import {LoadingBtnDirective} from "./directives/loading-btn.directive";
+import { TableActionsButtonsComponent } from './table/table-actions-buttons/table-actions-buttons.component';
 
 @NgModule({
     declarations: [
@@ -32,7 +33,8 @@ import {LoadingBtnDirective} from "./directives/loading-btn.directive";
         SidenavItemGroupComponent,
         ModalComponent,
         FilterComponent,
-        LoadingBtnDirective
+        LoadingBtnDirective,
+        TableActionsButtonsComponent
     ],
     imports: [
         CommonModule,
@@ -59,7 +61,8 @@ import {LoadingBtnDirective} from "./directives/loading-btn.directive";
         ModalComponent,
         PipesModule,
         FilterComponent,
-        LoadingBtnDirective
+        LoadingBtnDirective,
+        TableActionsButtonsComponent
     ]
 })
 export class SharedModule {

@@ -23,7 +23,7 @@ export class EntitiesListComponent extends ListComponentBase<IEntity, EntityComm
     public command: EntityCommand = new EntityCommand(null);
     
     protected loadItems(params: HttpParams): Observable<IResponse<IEntity[]>> {
-        return this.api.get<IEntity[]>(this._rootUrl, { params: params });
+        return this.api.get<IEntity[]>(this.url!, { params: params });
     }
 
     protected queryParams: { key: string; defaultValue?: string }[] = [];

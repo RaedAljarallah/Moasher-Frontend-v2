@@ -12,7 +12,7 @@ import {FormAction} from "../../../core/models/data-types/form-action.data-type"
     styles: []
 })
 export class AnalyticFormComponent extends FormBase<IAnalytic, AnalyticCommand> implements OnInit {
-    @Input() parentType: "initiative" | "KPI" = 'initiative';
+    @Input() parentType: string = 'initiative';
     constructor(api: ApiService) {
         super(api);
     }

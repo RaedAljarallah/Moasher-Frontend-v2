@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FormBase} from "../../../../core/abstracts/form-base";
 import {IIssue} from "../../core/models/issue/issue.model";
 import {IssueCommand} from "../../core/models/issue/issue.command";
@@ -14,6 +14,7 @@ import {EnumTypeCategory} from "../../../../core/models/data-types/eum-type-cate
     styles: []
 })
 export class InitiativeIssueFormComponent extends FormBase<IIssue, IssueCommand> implements OnInit {
+    @Input() fullList: boolean = false; 
     constructor(api: ApiService) {
         super(api);
     }
@@ -21,11 +22,15 @@ export class InitiativeIssueFormComponent extends FormBase<IIssue, IssueCommand>
     protected _url: string = 'issues';
 
     protected initCommand(): void {
-        this.command = new IssueCommand(this.form)
-            .setInitiativeId(this.inputCommand.initiativeId);
+        this.command = new IssueCommand(this.form);
+        if (!this.showInitiative) {
+            this.command = this.command
+                .setInitiativeId(this.inputCommand.initiativeId);
+        }
         this.command.id = this.inputCommand.id;
     }
-
+    
+    public initiativeId!: FormControl;
     public description!: FormControl;
     public impactDescription!: FormControl;
     public source!: FormControl;
@@ -47,8 +52,11 @@ export class InitiativeIssueFormComponent extends FormBase<IIssue, IssueCommand>
     public currentImpact: IEnumType[] = [];
     public currentStatus: IEnumType[] = [];
     
+    public showInitiative: boolean = false;
+    
     public ngOnInit(): void {
         this.isDeleteRequest = (this.formAction == FormAction.Delete);
+        this.showInitiative = this.fullList && this.formAction === FormAction.Create;
         
         if (this.formAction === FormAction.Update) {
             this.currentScope.push(this.inputCommand.scope);
@@ -91,6 +99,11 @@ export class InitiativeIssueFormComponent extends FormBase<IIssue, IssueCommand>
             this.impactEnumId = new FormControl(this.inputCommand.impactEnumId, [
                 Validators.required
             ]);
+            if (this.showInitiative) {
+                this.initiativeId = new FormControl(null, [
+                    Validators.required
+                ]);
+            }
             this.form = new FormGroup({
                 description: this.description,
                 impactDescription: this.impactDescription,
@@ -104,7 +117,12 @@ export class InitiativeIssueFormComponent extends FormBase<IIssue, IssueCommand>
                 scopeEnumId: this.scopeEnumId,
                 statusEnumId: this.statusEnumId,
                 impactEnumId: this.impactEnumId,
-            })
+            });
+            
+            if (this.showInitiative) {
+                this.form.addControl('initiativeId', this.initiativeId);
+            }
+            
         }
     }
 }
