@@ -1,9 +1,18 @@
-<app-detail-page [tabs]="tabs" [state]="detailPageState" titleKey="name" [editBtnLoading]="isFormLoading" [(selectedTab)]="selectedTab"
+<app-detail-page [tabs]="tabs" [state]="detailPageState" titleKey="name" [editBtnLoading]="isFormLoading"
+                 [(selectedTab)]="selectedTab"
                  [notFound]="notFoundState"
                  (deleteClicked)="delete()"
                  (editClicked)="update()">
     <ng-container *ngIf="detailPageState">
-
+        <app-portfolio-performance [portfolioId]="detailPageState.id"
+                                   *ngIf="selectedTab === 'performance'"></app-portfolio-performance>
+        <app-initiatives-list [subList]="true" [url]="'initiatives?portfolioId=' + detailPageState.id"
+                              *ngIf="selectedTab === 'initiatives'"></app-initiatives-list>
+        <app-strategic-objectives-list [subList]="true" *ngIf="selectedTab === 'objectives'" [level]="3"
+                                       [url]="'strategic-objectives?level=3&portfolioId=' + detailPageState.id">
+        </app-strategic-objectives-list>
+        <app-programs-list [subList]="true" *ngIf="selectedTab === 'programs'"
+                           [url]="'programs?portfolioId=' + detailPageState.id"></app-programs-list>
     </ng-container>
 </app-detail-page>
 
@@ -11,7 +20,7 @@
     <p class="text-sm font-semibold ml-2" modal-head>{{ formTitle }}</p>
     <div modal-body>
         <app-portfolio-form *ngIf="modal.showBody" [inputCommand]="command" [formAction]="formAction"
-                             (formSubmitted)="onSubmit($event)">
+                            (formSubmitted)="onSubmit($event)">
         </app-portfolio-form>
     </div>
 </app-modal>
