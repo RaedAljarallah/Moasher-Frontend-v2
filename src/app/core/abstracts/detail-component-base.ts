@@ -45,10 +45,26 @@ export abstract class DetailComponentBase<TType extends IKeyable, TCommand> impl
     public ngOnInit(): void {
         this.modal.register(this._modalId);
         if (!this.detailPageState) {
-            this.getData(this.route.snapshot.paramMap.get('id')!).subscribe(result => this.detailPageState = result);
+            this.getData(this.route.snapshot.paramMap.get('id')!)
+                .subscribe(result => {
+                    this.detailPageState = result;
+                    this.onInit();
+                    this.setSelectedTab();
+                });
+        } else {
+            this.onInit();
+            this.setSelectedTab();
         }
-        this.selectedTab = this.route.snapshot.queryParamMap.get('s') ?? this.selectedTab;
-        this.onInit();
+        
+    }
+    
+    protected setSelectedTab(): void {
+        const section = this.route.snapshot.queryParamMap.get('s');
+        if (section) {
+            this.selectedTab = this.tabs.some(t => t.id === section) 
+                ? section 
+                : this.selectedTab;
+        }
     }
     
     public onInit(): void { }

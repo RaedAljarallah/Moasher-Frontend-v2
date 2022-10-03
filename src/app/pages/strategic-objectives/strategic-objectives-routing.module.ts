@@ -8,7 +8,7 @@ const routes: Routes = [
         path: 'strategic-objectives',
         children: [
             { path: '', pathMatch: 'full', component: StrategicObjectivesListComponent, data: { animation: 'objectiveList' }},
-            { path: ':id', component: StrategicObjectiveDetailComponent, data: { animation: 'objectiveDetail' } }
+            { path: ':id/:level', component: StrategicObjectiveDetailComponent, data: { animation: 'objectiveDetail' } }
         ]
     }
 ];

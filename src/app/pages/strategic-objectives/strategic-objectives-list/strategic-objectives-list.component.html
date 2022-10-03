@@ -12,73 +12,73 @@
                 [withFilters]="false" [subList]="subList"
                 (itemSelected)="showDetail($event)" (addClicked)="onCreate()">
     <ng-template #listView let-data="data">
-        <div class="md:max-w-xs lg:max-w-sm xl:max-w-md 2xl:max-w-4xl w-full">
+        <div class="md:max-w-xs lg:max-w-sm xl:max-w-md 2xl:max-w-4xl w-full whitespace-nowrap">
             <span class="text-sm font-semibold text-theme-gray-900 block">{{ data.name }}</span>
             <small class="text-theme-gray-500 text-sm">{{ data.code }}</small>
         </div>
         <div class="flex !space-x-reverse space-x-10 md:space-x-5 2xl:space-x-10">
             <ng-container *ngIf="level === 1">
-                <div class="text-center">
+                <div class="text-center whitespace-nowrap">
                     <small class="text-theme-gray-500 text-xs block">المستوى الثاني</small>
                     <span class="text-sm text-theme-gray-900">{{ data.levelTwoCount }}</span>
                 </div>
-                <div class="text-center">
+                <div class="text-center whitespace-nowrap">
                     <small class="text-theme-gray-500 text-xs block">المستوى الثالث</small>
                     <span class="text-sm text-theme-gray-900">{{ data.levelThreeCount }}</span>
                 </div>
-                <div class="text-center">
+                <div class="text-center whitespace-nowrap">
                     <small class="text-theme-gray-500 text-xs block">المستوى الرابع</small>
                     <span class="text-sm text-theme-gray-900">{{ data.levelFourCount }}</span>
                 </div>
             </ng-container>
             <ng-container *ngIf="level === 2">
-                <div class="text-center">
+                <div class="text-center whitespace-nowrap">
                     <small class="text-theme-gray-500 text-xs block">هدف المستوى الأول</small>
                     <span class="text-sm text-theme-gray-900">{{ data.levelOne?.name }}</span>
                 </div>
-                <div class="text-center">
+                <div class="text-center whitespace-nowrap">
                     <small class="text-theme-gray-500 text-xs block">المستوى الثالث</small>
                     <span class="text-sm text-theme-gray-900">{{ data.levelThreeCount }}</span>
                 </div>
-                <div class="text-center">
+                <div class="text-center whitespace-nowrap">
                     <small class="text-theme-gray-500 text-xs block">المستوى الرابع</small>
                     <span class="text-sm text-theme-gray-900">{{ data.levelFourCount }}</span>
                 </div>
             </ng-container>
             <ng-container *ngIf="level === 3">
-                <div class="text-center">
+                <div class="text-center whitespace-nowrap">
                     <small class="text-theme-gray-500 text-xs block">هدف المستوى الأول</small>
                     <span class="text-sm text-theme-gray-900">{{ data.levelOne?.name }}</span>
                 </div>
-                <div class="text-center">
+                <div class="text-center whitespace-nowrap">
                     <small class="text-theme-gray-500 text-xs block">هدف المستوى الثاني</small>
                     <span class="text-sm text-theme-gray-900">{{ data.levelTwo?.name }}</span>
                 </div>
-                <div class="text-center">
+                <div class="text-center whitespace-nowrap">
                     <small class="text-theme-gray-500 text-xs block">المستوى الرابع</small>
                     <span class="text-sm text-theme-gray-900">{{ data.levelFourCount }}</span>
                 </div>
             </ng-container>
             <ng-container *ngIf="level === 4">
-                <div class="text-center">
+                <div class="text-center whitespace-nowrap">
                     <small class="text-theme-gray-500 text-xs block">هدف المستوى الأول</small>
                     <span class="text-sm text-theme-gray-900">{{ data.levelOne?.name }}</span>
                 </div>
-                <div class="text-center">
+                <div class="text-center whitespace-nowrap">
                     <small class="text-theme-gray-500 text-xs block">هدف المستوى الثاني</small>
                     <span class="text-sm text-theme-gray-900">{{ data.levelTwo?.name }}</span>
                 </div>
-                <div class="text-center">
+                <div class="text-center whitespace-nowrap">
                     <small class="text-theme-gray-500 text-xs block">هدف المستوى الثالث</small>
                     <span class="text-sm text-theme-gray-900">{{ data.levelThree?.name }}</span>
                 </div>
             </ng-container>
 
-            <div class="text-center">
+            <div class="text-center whitespace-nowrap">
                 <small class="text-theme-gray-500 text-xs block">المؤشرات</small>
                 <span class="text-sm text-theme-gray-900">{{ data.kpIsCount }}</span>
             </div>
-            <div class="text-center">
+            <div class="text-center whitespace-nowrap">
                 <small class="text-theme-gray-500 text-xs block">المبادرات</small>
                 <span class="text-sm text-theme-gray-900">{{ data.initiativesCount }}</span>
             </div>

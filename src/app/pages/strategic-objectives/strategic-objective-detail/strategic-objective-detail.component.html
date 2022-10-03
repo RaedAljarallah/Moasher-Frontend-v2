@@ -3,7 +3,26 @@
                  (deleteClicked)="delete()"
                  (editClicked)="update()">
     <ng-container *ngIf="detailPageState">
-
+        <app-strategic-objectives-list
+                [subList]="true"
+                [url]="'strategic-objectives?level=2&descendantOf=' + detailPageState.hierarchyId"
+                [level]="2"
+                *ngIf="selectedTab === 'level-two-objectives'">
+        </app-strategic-objectives-list>
+        <app-strategic-objectives-list
+                [subList]="true"
+                [url]="'strategic-objectives?level=3&descendantOf=' + detailPageState.hierarchyId"
+                [level]="3"
+                *ngIf="selectedTab === 'level-three-objectives'">
+        </app-strategic-objectives-list>
+        <app-strategic-objectives-list
+                [subList]="true"
+                [level]="4"
+                [url]="'strategic-objectives?level=4&descendantOf=' + detailPageState.hierarchyId"
+                *ngIf="selectedTab === 'level-four-objectives'">
+        </app-strategic-objectives-list>
+        <app-initiatives-list [subList]="true" [url]="initiativesUrl" *ngIf="selectedTab === 'initiatives'"></app-initiatives-list>
+        <app-kpis-list [subList]="true" [url]="kpisUrl" *ngIf="selectedTab === 'kpis'"></app-kpis-list>
     </ng-container>
 </app-detail-page>
 

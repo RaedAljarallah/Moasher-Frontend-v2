@@ -94,7 +94,7 @@ export class DetailPageComponent implements OnInit, AfterViewInit {
         if (this.returnUrl) {
             await this.router.navigateByUrl(this.returnUrl); 
         } else {
-            await this.router.navigate(['../'], { relativeTo: this.route });
+            await this.router.navigate(['.'], { relativeTo: this.route.parent });
         }
     }
     

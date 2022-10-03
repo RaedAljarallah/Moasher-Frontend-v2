@@ -54,4 +54,8 @@ export class StrategicObjectivesListComponent extends ListComponentBase<IStrateg
             this.level = !isNaN(level) ? level : 1;
         }
     }
+    
+    public override async showDetail(item: IStrategicObjectiveBase): Promise<void> {
+        await this.router.navigateByUrl(`${this._rootUrl}/${item.id}/${item.level}`, {state: {item: item, returnUrl: this.router.url}})
+    }
 }
