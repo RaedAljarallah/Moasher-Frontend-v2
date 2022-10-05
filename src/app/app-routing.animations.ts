@@ -27,6 +27,14 @@ export const slider =
 
         transition('programList => programDetail', slideTo('right')),
         transition('programDetail => programList', slideTo('left')),
+        transition('programDetail => objectiveDetail', slideTo('right')),
+        transition('objectiveDetail => programDetail', slideTo('left')),
+        transition('programDetail => entityDetail', slideTo('right')),
+        transition('entityDetail => programDetail', slideTo('left')),
+        transition('programDetail => kpiDetail', slideTo('right')),
+        transition('kpiDetail => programDetail', slideTo('left')),
+        transition('programDetail => initiativeDetail', slideTo('right')),
+        transition('initiativeDetail => programDetail', slideTo('left')),
 
         transition('kpiList => kpiDetail', slideTo('right')),
         transition('kpiDetail => kpiList', slideTo('left')),
@@ -36,6 +44,12 @@ export const slider =
 
         transition('portfolioList => portfolioDetail', slideTo('right')),
         transition('portfolioDetail => portfolioList', slideTo('left')),
+        transition('portfolioDetail => objectiveDetail', slideTo('right')),
+        transition('objectiveDetail => portfolioDetail', slideTo('left')),
+        transition('portfolioDetail => programDetail', slideTo('right')),
+        transition('programDetail => portfolioDetail', slideTo('left')),
+        transition('portfolioDetail => initiativeDetail', slideTo('right')),
+        transition('initiativeDetail => portfolioDetail', slideTo('left')),
         
         
         

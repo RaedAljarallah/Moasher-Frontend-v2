@@ -1,4 +1,4 @@
-<app-detail-page [tabs]="tabs" [state]="detailPageState" titleKey="name" [(selectedTab)]="selectedTab" [notFound]="notFoundState"
+<app-detail-page [tabs]="tabs" [state]="detailPageState" [returnUrl]="returnUrl" titleKey="name" [(selectedTab)]="selectedTab" [notFound]="notFoundState"
                  (deleteClicked)="delete()"
                  (editClicked)="update()">
     <ng-container *ngIf="detailPageState">

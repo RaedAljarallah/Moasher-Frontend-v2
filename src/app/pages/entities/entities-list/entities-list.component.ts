@@ -25,7 +25,7 @@ export class EntitiesListComponent extends ListComponentBase<IEntity, EntityComm
     protected loadItems(params: HttpParams): Observable<IResponse<IEntity[]>> {
         params = params
             .append('withKPIs', true)
-            .append('withInitiatives', true)
+            // .append('withInitiatives', true)
         return this.api.get<IEntity[]>(this.url!, { params: params });
     }
 
