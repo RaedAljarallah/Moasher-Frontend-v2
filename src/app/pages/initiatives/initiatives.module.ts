@@ -24,6 +24,8 @@ import { InitiativeRiskFormComponent } from './initiative-risks/initiative-risk-
 import { InitiativeTeamsComponent } from './initiative-teams/initiative-teams.component';
 import { InitiativeTeamFormComponent } from './initiative-teams/initiative-team-form/initiative-team-form.component';
 import {AnalyticsModule} from "../analytics/analytics.module";
+import { InitiativeProjectsComponent } from './initiative-projects/initiative-projects.component';
+import { InitiativeProjectFormComponent } from './initiative-projects/initiative-project-form/initiative-project-form.component';
 
 
 @NgModule({
@@ -49,6 +51,8 @@ import {AnalyticsModule} from "../analytics/analytics.module";
         InitiativeRiskFormComponent,
         InitiativeTeamsComponent,
         InitiativeTeamFormComponent,
+        InitiativeProjectsComponent,
+        InitiativeProjectFormComponent,
 
     ],
     imports: [
@@ -79,6 +83,8 @@ import {AnalyticsModule} from "../analytics/analytics.module";
         InitiativeRiskFormComponent,
         InitiativeTeamsComponent,
         InitiativeTeamFormComponent,
+        InitiativeProjectsComponent,
+        InitiativeProjectFormComponent,
     ]
 })
 export class InitiativesModule {

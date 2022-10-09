@@ -13,7 +13,7 @@
     InitiativeRiskImpact = 'InitiativeRiskImpact',
     InitiativeRiskScope = 'InitiativeRiskScope',
 
-    InitiativeProjectStatus = 'InitiativeProjectStatus',
+    InitiativeProjectPhase = 'InitiativeProjectPhase',
     InitiativeContractStatus = 'InitiativeContractStatus',
 
     KPIStatus = 'KPIStatus'

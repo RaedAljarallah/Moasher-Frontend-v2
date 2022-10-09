@@ -41,7 +41,10 @@ export class InitiativeMilestoneFormComponent extends FormBase<IMilestone, Miles
             ]);
             this.actualFinish = new FormControl(this.getDate(this.inputCommand.actualFinish));
             this.weight = new FormControl(this.inputCommand.weight, [
-                Validators.required, Validators.min(0), Validators.max(100), Validators.pattern('^-?[0-9]\\d*(\\.\\d{1,5})?$')
+                Validators.required, 
+                Validators.min(0), 
+                Validators.max(100), 
+                Validators.pattern('^-?[0-9]\\d*(\\.\\d{1,5})?$')
             ]);
             
             this.form = new FormGroup({

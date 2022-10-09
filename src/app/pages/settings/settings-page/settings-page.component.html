@@ -57,8 +57,8 @@
                     <a href="#" class="p-3 text-sm hover:bg-theme-gray-100" (click)="selectEnumType($event, enumTypeCategory.InitiativeContractStatus)" 
                         [ngClass]="{'bg-theme-gray-100': selectedEnumType === enumTypeCategory.InitiativeContractStatus}">حالات عقود المبادرات</a>
                     
-                    <a href="#" class="p-3 text-sm hover:bg-theme-gray-100" (click)="selectEnumType($event, enumTypeCategory.InitiativeProjectStatus)" 
-                        [ngClass]="{'bg-theme-gray-100': selectedEnumType === enumTypeCategory.InitiativeProjectStatus}">حالات مشاريع المبادرات</a>
+                    <a href="#" class="p-3 text-sm hover:bg-theme-gray-100" (click)="selectEnumType($event, enumTypeCategory.InitiativeProjectPhase)" 
+                        [ngClass]="{'bg-theme-gray-100': selectedEnumType === enumTypeCategory.InitiativeProjectPhase}">مراحل مشاريع المبادرات</a>
                 </div>
                 <div class="col-span-10 p-4">
                     <app-enum-type *ngIf="selectedEnumType == enumTypeCategory.KPIStatus"
@@ -126,10 +126,10 @@
                                    [headers]="dataTableHeader"
                                    [category]="enumTypeCategory.InitiativeContractStatus">
                     </app-enum-type>
-                    <app-enum-type *ngIf="selectedEnumType == enumTypeCategory.InitiativeProjectStatus"
-                                   nameFieldTitle="الحالة"
+                    <app-enum-type *ngIf="selectedEnumType == enumTypeCategory.InitiativeProjectPhase"
+                                   nameFieldTitle="المرحلة"
                                    [headers]="dataTableHeader"
-                                   [category]="enumTypeCategory.InitiativeProjectStatus">
+                                   [category]="enumTypeCategory.InitiativeProjectPhase">
                     </app-enum-type>
                 </div>
             </div>

@@ -11,6 +11,7 @@
         <app-initiative-milestones [initiativeId]="detailPageState.id" *ngIf="selectedTab === 'milestones'"></app-initiative-milestones>
         <app-initiative-deliverables [initiativeId]="detailPageState.id" *ngIf="selectedTab === 'deliverables'"></app-initiative-deliverables>
         <app-initiative-approved-costs [initiativeId]="detailPageState.id" *ngIf="selectedTab === 'approved-costs'"></app-initiative-approved-costs>
+        <app-initiative-projects [initiativeId]="detailPageState.id" *ngIf="selectedTab === 'projects'"></app-initiative-projects>
         <app-initiative-contracts *ngIf="selectedTab === 'contracts'"></app-initiative-contracts>
         <app-initiative-budgets [initiativeId]="detailPageState.id" *ngIf="selectedTab === 'budgets'"></app-initiative-budgets>
         <app-initiative-expenditures *ngIf="selectedTab === 'expenditures'"></app-initiative-expenditures>
