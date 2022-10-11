@@ -16,6 +16,7 @@
         </td>
         <td>
             <app-table-actions-buttons
+                    [isLoading]="isFormLoading[data.id]"
                     (UpdateBtnClicked)="onUpdate(data)"
                     (DeleteBtnClicked)="onDelete(data)">
             </app-table-actions-buttons>
