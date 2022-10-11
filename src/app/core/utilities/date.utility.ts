@@ -1,11 +1,22 @@
-﻿import {format, getQuarter, getYear, addHours } from 'date-fns';
+﻿import {format, getQuarter, getYear, getMonth, addHours, addMonths } from 'date-fns';
 
 export class DateUtility {
     static getDate(date?: Date | null): string {
         return format(date ? date : new Date(), 'yyyy-MM-dd');
     }
     
+    static getYear(date: string): number {
+        return getYear(new Date(date));
+    }
     
+    static getMonth(date: string): number {
+        return getMonth(new Date(date)) + 1;
+    }
+    
+    static addMonths(date: string, months: number): string {
+        const newDate = addMonths(new Date(date), months);
+        return DateUtility.getDate(newDate);
+    }
     static getCurrentQuarter(): number {
         return getQuarter(new Date());
     }

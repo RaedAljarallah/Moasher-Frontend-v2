@@ -12,6 +12,7 @@
             <span *ngSwitchCase="'ontrack'" class="text-green-600">على المسار</span>
             <span *ngSwitchCase="'lateonbidding'" class="text-red-500">متأخر في الطرح</span>
             <span *ngSwitchCase="'lateoncontracting'" class="text-red-500">متأخر في التعاقد</span>
+            <span *ngSwitchCase="'lateonbidding,lateoncontracting'" class="text-red-500">متأخر في الطرح والتعاقد</span>
         </td>
         <td>
             <app-table-actions-buttons

@@ -63,7 +63,7 @@ export class InitiativeFormComponent extends FormBase<IInitiative, InitiativeCom
     public step: number = 1;
     public stepControls: { stepCount: number, controls: FormControl[] }[] = [];
     public showStatus: boolean = false;
-    public statusSubscription?: Subscription;
+    private statusSubscription?: Subscription;
 
     public statusUrl: string = `enum-types?category=${EnumTypeCategory.InitiativeStatus}`;
     public fundStatusUrl: string = `enum-types?category=${EnumTypeCategory.InitiativeFundStatus}`;

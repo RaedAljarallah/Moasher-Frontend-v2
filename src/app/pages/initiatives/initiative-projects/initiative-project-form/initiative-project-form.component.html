@@ -16,20 +16,61 @@
                                 type="date"></app-form-input>
             </div>
             <div class="col-span-full sm:col-span-6">
-                <app-form-input [control]="plannedContractingDate" id="plannedContractingDate" name="تاريخ التعاقد المخطط"
+                <app-form-input [control]="plannedContractingDate" id="plannedContractingDate"
+                                name="تاريخ التعاقد المخطط"
                                 type="date"></app-form-input>
             </div>
             <div class="col-span-full sm:col-span-6">
-                <app-form-input [control]="estimatedAmount" id="estimatedAmount" name="القيمة التقديرية"></app-form-input>
+                <app-form-input [control]="estimatedAmount" id="estimatedAmount"
+                                name="القيمة التقديرية"></app-form-input>
             </div>
             <div class="col-span-full sm:col-span-6">
-                <app-form-input [control]="duration" id="duration" name="مدة المشروع (شهر)"></app-form-input>
+                <app-form-input [control]="duration" id="duration" name="مدة المشروع بالأشهر"></app-form-input>
             </div>
             <div class="col-span-full sm:col-span-6">
                 <app-form-input [control]="phaseEnumId" id="phaseEnumId" name="المرحلة" type="list"
                                 [badgeList]="true"
                                 [dynamicListDefaultItems]="currentPhase"
                                 [listUrl]="phaseUrl"></app-form-input>
+            </div>
+
+            <div class="col-span-full">
+                <hr class="my-2">
+                <div class="flex justify-between">
+                    <span class="text-sm">خطة الصرف</span>
+                    <span class="text-sm"
+                          [ngClass]="(estimatedAmount.value - totalPlannedExpenditure) === 0 
+                          ? 'text-green-600' 
+                          : 'text-red-500'">المتبقي: {{estimatedAmount.value - totalPlannedExpenditure}}</span>
+                </div>
+                <span class="text-sm text-red-500" *ngIf="showExpenditurePlanError">{{ expenditurePlanErrorMessage }}</span>
+            </div>
+
+            <div class="col-span-full" *ngFor="let timeline of expenditureTimeline">
+                <div class="overflow-x-auto overflow-y-hidden scrollbar">
+                    <table class="w-full table-auto border-collapse border-y-2 border-theme-gray-200">
+                        <thead class="bg-white">
+                        <tr class="border-b-2 border-theme-gray-200">
+                            <th class="py-1 px-0">{{ timeline.year }}</th>
+                        </tr>
+                        <tr class="border-b border-theme-gray-200">
+                            <th *ngFor="let month of timeline.months; let last = last"
+                                class="text-center font-normal py-1 px-0"
+                                [ngClass]="{'border-l border-theme-gray-200': !last}">شهر {{ month }}</th>
+                        </tr>
+                        </thead>
+                        <tbody class="divide-y divide-theme-gray-200">
+                        <tr>
+                            <td *ngFor="let month of timeline.months; let last = last"
+                                class="px-0 py-0" [ngClass]="{'border-l border-theme-gray-200': !last}">
+                                <input class="px-1 py-1.5 min-w-[7rem] w-full focus:outline-none"
+                                       [value]="getExpenditure(timeline.year, month)"
+                                       (input)="addExpenditure($event, timeline.year, month)"/>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </ng-container>

@@ -131,7 +131,7 @@ export class InitiativeIssuesComponent extends TableComponentBase<IIssue, IssueC
         }
     }
 
-    override onUpdate(item: IIssue) {
+    public override onUpdate(item: IIssue) {
         this.formTitle = this._updateFormTitle;
         this.formAction = FormAction.Update;
         this.isFormLoading[item.id] = true;

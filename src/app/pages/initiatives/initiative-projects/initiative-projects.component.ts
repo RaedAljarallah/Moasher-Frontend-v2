@@ -6,9 +6,11 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ApiService} from "../../../core/services/api.service";
 import {ModalService} from "../../../shared/modal/modal.service";
 import {HttpParams} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {finalize, Observable} from "rxjs";
 import {IResponse} from "../../../core/models/response.model";
 import {EnumTypeCategory} from "../../../core/models/data-types/eum-type-category.data-type";
+import {FormAction} from "../../../core/models/data-types/form-action.data-type";
+import {IssueCommand} from "../core/models/issue/issue.command";
 
 @Component({
     selector: 'app-initiative-projects',
@@ -17,6 +19,8 @@ import {EnumTypeCategory} from "../../../core/models/data-types/eum-type-categor
 })
 export class InitiativeProjectsComponent extends TableComponentBase<IProject, ProjectCommand>{
     @Input() initiativeId: string = '';
+    public isFormLoading: {[key: string]: boolean} = {};
+    
     constructor(route: ActivatedRoute, router: Router, api: ApiService, modal: ModalService) {
         super(route, router, api, modal);
     }
@@ -40,10 +44,12 @@ export class InitiativeProjectsComponent extends TableComponentBase<IProject, Pr
             {value: '', classes: 'w-full'}
         ];
         this.filterFields = [
-            {name: 'مخطط للطرح من', id: 'raisedFrom', type: 'date'},
-            {name: 'مخطط للطرح حتى', id: 'raisedFrom', type: 'date'},
-            {name: 'طرح من', id: 'raisedFrom', type: 'date'},
-            {name: 'طرح حتى', id: 'raisedFrom', type: 'date'},
+            {name: 'مخطط للطرح من', id: 'plannedBiddingFrom', type: 'date'},
+            {name: 'مخطط للطرح حتى', id: 'plannedBiddingTo', type: 'date'},
+            {name: 'طرح من', id: 'actualBiddingFrom', type: 'date'},
+            {name: 'طرح حتى', id: 'actualBiddingTo', type: 'date'},
+            {name: 'مخطط للتعاقد من', id: 'plannedContractingFrom', type: 'date'},
+            {name: 'مخطط للتعاقد حتى', id: 'plannedContractingTo', type: 'date'},
             {
                 name: 'المرحلة',
                 id: 'phaseId',
@@ -70,12 +76,33 @@ export class InitiativeProjectsComponent extends TableComponentBase<IProject, Pr
     protected loadItems(params: HttpParams): Observable<IResponse<IProject[]>> {
         return this.api.get<IProject[]>(`projects?initiativeId=${this.initiativeId}`, {params: params});
     }
-    protected queryParams: { key: string; defaultValue?: string }[] = [];
+    protected queryParams: { key: string; defaultValue?: string }[] = [
+        {key: 'plannedBiddingFrom'},
+        {key: 'plannedBiddingTo'},
+        {key: 'actualBiddingFrom'},
+        {key: 'actualBiddingTo'},
+        {key: 'plannedContractingFrom'},
+        {key: 'plannedContractingTo'},
+        {key: 'phaseId'},
+        {key: 'status'},
+    ];
 
     protected initCommand(item: IProject | null): void {
         this.command = new ProjectCommand(item).setInitiativeId(this.initiativeId);
         if (item) {
             this.command.id = item.id;
         }
+    }
+    
+    public override onUpdate(item: IProject) {
+        this.formTitle = this._updateFormTitle;
+        this.formAction = FormAction.Update;
+        this.isFormLoading[item.id] = true;
+        this.api.edit<ProjectCommand>(`projects/${item.id}/edit`).pipe(
+            finalize(() => this.isFormLoading[item.id] = false)
+        ).subscribe(res => {
+            this.command = res.result;
+            this.modal.open(this._modalId);
+        })
     }
 }

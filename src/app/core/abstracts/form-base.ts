@@ -30,6 +30,11 @@ export abstract class FormBase<TType, TCommand extends IIdentifiable> {
     
     public onSubmit() {
         this.form.markAllAsTouched();
+        
+        if (!this.beforeSubmitValidation()) {
+            return;
+        }
+        
         if (this.form.valid) {
             this.isLoading = true;
             this.initCommand();
@@ -66,10 +71,12 @@ export abstract class FormBase<TType, TCommand extends IIdentifiable> {
         }
     }
     
-    public handelError(errors: {[p: string]: string[]}): void {
-        
+    public handelError(errors: {[p: string]: string[]}): void { }
+    
+    protected beforeSubmitValidation(): boolean { 
+        return true;
     }
-
+    
     protected getDate(date?: Date | null): Date | string | null {
         if (date) {
             return DateUtility.getDate(new Date(date));
