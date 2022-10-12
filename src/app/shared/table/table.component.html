@@ -20,7 +20,7 @@
                 </span>
             </button>
         </div>
-        <button class="btn btn-sm btn-white mr-1 md:mr-0" *ngIf="showAddBtn" (click)="addClicked.emit()">
+        <button class="btn btn-sm btn-white mr-1 md:mr-0" *ngIf="showAddBtn && !hideAddBtn" (click)="addClicked.emit()">
             <i class="fas fa-plus fa-xs ml-1"></i>
             <span>إضافة</span>
         </button>

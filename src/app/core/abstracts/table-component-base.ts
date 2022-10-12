@@ -129,5 +129,8 @@ export abstract class TableComponentBase<TType extends IIdentifiable, TCommand> 
 
     public ngOnDestroy(): void {
         this.modal.unregister(this._modalId);
+        this.onDestroy();
     }
+    
+    public onDestroy(): void {}
 }

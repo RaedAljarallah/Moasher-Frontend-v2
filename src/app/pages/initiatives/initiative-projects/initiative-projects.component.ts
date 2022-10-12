@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {TableComponentBase} from "../../../core/abstracts/table-component-base";
 import {IProject} from "../core/models/project/project.model";
 import {ProjectCommand} from "../core/models/project/project.command";
@@ -10,7 +10,8 @@ import {finalize, Observable} from "rxjs";
 import {IResponse} from "../../../core/models/response.model";
 import {EnumTypeCategory} from "../../../core/models/data-types/eum-type-category.data-type";
 import {FormAction} from "../../../core/models/data-types/form-action.data-type";
-import {IssueCommand} from "../core/models/issue/issue.command";
+import {ContractCommand} from "../core/models/contract/contract.command";
+import {IContract} from "../core/models/contract/contract.model";
 
 @Component({
     selector: 'app-initiative-projects',
@@ -20,6 +21,8 @@ import {IssueCommand} from "../core/models/issue/issue.command";
 export class InitiativeProjectsComponent extends TableComponentBase<IProject, ProjectCommand>{
     @Input() initiativeId: string = '';
     public isFormLoading: {[key: string]: boolean} = {};
+    public contractCommand: ContractCommand = new ContractCommand(null);
+    public contractFormAction: FormAction = FormAction.Create;
     
     constructor(route: ActivatedRoute, router: Router, api: ApiService, modal: ModalService) {
         super(route, router, api, modal);
@@ -31,6 +34,7 @@ export class InitiativeProjectsComponent extends TableComponentBase<IProject, Pr
     protected _modalId: string = 'ProjectModal';
 
     protected override onInit() {
+        this.modal.register("ContractModal");
         this.command = new ProjectCommand(null).setInitiativeId(this.initiativeId);
         this.headers = [
             {value: 'المشروع', classes: 'xl:min-w-[28rem]'},
@@ -104,5 +108,20 @@ export class InitiativeProjectsComponent extends TableComponentBase<IProject, Pr
             this.command = res.result;
             this.modal.open(this._modalId);
         })
+    }
+    
+    public onCreateContract(item: IProject) {
+        this.contractCommand = new ContractCommand(null)
+            .castFromProject(item);
+        this.modal.open("ContractModal");
+    }
+    
+    public removeProject(item: IContract): void {
+        this.table.deleteItem(item.projectId);
+        this.modal.close("ContractModal");
+    }
+    
+    public override onDestroy(): void {
+        this.modal.unregister("ContractModal")
     }
 }

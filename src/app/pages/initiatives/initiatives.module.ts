@@ -26,6 +26,7 @@ import { InitiativeTeamFormComponent } from './initiative-teams/initiative-team-
 import {AnalyticsModule} from "../analytics/analytics.module";
 import { InitiativeProjectsComponent } from './initiative-projects/initiative-projects.component';
 import { InitiativeProjectFormComponent } from './initiative-projects/initiative-project-form/initiative-project-form.component';
+import { InitiativeContractFormComponent } from './initiative-contracts/initiative-contract-form/initiative-contract-form.component';
 
 
 @NgModule({
@@ -53,6 +54,7 @@ import { InitiativeProjectFormComponent } from './initiative-projects/initiative
         InitiativeTeamFormComponent,
         InitiativeProjectsComponent,
         InitiativeProjectFormComponent,
+        InitiativeContractFormComponent,
 
     ],
     imports: [
@@ -85,6 +87,7 @@ import { InitiativeProjectFormComponent } from './initiative-projects/initiative
         InitiativeTeamFormComponent,
         InitiativeProjectsComponent,
         InitiativeProjectFormComponent,
+        InitiativeContractFormComponent,
     ]
 })
 export class InitiativesModule {

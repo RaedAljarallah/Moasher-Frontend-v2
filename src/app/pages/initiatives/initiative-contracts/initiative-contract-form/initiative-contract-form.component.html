@@ -1,0 +1,87 @@
+<app-form [form]="form" (formSubmitted)="onSubmit()">
+    <ul class="bg-red-100 p-2 border border-red-300 rounded-lg" *ngIf="globalErrors.length">
+        <li class="text-sm text-red-500" *ngFor="let error of globalErrors">- {{ error }}</li>
+    </ul>
+    <ng-container *ngIf="!isDeleteRequest; else deletePrompt">
+        <div class="grid grid-cols-12 gap-2">
+            <div class="col-span-full">
+                <app-form-input [control]="name" id="name" name="اسم العقد"></app-form-input>
+            </div>
+            <div class="col-span-full sm:col-span-6">
+                <app-form-input [control]="startDate" id="startDate" name="تاريخ بداية العقد"
+                                type="date"></app-form-input>
+            </div>
+            <div class="col-span-full sm:col-span-6">
+                <app-form-input [control]="endDate" id="endDate" name="تاريخ نهاية العقد"
+                                type="date"></app-form-input>
+            </div>
+            <div class="col-span-full sm:col-span-6">
+                <app-form-input [control]="amount" id="amount"
+                                name="قيمة العقد"></app-form-input>
+            </div>
+            <div class="col-span-full sm:col-span-6">
+                <app-form-input [control]="statusEnumId" id="statusEnumId" name="الحالة" type="list"
+                                [badgeList]="true"
+                                [dynamicListDefaultItems]="currentStatus"
+                                [listUrl]="statusUrl"></app-form-input>
+            </div>
+            <div class="col-span-full sm:col-span-6">
+                <app-form-input [control]="refNumber" id="refNumber" name="الرقم المرجعي"></app-form-input>
+            </div>
+            <div class="col-span-full sm:col-span-6">
+                <app-form-input [control]="supplier" id="supplier" name="المورد"></app-form-input>
+            </div>
+            <div class="col-span-full mt-2">
+                <app-form-input [control]="calculateAmount" id="calculateAmount" name="تضمين قيمة العقد في إجمالي قيمة الإرتباطات للمبادرة"
+                                type="checkbox"></app-form-input>
+            </div>
+
+<!--            <div class="col-span-full">-->
+<!--                <hr class="my-2">-->
+<!--                <div class="flex justify-between">-->
+<!--                    <span class="text-sm">خطة الصرف</span>-->
+<!--                    <span class="text-sm"-->
+<!--                          [ngClass]="(estimatedAmount.value - totalPlannedExpenditure) === 0 -->
+<!--                          ? 'text-green-600' -->
+<!--                          : 'text-red-500'">المتبقي: {{estimatedAmount.value - totalPlannedExpenditure}}</span>-->
+<!--                </div>-->
+<!--                <span class="text-sm text-red-500" *ngIf="showExpenditurePlanError">{{ expenditurePlanErrorMessage }}</span>-->
+<!--            </div>-->
+
+<!--            <div class="col-span-full" *ngFor="let timeline of expenditureTimeline">-->
+<!--                <div class="overflow-x-auto overflow-y-hidden scrollbar">-->
+<!--                    <table class="w-full table-auto border-collapse border-y-2 border-theme-gray-200">-->
+<!--                        <thead class="bg-white">-->
+<!--                        <tr class="border-b-2 border-theme-gray-200">-->
+<!--                            <th class="py-1 px-0">{{ timeline.year }}</th>-->
+<!--                        </tr>-->
+<!--                        <tr class="border-b border-theme-gray-200">-->
+<!--                            <th *ngFor="let month of timeline.months; let last = last"-->
+<!--                                class="text-center font-normal py-1 px-0"-->
+<!--                                [ngClass]="{'border-l border-theme-gray-200': !last}">شهر {{ month }}</th>-->
+<!--                        </tr>-->
+<!--                        </thead>-->
+<!--                        <tbody class="divide-y divide-theme-gray-200">-->
+<!--                        <tr>-->
+<!--                            <td *ngFor="let month of timeline.months; let last = last"-->
+<!--                                class="px-0 py-0" [ngClass]="{'border-l border-theme-gray-200': !last}">-->
+<!--                                <input class="px-1 py-1.5 min-w-[7rem] w-full focus:outline-none"-->
+<!--                                       [value]="getExpenditure(timeline.year, month)"-->
+<!--                                       (input)="addExpenditure($event, timeline.year, month)"/>-->
+<!--                            </td>-->
+<!--                        </tr>-->
+<!--                        </tbody>-->
+<!--                    </table>-->
+<!--                </div>-->
+<!--            </div>-->
+        </div>
+    </ng-container>
+    <div class="flex justify-end border-t border-t-theme-gray-200 pt-4">
+        <button type="submit" class="btn py-1.5 w-20 btn-secondary text-center text-sm" appLoadingBtn
+                [isLoading]="isLoading" [disabled]="isLoading">{{isDeleteRequest ? 'حذف' : 'حفظ'}}</button>
+    </div>
+</app-form>
+
+<ng-template #deletePrompt>
+    <p class="text-sm font-semibold">هل تريد الإستمرار في حذف العقد؟</p>
+</ng-template>

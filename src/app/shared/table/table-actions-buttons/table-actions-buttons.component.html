@@ -1,5 +1,6 @@
 <div class="flex space-x-1 space-x-reverse justify-end items-center">
-    <button class="btn px-2 py-1 text-xs btn-white border-none rounded" (click)="UpdateBtnClicked.emit()" [disabled]="isLoading">
+    <ng-content select="[extraButton]"></ng-content>
+    <button class="btn px-2 py-1 text-xs btn-white border-none rounded" title="تعديل" (click)="UpdateBtnClicked.emit()" [disabled]="isLoading">
         <i class="fa fa-edit" *ngIf="!isLoading"></i>
         <svg class="animate-spin h-4 w-[0.85rem] text-theme-gray-800" *ngIf="isLoading"
              xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -10,7 +11,7 @@
         </svg>
     </button>
     <div class="border-l border-l-theme-gray-300 py-2"></div>
-    <button class="btn px-2 py-1 text-xs btn-white border-none" (click)="DeleteBtnClicked.emit()">
+    <button class="btn px-2 py-1 text-xs btn-white border-none" title="حذف" (click)="DeleteBtnClicked.emit()">
         <i class="fa fa-trash-alt px-0.5"></i>
     </button>
 </div>

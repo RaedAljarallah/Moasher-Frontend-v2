@@ -1,1 +1,34 @@
-<p>initiative-contracts works!</p>
+<app-table [headers]="headers" [filterFields]="filterFields" [items]="data$ | async" [breadcrumbs]="summary" [hideAddBtn]="true">
+    <ng-template #tableCell let-data="data">
+        <td>{{ data.name }}</td>
+        <td><span class="rounded-full px-2" [ngClass]="data.status.style">{{ data.status.name }}</span></td>
+        <td>{{ data.startDate | isoDate }}</td>
+        <td>{{ data.endDate | isoDate }}</td>
+        <td>{{ data.amount | localCurrency }}</td>
+        <td>{{ data.currentYearExpenditure ?? 0 | localCurrency }}</td>
+        <td>{{ data.plannedExpenditureToDate | localCurrency }}</td>
+        <td>{{ data.totalExpenditure ?? 0 | localCurrency }}</td>
+        <td>{{ data.remaining | localCurrency }}</td>
+        <td>{{ data.refNumber }}</td>
+        <td>{{ data.supplier }}</td>
+        <td>
+            <app-table-actions-buttons
+                    [isLoading]="isFormLoading[data.id]"
+                    (UpdateBtnClicked)="onUpdate(data)"
+                    (DeleteBtnClicked)="onDelete(data)">
+            </app-table-actions-buttons>
+        </td>
+    </ng-template>
+</app-table>
+
+<app-modal modalId="ProjectModal" size="xl" #modal>
+    <p class="text-sm font-semibold ml-2" modal-head>{{ formTitle }}</p>
+    <div modal-body>
+        <app-initiative-contract-form
+                *ngIf="modal.showBody"
+                [inputCommand]="command"
+                [formAction]="formAction"
+                (formSubmitted)="updateItems($event)">
+        </app-initiative-contract-form>
+    </div>
+</app-modal>

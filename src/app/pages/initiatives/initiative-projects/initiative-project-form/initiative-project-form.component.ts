@@ -151,6 +151,10 @@ export class InitiativeProjectFormComponent extends FormBase<IProject, ProjectCo
     }
     
     public override beforeSubmitValidation(): boolean {
+        if (this.formAction === FormAction.Delete) {
+            return true;
+        }
+        
         const remaining = this.estimatedAmount.value - this.totalPlannedExpenditure;
         
         if (remaining === 0) {

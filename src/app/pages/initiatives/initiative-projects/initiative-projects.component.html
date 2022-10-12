@@ -19,6 +19,13 @@
                     [isLoading]="isFormLoading[data.id]"
                     (UpdateBtnClicked)="onUpdate(data)"
                     (DeleteBtnClicked)="onDelete(data)">
+                <ng-container extraButton>
+                    <button  class="btn px-2 py-1 text-xs btn-white border-none" title="توقيع العقد" (click)="onCreateContract(data)">
+                        <i class="fa fa-file-signature"></i>
+                    </button>
+                    <div class="border-l border-l-theme-gray-300 py-2"></div>
+                </ng-container>
+                
             </app-table-actions-buttons>
         </td>
     </ng-template>
@@ -33,5 +40,17 @@
                 [formAction]="formAction"
                 (formSubmitted)="updateItems($event)">
         </app-initiative-project-form>
+    </div>
+</app-modal>
+
+<app-modal modalId="ContractModal" size="xl" #contractModal>
+    <p class="text-sm font-semibold ml-2" modal-head>إضافة عقد</p>
+    <div modal-body>
+        <app-initiative-contract-form
+                *ngIf="contractModal.showBody"
+                [inputCommand]="contractCommand"
+                [formAction]="contractFormAction"
+                (formSubmitted)="removeProject($event)">
+        </app-initiative-contract-form>
     </div>
 </app-modal>
