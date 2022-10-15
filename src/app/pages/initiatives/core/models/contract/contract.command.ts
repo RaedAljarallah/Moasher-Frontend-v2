@@ -4,6 +4,9 @@ import {FormGroup} from "@angular/forms";
 import * as _ from "lodash";
 import {IProject} from "../project/project.model";
 import {DateUtility} from "../../../../../core/utilities/date.utility";
+import {ExpenditureCommand} from "../expenditure/expenditure.command";
+import {ProjectCommand} from "../project/project.command";
+import {IExpenditure} from "../expenditure/expenditure.model";
 
 export class ContractCommand {
     public id!: string;
@@ -17,7 +20,7 @@ export class ContractCommand {
     public initiativeId!: string;
     public projectId!: string;
     public statusEnumId!: string;
-    
+    public expenditures: ExpenditureCommand[] = [];
     public status!: IEnumType;
     
     constructor(model: IContract | FormGroup | null) {
@@ -54,8 +57,7 @@ export class ContractCommand {
     public castFromProject(project: IProject): ContractCommand {
         this.name = project.name;
         this.startDate = project.plannedContractingDate;
-        
-        this.endDate = new Date(DateUtility.addMonths(project.plannedContractingDate.toString(), project.duration));
+        this.endDate = project.plannedContractEndDate;
         this.amount = project.estimatedAmount;
         this.initiativeId = project.initiativeId;
         this.projectId = project.id;
@@ -71,5 +73,22 @@ export class ContractCommand {
     public setProjectId(id: string): ContractCommand {
         this.projectId = id;
         return this;
+    }
+
+    public setExpenditurePlan(plans: { year: number, expenditures: { month: number, amount: number }[] }[]): void {
+        for(let plan of plans) {
+            for(let expenditurePlan of plan.expenditures) {
+                const expenditure: IExpenditure = {
+                    id: '',
+                    year: plan.year,
+                    month: expenditurePlan.month,
+                    plannedAmount: expenditurePlan.amount,
+                    initialPlannedAmount: expenditurePlan.amount,
+                    contractId: this.id
+                }
+
+                this.expenditures.push(new ExpenditureCommand(expenditure));
+            }
+        }
     }
 }

@@ -42,8 +42,8 @@ export class InitiativeProjectsComponent extends TableComponentBase<IProject, Pr
             {value: 'تاريخ الطرح المخطط', classes: 'w-28'},
             {value: 'تاريخ الطرح الفعلي', classes: 'w-28'},
             {value: 'تاريخ التعاقد المخطط', classes: 'w-28'},
+            {value: 'تاريخ نهاية القعد المخطط', classes: 'w-28'},
             {value: 'القيمة التقديرية', classes: 'w-28'},
-            {value: 'مدة المشروع (شهر)', classes: 'w-28'},
             {value: 'الحالة', classes: 'w-28'},
             {value: '', classes: 'w-full'}
         ];

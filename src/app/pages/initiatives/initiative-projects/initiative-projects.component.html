@@ -6,8 +6,8 @@
         <td>{{ data.plannedBiddingDate | isoDate }}</td>
         <td>{{ data.actualBiddingDate | isoDate }}</td>
         <td>{{ data.plannedContractingDate | isoDate }}</td>
+        <td>{{ data.plannedContractEndDate | isoDate }}</td>
         <td>{{ data.estimatedAmount | localCurrency }}</td>
-        <td>{{ data.duration }}</td>
         <td [ngSwitch]="data.status.toLowerCase()">
             <span *ngSwitchCase="'ontrack'" class="text-green-600">على المسار</span>
             <span *ngSwitchCase="'lateonbidding'" class="text-red-500">متأخر في الطرح</span>

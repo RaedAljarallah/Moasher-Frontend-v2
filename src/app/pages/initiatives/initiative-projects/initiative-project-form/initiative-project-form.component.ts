@@ -8,11 +8,7 @@ import {EnumTypeCategory} from "../../../../core/models/data-types/eum-type-cate
 import {IEnumType} from "../../../settings/enum-type/core/models/enum-type.model";
 import {FormAction} from "../../../../core/models/data-types/form-action.data-type";
 import {Subscription} from "rxjs";
-import {debounceTime} from "rxjs/operators";
-import {DateUtility} from "../../../../core/utilities/date.utility";
-import {NumberUtility} from "../../../../core/utilities/number.utility";
-import {ExpenditureCommand} from "../../core/models/expenditure/expenditure.command";
-import * as _ from 'lodash';
+import ExpenditurePlanService from "../../core/services/expenditure-plan.service";
 
 @Component({
     selector: 'app-initiative-project-form',
@@ -20,8 +16,10 @@ import * as _ from 'lodash';
     styles: []
 })
 export class InitiativeProjectFormComponent extends FormBase<IProject, ProjectCommand> implements OnInit, OnDestroy {
+    public es: ExpenditurePlanService;
     constructor(api: ApiService) {
         super(api);
+        this.es = new ExpenditurePlanService('project');
     }
 
     protected _url: string = 'projects';
@@ -31,7 +29,7 @@ export class InitiativeProjectFormComponent extends FormBase<IProject, ProjectCo
             .setInitiativeId(this.inputCommand.initiativeId);
         this.command.id = this.inputCommand.id;
         
-        this.command.setExpenditurePlan(this.expenditurePlan);
+        this.command.setExpenditurePlan(this.es.getExpenditurePlan());
     }
 
     private durationSubscription?: Subscription;
@@ -40,20 +38,13 @@ export class InitiativeProjectFormComponent extends FormBase<IProject, ProjectCo
     public plannedBiddingDate!: FormControl;
     public actualBiddingDate!: FormControl;
     public plannedContractingDate!: FormControl;
+    public plannedContractEndDate!: FormControl;
     public estimatedAmount!: FormControl;
     public phaseEnumId!: FormControl;
-    public duration!: FormControl;
 
     public phaseUrl: string = `enum-types?category=${EnumTypeCategory.InitiativeProjectPhase}`;
     public currentPhase: IEnumType[] = [];
-
-    public expenditureTimeline: { year: number, months: number[] }[] = [];
-    public totalPlannedExpenditure: number = 0;
-    public showExpenditurePlanError: boolean = false;
-    public expenditurePlanErrorMessage: string = '';
     
-    private expenditurePlan: { year: number, expenditures: { month: number, amount: number }[] }[] = [];
-
     public ngOnInit(): void {
         this.isDeleteRequest = (this.formAction == FormAction.Delete);
         if (this.formAction === FormAction.Update) {
@@ -71,23 +62,21 @@ export class InitiativeProjectFormComponent extends FormBase<IProject, ProjectCo
             this.plannedContractingDate = new FormControl(this.getDate(this.inputCommand.plannedContractingDate), [
                 Validators.required
             ]);
+            this.plannedContractEndDate = new FormControl(this.getDate(this.inputCommand.plannedContractEndDate), [
+                Validators.required
+            ]);
             this.estimatedAmount = new FormControl(this.inputCommand.estimatedAmount, [
                 Validators.required,
                 Validators.min(0),
                 Validators.pattern('^-?[0-9]\\d*(\\.\\d{1,5})?$')
-            ]);
-            this.duration = new FormControl(this.inputCommand.duration, [
-                Validators.required,
-                Validators.min(0),
-                Validators.pattern("^[0-9]*$")
             ]);
             this.phaseEnumId = new FormControl(this.inputCommand.phaseEnumId, [
                 Validators.required
             ]);
             
             if (this.formAction === FormAction.Update) {
-                this.generateExpenditureTimeline(this.inputCommand.duration);
-                this.parseToExpenditurePlan(this.inputCommand.expenditures);
+                this.es.generateExpenditureTimeline(this.plannedContractingDate.value, this.plannedContractEndDate.value);
+                this.es.parseToExpenditurePlan(this.inputCommand.expenditures);
             }
             
             this.form = new FormGroup({
@@ -95,27 +84,26 @@ export class InitiativeProjectFormComponent extends FormBase<IProject, ProjectCo
                 plannedBiddingDate: this.plannedBiddingDate,
                 actualBiddingDate: this.actualBiddingDate,
                 plannedContractingDate: this.plannedContractingDate,
+                plannedContractEndDate: this.plannedContractEndDate,
                 estimatedAmount: this.estimatedAmount,
-                duration: this.duration,
                 phaseEnumId: this.phaseEnumId
             });
 
             if (this.formAction === FormAction.Create) {
-                this.duration.disable();
+                this.plannedContractEndDate.disable();
             }
 
             this.plannedContractingDateSubscription = this.plannedContractingDate.valueChanges.subscribe(value => {
                 if (value) {
-                    this.duration.enable();
+                    this.plannedContractEndDate.enable();
                 } else {
-                    this.duration.disable();
+                    this.plannedContractEndDate.disable();
                 }
             });
 
-            this.durationSubscription = this.duration.valueChanges.pipe(debounceTime(500)).subscribe(value => {
-                const duration = +value;
-                if (!isNaN(duration) && duration > 0 && this.plannedContractingDate.value) {
-                    this.generateExpenditureTimeline(duration);
+            this.durationSubscription = this.plannedContractEndDate.valueChanges.subscribe(value => {
+                if (this.plannedContractingDate.value) {
+                    this.es.generateExpenditureTimeline(this.plannedContractingDate.value, this.plannedContractEndDate.value);
                 }
             });
         }
@@ -123,172 +111,25 @@ export class InitiativeProjectFormComponent extends FormBase<IProject, ProjectCo
 
     public addExpenditure(e: Event, year: number, month: number): void {
         const value = +(e.target as HTMLInputElement).value;
-        if (isNaN(value)) {
-            return;
-        }
-        const plan = this.expenditurePlan.find(p => p.year === year);
-        if (plan) {
-            const expenditure = plan.expenditures.find(e => e.month === month);
-            if (expenditure) {
-                expenditure.amount = value;
-            } else {
-                plan.expenditures.push({month: month, amount: value});
-            }
-        } else {
-            this.expenditurePlan.push({year: year, expenditures: [{month: month, amount: value}]});
-        }
-        
-        this.calculateTotalPlannedExpenditure();
+        this.es.addExpenditure(value, year, month);
     }
-    
-    public getExpenditure(year: number, month: number): number | null {
-        const yearExpenditure = this.expenditurePlan.find(e => e.year === year);
-        if (yearExpenditure) {
-            return yearExpenditure.expenditures.find(e => e.month === month)?.amount ?? null
-        }
-        
-        return null;
-    }
-    
+
     public override beforeSubmitValidation(): boolean {
         if (this.formAction === FormAction.Delete) {
             return true;
         }
         
-        const remaining = this.estimatedAmount.value - this.totalPlannedExpenditure;
-        
-        if (remaining === 0) {
-            this.showExpenditurePlanError = false;
-            this.expenditurePlanErrorMessage = '';
-            return true;
-        }
-        
-        if (remaining < 0) {
-            this.expenditurePlanErrorMessage = 'التكاليف الموزعة للخطة أعلى من القيمة التقديرية';
-        }
-        
-        if (remaining > 0) {
-            this.expenditurePlanErrorMessage = 'التكاليف الموزعة للخطة أقل من القيمة التقديرية';
-        }
-        
-        this.showExpenditurePlanError = true;
-        return false;
+        return this.es.isValid(this.estimatedAmount.value);
     }
     
     public override handelError(errors: { [p: string]: string[] }) {
         if (errors['expenditures']) {
-            this.expenditurePlanErrorMessage = errors['expenditures'][0];
-            this.showExpenditurePlanError = true;
+            this.es.setValidationError(errors['expenditures'][0]);
         }
     }
-
-    private calculateTotalPlannedExpenditure(): void {
-        let totalExpenditure = 0
-        this.expenditurePlan.forEach(plan => {
-            plan.expenditures.forEach(expenditure => {
-                totalExpenditure += expenditure.amount;
-            });
-        });
-
-        this.totalPlannedExpenditure = totalExpenditure;
-    }
     
-    private generateExpenditureTimeline(duration: number): void {
-        const newDate = DateUtility.addMonths(this.plannedContractingDate.value, duration);
-        const yearsRange = DateUtility.getYearsRange(new Date(this.plannedContractingDate.value), new Date(newDate));
-        const startMonth = DateUtility.getMonth(this.plannedContractingDate.value);
-        const lastMonth = DateUtility.getMonth(newDate);
-        this.expenditureTimeline = [];
-        yearsRange.forEach((year: number, index: number) => {
-            let startRange = 1;
-            let lastRange = 12;
-            if (index === 0) {
-                startRange = startMonth;
-            }
-
-            if (index === yearsRange.length - 1) {
-                lastRange = lastMonth;
-            }
-
-            this.expenditureTimeline.push({
-                year: year,
-                months: NumberUtility.range(startRange, lastRange)
-            });
-        });
-        
-        this.updateExpenditurePlan();
-    }
-    
-    private updateExpenditurePlan(): void {
-        if (this.expenditurePlan.length === 0) return;
-
-        let newExpenditurePlan: { year: number, expenditures: { month: number, amount: number }[] }[] = [];
-        this.expenditureTimeline.forEach(timeline => {
-            const originalYearExpenditurePlan = this.expenditurePlan.find(p => p.year === timeline.year);
-            if (originalYearExpenditurePlan) {
-                newExpenditurePlan.push({ year: timeline.year, expenditures: [] });
-                const newYearPlan = newExpenditurePlan.find(p => p.year === timeline.year);
-                timeline.months.forEach(timelineMonth => {
-                    const originalMonthExpenditurePlan = originalYearExpenditurePlan.expenditures.find(e => e.month === timelineMonth);
-                    if (originalMonthExpenditurePlan) {
-                        newYearPlan!.expenditures.push({month: timelineMonth, amount: originalMonthExpenditurePlan.amount});
-                    }
-                })
-            }
-        });
-        
-        this.expenditurePlan = newExpenditurePlan;
-        
-        this.calculateTotalPlannedExpenditure();
-    }
-    
-    private parseToExpenditurePlan(expenditures: ExpenditureCommand[]): void {
-        let years = expenditures.map(e => e.year);
-        years = _.uniq(years);
-        years.forEach(year => {
-            const yearExpenditures = expenditures.filter(e => e.year === year);
-            this.expenditurePlan.push({
-                year: year,
-                expenditures: yearExpenditures.map(e => ({ month: this.parseMonth(e.month.toString()), amount: e.plannedAmount }))
-            });
-        });
-
-        this.calculateTotalPlannedExpenditure();
-    }
-    
-    private parseMonth(month: string): number {
-        switch (month.toLowerCase()) {
-            case 'one':
-                return 1;
-            case 'two':
-                return 2;
-            case 'three':
-                return 3;
-            case 'four':
-                return 4;
-            case 'five':
-                return 5;
-            case 'six':
-                return 6;
-            case 'seven':
-                return 7;
-            case 'eight':
-                return 8;
-            case 'nine':
-                return 9;
-            case 'ten':
-                return 10;
-            case 'eleven':
-                return 11;
-            case 'twelve':
-                return 12;
-            default:
-                return 13;
-        }
-    }
     public ngOnDestroy(): void {
         this.durationSubscription?.unsubscribe();
         this.plannedContractingDateSubscription?.unsubscribe();
     }
-
 }

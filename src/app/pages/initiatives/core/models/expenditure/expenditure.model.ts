@@ -6,5 +6,6 @@ export interface IExpenditure extends IBaseModel {
     initialPlannedAmount: number;
     plannedAmount: number;
     actualAmount?: number;
-    projectId: string;
+    projectId?: string;
+    contractId?: string;
 }

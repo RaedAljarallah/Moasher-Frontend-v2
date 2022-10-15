@@ -7,6 +7,8 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {EnumTypeCategory} from "../../../../core/models/data-types/eum-type-category.data-type";
 import {IEnumType} from "../../../settings/enum-type/core/models/enum-type.model";
 import {FormAction} from "../../../../core/models/data-types/form-action.data-type";
+import ExpenditurePlanService from "../../core/services/expenditure-plan.service";
+import {Subscription} from "rxjs";
 
 @Component({
     selector: 'app-initiative-contract-form',
@@ -14,8 +16,10 @@ import {FormAction} from "../../../../core/models/data-types/form-action.data-ty
     styles: []
 })
 export class InitiativeContractFormComponent extends FormBase<IContract, ContractCommand> implements OnInit {
+    public es: ExpenditurePlanService;
     constructor(api: ApiService) {
         super(api);
+        this.es = new ExpenditurePlanService('contract');
     }
 
     protected _url: string = 'contracts';
@@ -24,10 +28,13 @@ export class InitiativeContractFormComponent extends FormBase<IContract, Contrac
         this.command = new ContractCommand(this.form)
             .setInitiativeId(this.inputCommand.initiativeId)
             .setProjectId(this.inputCommand.projectId);
-        
         this.command.id = this.inputCommand.id;
-    }
 
+        this.command.setExpenditurePlan(this.es.getExpenditurePlan());
+    }
+    
+    private durationSubscription?: Subscription;
+    private startDateSubscription?: Subscription;
     public name!: FormControl;
     public startDate!: FormControl;
     public endDate!: FormControl;
@@ -39,7 +46,8 @@ export class InitiativeContractFormComponent extends FormBase<IContract, Contrac
 
     public statusUrl: string = `enum-types?category=${EnumTypeCategory.InitiativeContractStatus}`;
     public currentStatus: IEnumType[] = [];
-
+    public showExpenditurePlan: boolean = false;
+    
     public ngOnInit(): void {
         this.isDeleteRequest = (this.formAction == FormAction.Delete);
         if (this.formAction === FormAction.Update) {
@@ -71,6 +79,12 @@ export class InitiativeContractFormComponent extends FormBase<IContract, Contrac
             this.statusEnumId = new FormControl(this.inputCommand.statusEnumId, [
                 Validators.required
             ]);
+
+            if (this.formAction === FormAction.Update) {
+                this.es.generateExpenditureTimeline(this.startDate.value, this.endDate.value);
+                this.es.parseToExpenditurePlan(this.inputCommand.expenditures);
+                this.showExpenditurePlan = true;
+            }
             
             this.form = new FormGroup({
                 name: this.name,
@@ -81,7 +95,47 @@ export class InitiativeContractFormComponent extends FormBase<IContract, Contrac
                 supplier: this.supplier,
                 calculateAmount: this.calculateAmount,
                 statusEnumId: this.statusEnumId
-            })
+            });
+
+            if (this.formAction === FormAction.Update) {
+                this.startDateSubscription = this.startDate.valueChanges.subscribe(value => {
+                    if (value) {
+                        this.endDate.enable();
+                    } else {
+                        this.endDate.disable();
+                    }
+                });
+
+                this.durationSubscription = this.endDate.valueChanges.subscribe(value => {
+                    if (this.startDate.value) {
+                        this.es.generateExpenditureTimeline(this.startDate.value, this.endDate.value);
+                    }
+                });
+            }
         }
+    }
+
+    public addExpenditure(e: Event, year: number, month: number): void {
+        const value = +(e.target as HTMLInputElement).value;
+        this.es.addExpenditure(value, year, month);
+    }
+
+    public override beforeSubmitValidation(): boolean {
+        if (this.formAction !== FormAction.Update) {
+            return true;
+        }
+
+        return this.es.isValid(this.amount.value);
+    }
+
+    public override handelError(errors: { [p: string]: string[] }) {
+        if (errors['expenditures']) {
+            this.es.setValidationError(errors['expenditures'][0]);
+        }
+    }
+
+    public ngOnDestroy(): void {
+        this.durationSubscription?.unsubscribe();
+        this.startDateSubscription?.unsubscribe();
     }
 }

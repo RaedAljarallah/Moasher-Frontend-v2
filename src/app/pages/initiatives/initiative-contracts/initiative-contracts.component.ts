@@ -42,6 +42,7 @@ export class InitiativeContractsComponent extends TableComponentBase<IContract, 
             {value: 'مخطط الصرف حتى تاريخه', classes: 'w-28'},
             {value: 'إجمالي المنصرف حتى تاريخة', classes: 'w-28'},
             {value: 'المتبقي', classes: 'w-28'},
+            {value: 'حالة خطة الصرف', classes: 'w-28'},
             {value: 'الرقم المرجعي', classes: 'w-28'},
             {value: 'المورد', classes: 'w-28'},
             {value: '', classes: 'w-full'}
@@ -58,6 +59,16 @@ export class InitiativeContractsComponent extends TableComponentBase<IContract, 
                 dynamicListUrl: `enum-types?category=${EnumTypeCategory.InitiativeContractStatus}`,
                 isBadgeList: true,
                 listPlaceholder: 'الرجاء إختيار الحالة'
+            },
+            {
+                name: 'حالة خطة الصرف',
+                id: 'expenditurePlanStatus',
+                type: 'static-list',
+                listPlaceholder: 'الرجاء إختيار حالة خطة الصرف',
+                staticListItems: [
+                    {name: 'مطابقة', value: 'matching'},
+                    {name: 'غير مطابقة', value: 'notMatching'}
+                ]
             }
         ];
         this.summary = [];
@@ -72,7 +83,8 @@ export class InitiativeContractsComponent extends TableComponentBase<IContract, 
         {key: 'startTo'},
         {key: 'endFrom'},
         {key: 'endTo'},
-        {key: 'statusId'}
+        {key: 'statusId'},
+        {key: 'expenditurePlanStatus'}
     ];
 
     protected initCommand(item: IContract | null): void {

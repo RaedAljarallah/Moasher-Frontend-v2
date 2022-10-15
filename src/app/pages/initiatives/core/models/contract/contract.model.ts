@@ -14,5 +14,6 @@ export interface IContract extends IBaseModel {
     currentYearExpenditure?: number;
     plannedExpenditureToDate: number;
     totalExpenditure?: number;
+    balancedExpenditurePlan: boolean;
     remaining: number;
 }

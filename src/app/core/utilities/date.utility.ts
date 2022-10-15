@@ -28,7 +28,7 @@ export class DateUtility {
     static getCurrentMonth(): number {
         return new Date().getMonth();
     }
-
+    
     static getQuarterMonths(quarter: number): number[] {
         const quarterFirstMonth = ((quarter - 1) * 3) + 1;
         return [quarterFirstMonth, quarterFirstMonth + 1, quarterFirstMonth + 2];

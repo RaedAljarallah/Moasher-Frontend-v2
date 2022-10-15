@@ -11,8 +11,8 @@ export class ProjectCommand {
     public plannedBiddingDate!: Date | null;
     public actualBiddingDate?: Date | null;
     public plannedContractingDate!: Date | null;
+    public plannedContractEndDate!: Date | null;
     public estimatedAmount!: number;
-    public duration!: number;
     public phaseEnumId!: string;
     public initiativeId!: string;
     public expenditures: ExpenditureCommand[] = [];
@@ -29,8 +29,8 @@ export class ProjectCommand {
             this.plannedBiddingDate = _.get(form.get('plannedBiddingDate'), 'value', null);
             this.actualBiddingDate = _.get(form.get('actualBiddingDate'), 'value', null);
             this.plannedContractingDate = _.get(form.get('plannedContractingDate'), 'value', null);
+            this.plannedContractEndDate = _.get(form.get('plannedContractEndDate'), 'value', null);
             this.estimatedAmount = parseFloat(_.get(form.get('estimatedAmount'), 'value', null));
-            this.duration = parseFloat(_.get(form.get('duration'), 'value', null));
             this.phaseEnumId = _.get(form.get('phaseEnumId'), 'value', null);
             this.initiativeId = _.get(form.get('initiativeId'), 'value', null);
             return;
@@ -41,8 +41,8 @@ export class ProjectCommand {
         this.plannedBiddingDate = model.plannedBiddingDate;
         this.actualBiddingDate = model.actualBiddingDate;
         this.plannedContractingDate = model.plannedContractingDate;
+        this.plannedContractEndDate = model.plannedContractEndDate;
         this.estimatedAmount = model.estimatedAmount;
-        this.duration = model.duration;
         this.initiativeId = model.initiativeId;
     }
 

@@ -7,8 +7,8 @@ export interface IProject extends IBaseModel {
     plannedBiddingDate: Date;
     actualBiddingDate? :Date;
     plannedContractingDate: Date;
+    plannedContractEndDate: Date;
     estimatedAmount: number;
-    duration: number;
     phase: IEnumValue;
     status: string;
 }

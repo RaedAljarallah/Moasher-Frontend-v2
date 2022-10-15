@@ -9,6 +9,10 @@
         <td>{{ data.plannedExpenditureToDate | localCurrency }}</td>
         <td>{{ data.totalExpenditure ?? 0 | localCurrency }}</td>
         <td>{{ data.remaining | localCurrency }}</td>
+        <td [ngSwitch]="data.balancedExpenditurePlan">
+            <span *ngSwitchCase="true" class="text-green-600">مطابقة</span>
+            <span *ngSwitchCase="false" class="text-red-500">غير مطابقة</span>
+        </td>
         <td>{{ data.refNumber }}</td>
         <td>{{ data.supplier }}</td>
         <td>
@@ -21,7 +25,7 @@
     </ng-template>
 </app-table>
 
-<app-modal modalId="ProjectModal" size="xl" #modal>
+<app-modal modalId="ContractModal" size="xl" #modal>
     <p class="text-sm font-semibold ml-2" modal-head>{{ formTitle }}</p>
     <div modal-body>
         <app-initiative-contract-form
