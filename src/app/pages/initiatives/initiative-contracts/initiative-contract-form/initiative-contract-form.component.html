@@ -57,13 +57,24 @@
                                 <th class="py-1 px-0">{{ timeline.year }}</th>
                             </tr>
                             <tr class="border-b border-theme-gray-200">
+                                <th class="w-12 border-l border-theme-gray-200"></th>
                                 <th *ngFor="let month of timeline.months; let last = last"
-                                    class="text-center font-normal py-1 px-0"
+                                    class="font-normal py-1 px-1"
                                     [ngClass]="{'border-l border-theme-gray-200': !last}">شهر {{ month }}</th>
                             </tr>
                             </thead>
                             <tbody class="divide-y divide-theme-gray-200">
                             <tr>
+                                <td class="text-sm border-l border-theme-gray-200">مخطط</td>
+                                <td *ngFor="let month of timeline.months; let last = last"
+                                    class="px-0 py-0" [ngClass]="{'border-l border-theme-gray-200': !last}">
+                                    <input class="px-1 py-1.5 min-w-[7rem] w-full focus:outline-none"
+                                           [value]="es.getExpenditure(timeline.year, month)"
+                                           (input)="addExpenditure($event, timeline.year, month)"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-sm border-l border-theme-gray-200">فعلي</td>
                                 <td *ngFor="let month of timeline.months; let last = last"
                                     class="px-0 py-0" [ngClass]="{'border-l border-theme-gray-200': !last}">
                                     <input class="px-1 py-1.5 min-w-[7rem] w-full focus:outline-none"
