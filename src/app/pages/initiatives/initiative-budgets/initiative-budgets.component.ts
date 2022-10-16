@@ -22,9 +22,9 @@ export class InitiativeBudgetsComponent extends TableComponentBase<IBudget, Budg
         super(route, router, api, modal);
     }
 
-    protected _createFormTitle: string = 'إضافة تكاليف معتمدة';
-    protected _updateFormTitle: string = 'تعديل تكاليف معتمدة';
-    protected _deleteFormTitle: string = 'حذف تكاليف معتمدة';
+    protected _createFormTitle: string = 'إضافة ميزانية';
+    protected _updateFormTitle: string = 'تعديل ميزانية';
+    protected _deleteFormTitle: string = 'حذف ميزانية';
     protected _modalId: string = 'BudgetModal';
 
     protected override onInit() {
