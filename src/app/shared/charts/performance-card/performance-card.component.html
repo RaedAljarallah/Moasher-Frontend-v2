@@ -1,18 +1,30 @@
-<div class="flex justify-between p-2 h-full" *ngIf="values; else loading">
+<div class="flex justify-between p-2 h-full relative" *ngIf="values; else loading">
     <div class="flex flex-col space-y-2">
         <div>
-            <span class="block text-xl">{{ values.actual.value | localCurrency }}</span>
-            <span class="text-sm text-theme-gray-500 whitespace-nowrap">{{ values.actual.name}}</span>
+            <span class="block text-xl">{{ values.actual.value | localCurrency: '0' }}</span>
+            <div class="group">
+                <span class="text-sm text-theme-gray-500 whitespace-nowrap cursor-pointer">{{ values.actual.name }}</span>
+                <span class="text-xs text-white h-fit w-fit p-2 bg-theme-gray-800 rounded-md absolute inset-0 top-[3.75rem] z-10 hidden group-hover:block">
+                    {{values.actual.tooltip}}
+                </span>
+            </div>
         </div>
         <div>
-            <span class="block text-lg">{{ values.target.value | localCurrency }}</span>
-            <span class="text-sm text-theme-gray-500 whitespace-nowrap">{{ values.target.name }}</span>
+            <span class="block text-lg">{{ values.target.value | localCurrency: '0' }}</span>
+            <div class="group">
+                <span class="text-sm text-theme-gray-500 whitespace-nowrap cursor-pointer">{{ values.target.name }}</span>
+                <span class="text-xs text-white h-fit w-fit p-2 bg-theme-gray-800 rounded-md absolute inset-0 top-[7.5rem] z-10 hidden group-hover:block">
+                    {{values.target.tooltip}}
+                </span>
+            </div>
         </div>
     </div>
 
-    <div class="w-28 h-28 flex">
+    <div class="w-28 h-28 flex absolute left-1">
         <div class="mr-3 mt-2" #performanceChart></div>
     </div>
+
+
 </div>
 
 <ng-template #loading>

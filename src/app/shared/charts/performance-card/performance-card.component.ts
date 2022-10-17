@@ -13,6 +13,7 @@ import {IPerformanceCardValue} from "../models/performance-card-value.model";
 })
 export class PerformanceCardComponent implements OnInit, AfterViewInit {
     @Input() values?: IPerformanceCardValue;
+    @Input() limitPercentageToHundred: boolean = false;
     @ViewChildren('performanceChart') chartElm?: QueryList<ElementRef>;
     
     private chart: any;
@@ -68,8 +69,8 @@ export class PerformanceCardComponent implements OnInit, AfterViewInit {
         setTimeout(() => {
             this.chart.load({
                 columns: [
-                    ['actual', dataSet.actual],
-                    ['remaining', dataSet.remaining],
+                    ['actual', (dataSet.actual === 0 && dataSet.remaining === 0) ? 1 : dataSet.actual],
+                    ['remaining', (dataSet.actual === 0 && dataSet.remaining === 0) ? 0 : dataSet.remaining],
 
                 ]
             })
@@ -81,7 +82,14 @@ export class PerformanceCardComponent implements OnInit, AfterViewInit {
             ? 0 
             : this.values!.target.value - this.values!.actual.value;
         
-        const percentage = (this.values!.actual.value / this.values!.target.value) * 100;
+        let percentage = this.values!.target.value === 0 
+            ? 100 
+            : (this.values!.actual.value / this.values!.target.value) * 100;
+        
+        if (percentage > 100 && this.limitPercentageToHundred) {
+            percentage = 100;
+        }
+        
         return {
             actual: this.values!.actual.value,
             remaining: remaining,

@@ -4,21 +4,20 @@
         <app-performance-card [values]="fundingPerformance"></app-performance-card>
     </div>
     <div class="bg-white border border-theme-gray-300 rounded col-span-full sm:col-span-6 md:col-span-4 2xl:col-span-2">
+        <app-performance-card [values]="estimateAtCompletion"></app-performance-card>
+    </div>
+    <div class="bg-white border border-theme-gray-300 rounded col-span-full sm:col-span-6 md:col-span-4 2xl:col-span-2">
         <app-performance-card [values]="contractingPerformance"></app-performance-card>
     </div>
     <div class="bg-white border border-theme-gray-300 rounded col-span-full sm:col-span-6 md:col-span-4 2xl:col-span-2">
         <app-performance-card [values]="allTimeSpendingPerformance"></app-performance-card>
     </div>
     <div class="bg-white border border-theme-gray-300 rounded col-span-full sm:col-span-6 md:col-span-4 2xl:col-span-2">
-        <app-performance-card [values]="currentPeriodSpendingPerformance"></app-performance-card>
+        <app-performance-card [values]="currentPeriodSpendingPerformance" [limitPercentageToHundred]="true"></app-performance-card>
     </div>
     <div class="bg-white border border-theme-gray-300 rounded col-span-full sm:col-span-6 md:col-span-4 2xl:col-span-2">
-        <app-performance-card [values]="currentPeriodContractingPerformance"></app-performance-card>
+        <app-performance-card [values]="currentPeriodContractingPerformance" [limitPercentageToHundred]="true"></app-performance-card>
     </div>
-    <div class="bg-white border border-theme-gray-300 rounded col-span-full sm:col-span-6 md:col-span-4 2xl:col-span-2">
-        <app-performance-card [values]="currentYearSpending"></app-performance-card>
-    </div>
-
     <div class="bg-white border border-theme-gray-300 rounded col-span-full 2xl:col-span-6">
         <app-text-combo [data]="spendingPlan$ | async" title="تقدم الصرف"></app-text-combo>
     </div>

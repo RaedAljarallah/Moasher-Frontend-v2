@@ -6,6 +6,8 @@ import {map, tap} from "rxjs/operators";
 import {IPerformanceCardValue} from "../../../shared/charts/models/performance-card-value.model";
 import {ChartUtility} from "../../../shared/charts/utilities/chart.utility";
 import {IProgressChart} from "../../../shared/charts/models/progress-chart.model";
+import {IInitiativeSummary} from "../core/models/IInitiativeSummary.model";
+import {DateUtility} from "../../../core/utilities/date.utility";
 
 @Component({
     selector: 'app-initiative-performance',
@@ -15,7 +17,7 @@ export class InitiativePerformanceComponent implements OnInit {
     @Input() initiativeId: string = '';
 
     public isInitiativeSummaryLoading: boolean = true;
-    public currentYearSpending?: IPerformanceCardValue;
+    public estimateAtCompletion?: IPerformanceCardValue;
     public currentPeriodContractingPerformance?: IPerformanceCardValue;
     public currentPeriodSpendingPerformance?: IPerformanceCardValue;
     public allTimeSpendingPerformance?: IPerformanceCardValue;
@@ -36,7 +38,7 @@ export class InitiativePerformanceComponent implements OnInit {
 
 
     private getInitiativeSummary(): void {
-        this.api.get<IInitiativeFinancialSummaryChart>(`initiatives/summary?id=${this.initiativeId}`)
+        this.api.get<IInitiativeSummary>(`initiatives/summary?id=${this.initiativeId}`)
             .pipe(
                 map((res) => res.result),
                 tap(() => this.isInitiativeSummaryLoading = false)
@@ -45,78 +47,92 @@ export class InitiativePerformanceComponent implements OnInit {
 
                 this.fundingPerformance = {
                     target: {
-                        name: 'إجمالي التكاليف',
-                        value: result.requiredCost
+                        name: 'التكاليف المطلوبة',
+                        value: result.requiredCost,
+                        tooltip: 'التكاليف المطلوبة في خطة تنفيذ البرنامج'
                     },
                     actual: {
                         name: 'التكاليف المعتمدة',
-                        value: result.approvedCost
+                        value: result.approvedCost,
+                        tooltip: 'التكاليف المعتمدة من اللجنة الإستراتيجية'
                     }
                 }
-
+                
+                this.estimateAtCompletion = {
+                    target: {
+                        name: 'التكاليف المطلوبة',
+                        value: result.requiredCost,
+                        tooltip: 'التكاليف المطلوبة في خطة تنفيذ البرنامج'
+                    },
+                    actual: {
+                        name: 'التكاليف المتوقعة للإكمال',
+                        value: result.estimatedBudgetAtCompletion,
+                        tooltip: 'التكاليف المتوقعة لإكمال المبادرة'
+                    }
+                }
+                
                 this.contractingPerformance = {
                     target: {
                         name: 'التكاليف المعتمدة',
-                        value: result.approvedCost
+                        value: result.approvedCost,
+                        tooltip: 'التكاليف المعتمدة من اللجنة الإستراتيجية'
                     },
                     actual: {
                         name: 'إجمالي الإرتباطات',
-                        value: result.contractsAmount
+                        value: result.contractsAmount,
+                        tooltip: 'إجمالي قيمة العقود القائمة للمبادرة'
                     }
                 }
 
                 this.allTimeSpendingPerformance = {
                     target: {
                         name: 'إجمالي الإرتباطات',
-                        value: result.contractsAmount
+                        value: result.contractsAmount,
+                        tooltip: 'إجمالي قيمة العقود القائمة للمبادرة'
                     },
                     actual: {
                         name: 'إجمالي المنصرف',
-                        value: result.totalExpenditure
+                        value: result.totalExpenditure,
+                        tooltip: `إجمالي المنصرف بنهاية ${DateUtility.getDate()}`
                     }
                 }
 
                 this.currentPeriodSpendingPerformance = {
                     target: {
                         name: 'المستهدف',
-                        value: 10000
+                        value: result.plannedToDateExpenditure,
+                        tooltip: `إجمالي المخطط صرفه بنهاية ${DateUtility.getDate()}`
                     },
                     actual: {
-                        name: `مخطط الصرف ${ChartUtility.getCurrentQuarter()}`,
-                        value: 5000
+                        name: 'إجمالي المنصرف',
+                        value: result.totalExpenditure,
+                        tooltip: `إجمالي المنصرف بنهاية ${DateUtility.getDate()}`
                     },
                 }
 
                 this.currentPeriodContractingPerformance = {
                     target: {
                         name: 'المستهدف',
-                        value: 10000
+                        value: result.plannedToDateContractsAmount,
+                        tooltip: `إجمالي مخطط قيمة العقود القائمة بنهاية ${DateUtility.getDate()}`
                     },
                     actual: {
-                        name: `مخطط التعاقد ${ChartUtility.getCurrentQuarter()}`,
-                        value: 5000
-                    }
-                }
-
-                this.currentYearSpending = {
-                    target: {
-                        name: `سيولة ${this.spendingYear}`,
-                        value: 96000000
-                    },
-                    actual: {
-                        name: `منصرف ${this.spendingYear}`,
-                        value: 12000
+                        name: 'إجمالي الإرتباطات',
+                        value: result.contractsAmount,
+                        tooltip: 'إجمالي قيمة العقود القائمة للمبادرة'
                     }
                 }
 
                 this.milestoneProgressPerformance = {
                     target: {
                         name: 'المعالم المستحقة',
-                        value: 20
+                        value: result.toDateDueMilestones,
+                        tooltip: `عدد المعالم المستحقة بنهاية ${DateUtility.getDate()}`
                     },
                     actual: {
                         name: 'المعالم المنجزة',
-                        value: 17
+                        value: result.toDateAchievedMilestones,
+                        tooltip: 'عدد المعالم المنجزة حتى تاريخه'
                     }
                 }
 
