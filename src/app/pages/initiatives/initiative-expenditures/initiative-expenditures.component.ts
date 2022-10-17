@@ -35,7 +35,7 @@ export class InitiativeExpendituresComponent implements OnInit {
     }
     
     ngOnInit(): void {
-        this.data$ = this.api.get<IExpenditureSummary[]>(`expenditures/summary?initiativeId=${this.initiativeId}`).pipe(
+        this.data$ = this.api.get<IExpenditureSummary[]>(`expenditures?initiativeId=${this.initiativeId}`).pipe(
             map(res => {
                 let result: IExpenditureSummaryTable[] = [];
                 
