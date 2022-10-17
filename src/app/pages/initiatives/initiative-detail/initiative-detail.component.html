@@ -14,7 +14,7 @@
         <app-initiative-projects [initiativeId]="detailPageState.id" *ngIf="selectedTab === 'projects'"></app-initiative-projects>
         <app-initiative-contracts [initiativeId]="detailPageState.id" *ngIf="selectedTab === 'contracts'"></app-initiative-contracts>
         <app-initiative-budgets [initiativeId]="detailPageState.id" *ngIf="selectedTab === 'budgets'"></app-initiative-budgets>
-        <app-initiative-expenditures *ngIf="selectedTab === 'expenditures'"></app-initiative-expenditures>
+        <app-initiative-expenditures [initiativeId]="detailPageState.id" *ngIf="selectedTab === 'expenditures'"></app-initiative-expenditures>
         <app-analytics-list parentType="initiative" [parentId]="detailPageState.id" *ngIf="selectedTab === 'analytics'"></app-analytics-list>
         <app-initiative-teams [initiativeId]="detailPageState.id" *ngIf="selectedTab === 'teams'"></app-initiative-teams>
         <app-initiative-over-view [initiative]="detailPageState" *ngIf="selectedTab === 'over-view'"></app-initiative-over-view>

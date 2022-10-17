@@ -54,7 +54,7 @@
                         <table class="w-full table-auto border-collapse border-y-2 border-theme-gray-200">
                             <thead class="bg-white">
                             <tr class="border-b-2 border-theme-gray-200">
-                                <th class="py-1 px-0">{{ timeline.year }}</th>
+                                <th class="py-1 px-0">السنة: {{ timeline.year }}</th>
                             </tr>
                             <tr class="border-b border-theme-gray-200">
                                 <th class="w-12 border-l border-theme-gray-200"></th>
@@ -69,8 +69,8 @@
                                 <td *ngFor="let month of timeline.months; let last = last"
                                     class="px-0 py-0" [ngClass]="{'border-l border-theme-gray-200': !last}">
                                     <input class="px-1 py-1.5 min-w-[7rem] w-full focus:outline-none"
-                                           [value]="es.getExpenditure(timeline.year, month)"
-                                           (input)="addExpenditure($event, timeline.year, month)"/>
+                                           [value]="es.getExpenditure(timeline.year, month, 'planned')"
+                                           (input)="addExpenditure($event, timeline.year, month, 'planned')"/>
                                 </td>
                             </tr>
                             <tr>
@@ -78,8 +78,8 @@
                                 <td *ngFor="let month of timeline.months; let last = last"
                                     class="px-0 py-0" [ngClass]="{'border-l border-theme-gray-200': !last}">
                                     <input class="px-1 py-1.5 min-w-[7rem] w-full focus:outline-none"
-                                           [value]="es.getExpenditure(timeline.year, month)"
-                                           (input)="addExpenditure($event, timeline.year, month)"/>
+                                           [value]="es.getExpenditure(timeline.year, month, 'actual')"
+                                           (input)="addExpenditure($event, timeline.year, month, 'actual')"/>
                                 </td>
                             </tr>
                             </tbody>

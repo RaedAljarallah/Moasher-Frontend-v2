@@ -12,7 +12,7 @@ import {BooleanToStringPipe} from "./boolean-to-string.pipe";
     IsoDatePipe,
     LocalCurrencyPipe,
     VariancePipe,
-    BooleanToStringPipe,
+    BooleanToStringPipe
   ],
   imports: [
     CommonModule

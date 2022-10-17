@@ -4,6 +4,7 @@ import * as _ from "lodash";
 import {IEnumType} from "../../../../settings/enum-type/core/models/enum-type.model";
 import {ExpenditureCommand} from "../expenditure/expenditure.command";
 import {IExpenditure} from "../expenditure/expenditure.model";
+import {IExpenditurePlan} from "../expenditure/expenditure-plan.model";
 
 export class ProjectCommand {
     public id!: string;
@@ -51,15 +52,15 @@ export class ProjectCommand {
         return this;
     }
 
-    public setExpenditurePlan(plans: { year: number, expenditures: { month: number, amount: number }[] }[]): void {
+    public setExpenditurePlan(plans: IExpenditurePlan[]): void {
         for(let plan of plans) {
             for(let expenditurePlan of plan.expenditures) {
                 const expenditure: IExpenditure = {
                     id: '',
                     year: plan.year,
                     month: expenditurePlan.month,
-                    plannedAmount: expenditurePlan.amount,
-                    initialPlannedAmount: expenditurePlan.amount,
+                    plannedAmount: expenditurePlan.plannedAmount,
+                    initialPlannedAmount: expenditurePlan.plannedAmount,
                     projectId: this.id
                 }
                 

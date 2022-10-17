@@ -7,6 +7,7 @@ import {DateUtility} from "../../../../../core/utilities/date.utility";
 import {ExpenditureCommand} from "../expenditure/expenditure.command";
 import {ProjectCommand} from "../project/project.command";
 import {IExpenditure} from "../expenditure/expenditure.model";
+import {IExpenditurePlan} from "../expenditure/expenditure-plan.model";
 
 export class ContractCommand {
     public id!: string;
@@ -75,15 +76,16 @@ export class ContractCommand {
         return this;
     }
 
-    public setExpenditurePlan(plans: { year: number, expenditures: { month: number, amount: number }[] }[]): void {
+    public setExpenditurePlan(plans: IExpenditurePlan[]): void {
         for(let plan of plans) {
             for(let expenditurePlan of plan.expenditures) {
                 const expenditure: IExpenditure = {
                     id: '',
                     year: plan.year,
                     month: expenditurePlan.month,
-                    plannedAmount: expenditurePlan.amount,
-                    initialPlannedAmount: expenditurePlan.amount,
+                    plannedAmount: expenditurePlan.plannedAmount,
+                    initialPlannedAmount: expenditurePlan.plannedAmount,
+                    actualAmount: expenditurePlan.actualAmount,
                     contractId: this.id
                 }
 

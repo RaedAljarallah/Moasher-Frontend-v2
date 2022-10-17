@@ -2,24 +2,25 @@
 import {NumberUtility} from "../../../../core/utilities/number.utility";
 import {ExpenditureCommand} from "../models/expenditure/expenditure.command";
 import * as _ from "lodash";
+import {IExpenditurePlan} from "../models/expenditure/expenditure-plan.model";
 
 export default class ExpenditurePlanService {
     public expenditureTimeline: { year: number, months: number[] }[] = [];
     public totalPlannedExpenditure: number = 0;
     public showExpenditurePlanError: boolean = false;
     public expenditurePlanErrorMessage: string = '';
-    private expenditurePlan: { year: number, expenditures: { month: number, amount: number }[] }[] = [];
+    private expenditurePlan: IExpenditurePlan[] = [];
     private readonly _type: 'project' | 'contract';
     
     constructor(type: 'project' | 'contract') {
         this._type = type;
     }
     
-    public getExpenditurePlan(): { year: number, expenditures: { month: number, amount: number }[] }[] {
+    public getExpenditurePlan(): IExpenditurePlan[] {
         return this.expenditurePlan;
     }
     
-    public addExpenditure(value: number, year: number, month: number): void {
+    public addExpenditure(value: number, year: number, month: number, type: 'planned' | 'actual' = 'planned'): void {
         if (isNaN(value)) {
             return;
         }
@@ -28,21 +29,37 @@ export default class ExpenditurePlanService {
         if (plan) {
             const expenditure = plan.expenditures.find(e => e.month === month);
             if (expenditure) {
-                expenditure.amount = value;
+                if (type === 'planned') {
+                    expenditure.plannedAmount = value;
+                } else {
+                    expenditure.actualAmount = value;
+                }
             } else {
-                plan.expenditures.push({month: month, amount: value});
+                if (type === 'planned') {
+                    plan.expenditures.push({month: month, plannedAmount: value});
+                } else {
+                    plan.expenditures.push({month: month, plannedAmount: 0, actualAmount: value});
+                }
             }
         } else {
-            this.expenditurePlan.push({year: year, expenditures: [{month: month, amount: value}]});
+            if (type === 'planned') {
+                this.expenditurePlan.push({year: year, expenditures: [{month: month, plannedAmount: value}]});
+            } else {
+                this.expenditurePlan.push({year: year, expenditures: [{month: month, plannedAmount: 0, actualAmount: value}]});
+            }
         }
 
         this.calculateTotalPlannedExpenditure();
     }
 
-    public getExpenditure(year: number, month: number): number | null {
+    public getExpenditure(year: number, month: number, type: 'planned' | 'actual' = 'planned'): number | null {
         const yearExpenditure = this.expenditurePlan.find(e => e.year === year);
         if (yearExpenditure) {
-            return yearExpenditure.expenditures.find(e => e.month === month)?.amount ?? null
+            if (type === 'planned') {
+                return yearExpenditure.expenditures.find(e => e.month === month)?.plannedAmount ?? null
+            } else {
+                return yearExpenditure.expenditures.find(e => e.month === month)?.actualAmount ?? null
+            }
         }
 
         return null;
@@ -105,7 +122,11 @@ export default class ExpenditurePlanService {
             const yearExpenditures = expenditures.filter(e => e.year === year);
             this.expenditurePlan.push({
                 year: year,
-                expenditures: yearExpenditures.map(e => ({ month: this.parseMonth(e.month.toString()), amount: e.plannedAmount }))
+                expenditures: yearExpenditures.map(e => ({ 
+                    month: this.parseMonth(e.month.toString()), 
+                    plannedAmount: e.plannedAmount,
+                    actualAmount: e.actualAmount
+                }))
             });
         });
 
@@ -121,7 +142,7 @@ export default class ExpenditurePlanService {
         let totalExpenditure = 0
         this.expenditurePlan.forEach(plan => {
             plan.expenditures.forEach(expenditure => {
-                totalExpenditure += expenditure.amount;
+                totalExpenditure += expenditure.plannedAmount;
             });
         });
 
@@ -131,7 +152,7 @@ export default class ExpenditurePlanService {
     private updateExpenditurePlan(): void {
         if (this.expenditurePlan.length === 0) return;
 
-        let newExpenditurePlan: { year: number, expenditures: { month: number, amount: number }[] }[] = [];
+        let newExpenditurePlan: IExpenditurePlan[] = [];
         this.expenditureTimeline.forEach(timeline => {
             const originalYearExpenditurePlan = this.expenditurePlan.find(p => p.year === timeline.year);
             if (originalYearExpenditurePlan) {
@@ -140,7 +161,11 @@ export default class ExpenditurePlanService {
                 timeline.months.forEach(timelineMonth => {
                     const originalMonthExpenditurePlan = originalYearExpenditurePlan.expenditures.find(e => e.month === timelineMonth);
                     if (originalMonthExpenditurePlan) {
-                        newYearPlan!.expenditures.push({month: timelineMonth, amount: originalMonthExpenditurePlan.amount});
+                        newYearPlan!.expenditures.push({
+                            month: timelineMonth, 
+                            plannedAmount: originalMonthExpenditurePlan.plannedAmount,
+                            actualAmount: originalMonthExpenditurePlan.actualAmount
+                        });
                     }
                 })
             }

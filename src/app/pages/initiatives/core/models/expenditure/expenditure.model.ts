@@ -8,4 +8,5 @@ export interface IExpenditure extends IBaseModel {
     actualAmount?: number;
     projectId?: string;
     contractId?: string;
+    initiativeId?: string
 }

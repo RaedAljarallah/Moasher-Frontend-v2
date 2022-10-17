@@ -115,9 +115,9 @@ export class InitiativeContractFormComponent extends FormBase<IContract, Contrac
         }
     }
 
-    public addExpenditure(e: Event, year: number, month: number): void {
+    public addExpenditure(e: Event, year: number, month: number, type: 'planned' | 'actual'): void {
         const value = +(e.target as HTMLInputElement).value;
-        this.es.addExpenditure(value, year, month);
+        this.es.addExpenditure(value, year, month, type);
     }
 
     public override beforeSubmitValidation(): boolean {

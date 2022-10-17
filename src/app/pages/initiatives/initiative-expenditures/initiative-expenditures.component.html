@@ -1,1 +1,43 @@
-<p>initiative-expenditures works!</p>
+<div *ngFor="let data of data$ | async; let last = last"
+     class="overflow-x-auto overflow-y-hidden rounded-lg border border-theme-gray-300 scrollbar"
+     [ngClass]="{'mb-3': !last}">
+    <table class="w-full table-auto border-collapse">
+        <thead class="bg-white">
+        <tr class="border-b-2 border-theme-gray-200">
+            <th class="py-1 px-1">السنة: {{data.year}}</th>
+        </tr>
+        <tr class="border-b border-theme-gray-200">
+            <th class="w-12 border-l border-theme-gray-200"></th>
+            <th *ngFor="let expenditure of data.expenditures; let last = last"
+                class="font-normal py-1 px-1" [ngClass]="{'border-l border-theme-gray-200': !last}">
+                شهر {{ expenditure.month }}</th>
+        </tr>
+        </thead>
+        <tbody class="divide-y divide-theme-gray-200">
+        <tr>
+            <td class="text-sm border-l border-theme-gray-200">المخطط الأصلي</td>
+            <td *ngFor="let expenditure of data.expenditures; let last = last"
+                class="font-normal py-1 px-1" [ngClass]="{'border-l border-theme-gray-200': !last}">
+                <span>{{ expenditure.initialPlannedAmount | localCurrency: '-' }}</span>
+                <span class="text-xs text-theme-gray-500 block">{{ expenditure.initialPlannedAmountCumulative | localCurrency: '-'}}</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="text-sm border-l border-theme-gray-200">المخطط المحدث</td>
+            <td *ngFor="let expenditure of data.expenditures; let last = last"
+                class="font-normal py-1 px-1" [ngClass]="{'border-l border-theme-gray-200': !last}">
+                <span>{{ expenditure.plannedAmount | localCurrency: '-' }}</span>
+                <span class="text-xs text-theme-gray-500 block">{{ expenditure.plannedAmountCumulative | localCurrency: '-'}}</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="text-sm border-l border-theme-gray-200">المنصرف الفعلي</td>
+            <td *ngFor="let expenditure of data.expenditures; let last = last"
+                class="font-normal py-1 px-1" [ngClass]="{'border-l border-theme-gray-200': !last}">
+                <span>{{ expenditure.actualAmount | localCurrency: '-' }}</span>
+                <span class="text-xs text-theme-gray-500 block">{{ expenditure.actualAmountCumulative | localCurrency: '-'}}</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
