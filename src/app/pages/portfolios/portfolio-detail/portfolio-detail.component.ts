@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {DetailComponentBase} from "../../../core/abstracts/detail-component-base";
 import {IPortfolio} from "../core/models/portfolio.model";
 import {PortfolioCommand} from "../core/models/portfolio.command";
@@ -6,7 +6,8 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {ApiService} from "../../../core/services/api.service";
 import {ModalService} from "../../../shared/modal/modal.service";
 import {HttpParams} from "@angular/common/http";
-import {finalize, Observable} from "rxjs";
+import {Observable} from "rxjs";
+import {finalize} from 'rxjs/operators';
 import {IResponse} from "../../../core/models/response.model";
 import {ITab} from "../../../shared/detail-page/detail-page.component";
 import {FormAction} from "../../../core/models/data-types/form-action.data-type";

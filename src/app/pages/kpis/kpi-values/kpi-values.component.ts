@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {TableComponentBase} from "../../../core/abstracts/table-component-base";
 import {IKpiValue} from "../core/models/kpi-value/kpi-value.model";
 import {KpiValueCommand} from "../core/models/kpi-value/kpi-value.command";

@@ -5,7 +5,7 @@
                  (deleteClicked)="delete()" 
                  (editClicked)="update()">
     <ng-container *ngIf="detailPageState">
-        <app-initiative-performance *ngIf="selectedTab === 'performance'"></app-initiative-performance>
+        <app-initiative-performance [initiativeId]="detailPageState.id" *ngIf="selectedTab === 'performance'"></app-initiative-performance>
         <app-initiative-issues [initiativeId]="detailPageState.id" *ngIf="selectedTab === 'issues'"></app-initiative-issues>
         <app-initiative-risks [initiativeId]="detailPageState.id" *ngIf="selectedTab === 'risks'"></app-initiative-risks>
         <app-initiative-milestones [initiativeId]="detailPageState.id" *ngIf="selectedTab === 'milestones'"></app-initiative-milestones>

@@ -8,7 +8,8 @@ import {ModalService} from "../../../shared/modal/modal.service";
 import {DateUtility} from "../../../core/utilities/date.utility";
 import {EnumTypeCategory} from "../../../core/models/data-types/eum-type-category.data-type";
 import {HttpParams} from "@angular/common/http";
-import {finalize, Observable} from "rxjs";
+import {Observable} from "rxjs";
+import {finalize} from 'rxjs/operators';
 import {IResponse} from "../../../core/models/response.model";
 import {FormAction} from "../../../core/models/data-types/form-action.data-type";
 

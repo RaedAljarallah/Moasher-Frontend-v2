@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
-import {finalize, Observable} from "rxjs";
+import {Observable} from "rxjs";
+import {finalize} from 'rxjs/operators';
 import {ITab} from "../../../shared/detail-page/detail-page.component";
 import {IInitiative} from "../core/models/initiative.model";
 import {ApiService} from "../../../core/services/api.service";

@@ -5,7 +5,7 @@ import {Observable} from "rxjs";
 import {map} from 'rxjs/operators';
 import {IExpenditureSummary} from "../core/models/expenditure/expenditure-summary.model";
 import * as _ from 'lodash';
-import { Dictionary } from 'lodash';
+import {MonthUtility} from "../../../core/utilities/month.utility";
 
 export interface IExpenditureSummaryTable {
     year: number,
@@ -44,7 +44,7 @@ export class InitiativeExpendituresComponent implements OnInit {
                     result.unshift({
                         year: year,
                         expenditures: res.result.filter(r => r.year == year)?.map(e => ({
-                            month: this.parseMonth(e.month.toString()),
+                            month: MonthUtility.parse(e.month.toString()),
                             initialPlannedAmount: e.initialPlannedAmount,
                             plannedAmount: e.plannedAmount,
                             actualAmount: e.actualAmount,
@@ -57,36 +57,5 @@ export class InitiativeExpendituresComponent implements OnInit {
                 return result;
             })
         );
-    }
-
-    private parseMonth(month: string): number {
-        switch (month.toLowerCase()) {
-            case 'one':
-                return 1;
-            case 'two':
-                return 2;
-            case 'three':
-                return 3;
-            case 'four':
-                return 4;
-            case 'five':
-                return 5;
-            case 'six':
-                return 6;
-            case 'seven':
-                return 7;
-            case 'eight':
-                return 8;
-            case 'nine':
-                return 9;
-            case 'ten':
-                return 10;
-            case 'eleven':
-                return 11;
-            case 'twelve':
-                return 12;
-            default:
-                return 13;
-        }
     }
 }

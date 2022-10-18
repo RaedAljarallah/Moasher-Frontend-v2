@@ -10,15 +10,15 @@
             </button>
             <div class="border-l border-l-theme-gray-300"></div>
             <button class="btn w-8 py-1 text-xs font-semibold btn-white" 
-                    [ngClass]="{'btn-active': granularity === 0}"
-                    [disabled]="granularity === 0" (click)="onGranularityChanged(0)">Q</button>
+                    [ngClass]="{'btn-active': granularity === 'Q'}"
+                    [disabled]="granularity === 'Q'" (click)="onGranularityChanged('Q')">Q</button>
             <button class="btn w-8 py-1 text-xs font-semibold btn-white"
-                    [ngClass]="{'btn-active': granularity === 1}"
-                    [disabled]="granularity === 1" (click)="onGranularityChanged(1)">M</button>
+                    [ngClass]="{'btn-active': granularity === 'M'}"
+                    [disabled]="granularity === 'M'" (click)="onGranularityChanged('M')">M</button>
         </div>
     </div>
     <div class="h-52 overflow-auto flex justify-center" *ngIf="data; else loading">
-        <div class="xl:w-1/2" #financialPlanningChart></div>
+        <div #financialPlanningChart></div>
     </div>
 </div>
 <ng-template #loading>
