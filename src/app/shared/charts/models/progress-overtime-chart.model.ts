@@ -1,9 +1,7 @@
 ﻿import {IOvertimeDataset} from "./overtime-chart.model";
 
-export interface IFinancialPlanningChart {
+export interface IProgressOvertimeChart {
     year: number;
-    budget: number;
-    baselineSeries: IOvertimeDataset;
     plannedSeries: IOvertimeDataset;
     actualSeries: IOvertimeDataset;
 }

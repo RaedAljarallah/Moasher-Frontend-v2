@@ -3,16 +3,15 @@ import {Observable} from "rxjs";
 import {ApiService} from "../../../core/services/api.service";
 import {map, finalize} from "rxjs/operators";
 import {IPerformanceCardValue} from "../../../shared/charts/models/performance-card-value.model";
-import {ChartUtility} from "../../../shared/charts/utilities/chart.utility";
 import {IProgressChart} from "../../../shared/charts/models/progress-chart.model";
-import {IInitiativeSummary} from "../core/models/IInitiativeSummary.model";
 import {DateUtility} from "../../../core/utilities/date.utility";
 import {IExpenditureSummary} from "../core/models/expenditure/expenditure-summary.model";
-import * as _ from "lodash";
-import {IOvertimeChart, IOvertimeDatasetSeries} from "../../../shared/charts/models/overtime-chart.model";
-import {MonthUtility} from "../../../core/utilities/month.utility";
 import {IFinancialPlanningChart} from "../../../shared/charts/models/financial-planning-chart.model";
-import {LocalCurrencyPipe} from "../../../shared/pipes/local-currency.pipe";
+import {IProjectSummary} from "../core/models/project/project-summary.model";
+import {ChartUtility} from "../../../shared/charts/utilities/chart.utility";
+import {IInitiativeProgress} from "../core/models/initiative-progress.model";
+import {IInitiativeSummary} from "../core/models/initiative-summary.model";
+import {IProgressOvertimeChart} from "../../../shared/charts/models/progress-overtime-chart.model";
 
 @Component({
     selector: 'app-initiative-performance',
@@ -31,6 +30,8 @@ export class InitiativePerformanceComponent implements OnInit {
     public initiativeProgress?: IProgressChart;
     public milestoneProgressPerformance?: IPerformanceCardValue;
     public spendingPlan$: Observable<IFinancialPlanningChart[]> = new Observable<IFinancialPlanningChart[]>();
+    public contractingPlan$: Observable<IFinancialPlanningChart[]> = new Observable<IFinancialPlanningChart[]>();
+    public progressOvertime$: Observable<IProgressOvertimeChart[]> = new Observable<IProgressOvertimeChart[]>();
     public spendingYear: number = new Date().getFullYear();
 
     constructor(private api: ApiService) {
@@ -39,6 +40,8 @@ export class InitiativePerformanceComponent implements OnInit {
     ngOnInit(): void {
         this.getInitiativeSummary();
         this.spendingPlan$ = this.getSpendingPlan();
+        this.contractingPlan$ = this.getContractingPlan();
+        this.progressOvertime$ = this.getProgressOvertime();
     }
 
 
@@ -152,45 +155,24 @@ export class InitiativePerformanceComponent implements OnInit {
     private getSpendingPlan(): Observable<IFinancialPlanningChart[]> {
         return this.api.get<IExpenditureSummary[]>(`expenditures?initiativeId=${this.initiativeId}`).pipe(
             map(res => {
-                let years = _.uniq(res.result.map(e => e.year));
-                let financialPlanningChart: IFinancialPlanningChart[] = [];
-                
-                years.forEach(year => {
-                    let baselineSeries: IOvertimeDatasetSeries[] = [];  
-                    let plannedSeries: IOvertimeDatasetSeries[] = [];
-                    let actualSeries: IOvertimeDatasetSeries[] = [];
-                    let yearExpenditures = res.result.filter(e => e.year == year);
-                    yearExpenditures.forEach(e => {
-                        baselineSeries.push({
-                            name: `${MonthUtility.parse(e.month.toString())}`,
-                            value: e.initialPlannedAmount,
-                            label: e.initialPlannedAmount.toString()
-                        });
-                        plannedSeries.push({
-                            name: `${MonthUtility.parse(e.month.toString())}`,
-                            value: e.plannedAmount,
-                            label: e.plannedAmount.toString()
-                        });
-                        actualSeries.push({
-                            name: `${MonthUtility.parse(e.month.toString())}`,
-                            value: e.actualAmount ?? 0,
-                            label: (e.actualAmount ?? 0).toString()
-                        })
-                    });
-
-                    financialPlanningChart.push({
-                        year: year,
-                        budget: yearExpenditures.find(e => e.budget)?.budget ?? 0,
-                        baselineSeries: { name: 'المخطط الأصلي', series: baselineSeries},
-                        plannedSeries: { name: 'المخطط المحدث', series: plannedSeries},
-                        actualSeries: { name: 'المنصرف الفعلي', series: actualSeries}
-                    })
-                });
-                
-                return financialPlanningChart;
+                return ChartUtility.generateFinancialPlanningChart(res.result, 'expenditures');
             })
         )
     }
     
+    private getContractingPlan(): Observable<IFinancialPlanningChart[]> {
+        return this.api.get<IProjectSummary[]>(`projects/summary?initiativeId=${this.initiativeId}`).pipe(
+            map(res => {
+                return ChartUtility.generateFinancialPlanningChart(res.result, 'contracts');
+            })
+        )
+    }
     
+    private getProgressOvertime(): Observable<IProgressOvertimeChart[]> {
+        return this.api.get<IInitiativeProgress[]>(`initiatives/progress?initiativeId=${this.initiativeId}`).pipe(
+            map(res => {
+                return ChartUtility.generateProgressOvertimeChart(res.result);
+            })
+        )
+    }
 }

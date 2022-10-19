@@ -23,6 +23,7 @@ import {IOvertimeDatasetSeries} from "../models/overtime-chart.model";
 export class TextComboComponent implements OnInit, AfterViewInit {
     @Input() data: IFinancialPlanningChart[] | null = [];
     @Input() title: string = '';
+    @Input() thresholdName: string = '';
     @ViewChildren('financialPlanningChart') chartElm?: QueryList<ElementRef>;
 
     private chart: any;
@@ -150,9 +151,8 @@ export class TextComboComponent implements OnInit, AfterViewInit {
                 value: dataset.budget,
                 class: 'budget-threshold',
                 position: 'start',
-                text: `السيولة: ${dataset.budget.toLocaleString()}`
+                text: `${this.thresholdName}: ${dataset.budget.toLocaleString()}`
             });
-            //this.chart.resize();
         }, 0);
     }
 
@@ -320,11 +320,11 @@ export class TextComboComponent implements OnInit, AfterViewInit {
 
     private getLabel(value: number): string {
         if (value === 0) return '';
-        const numberToThousands = value / 1000;
+        const numberToThousands = value / 1000000;
         if (numberToThousands > 1) {
             return `${numberToThousands.toLocaleString()}M`;
         }
 
-        return `${numberToThousands.toLocaleString()}K`;
+        return `${(numberToThousands * 1000).toLocaleString()}K`;
     }
 }

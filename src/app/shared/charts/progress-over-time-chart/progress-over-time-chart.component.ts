@@ -13,6 +13,8 @@ import {Color} from "@swimlane/ngx-charts";
 import {overTimeColorScheme} from "../color-schemes";
 import * as c3 from "c3";
 import * as _ from 'lodash';
+import {IAreaDateSet} from "../models/area-data-set.model";
+import {IProgressOvertimeChart} from "../models/progress-overtime-chart.model";
 
 @Component({
     selector: 'app-progress-over-time-chart',
@@ -20,7 +22,7 @@ import * as _ from 'lodash';
     styles: []
 })
 export class ProgressOverTimeChartComponent implements OnInit, AfterViewInit {
-    @Input() values: IOvertimeChart[] | null = [];
+    @Input() data: IProgressOvertimeChart[] | null = [];
     @Input() title: string = '';
 
     @ViewChildren('overTimeChart') chartElm?: QueryList<ElementRef>;
@@ -30,7 +32,8 @@ export class ProgressOverTimeChartComponent implements OnInit, AfterViewInit {
     public scheme: Color = overTimeColorScheme;
     public selectedYear: number = 0;
     public years: number[] = [];
-    public granularity: number = 0;
+    public granularity: 'M' | 'Q' = 'Q';
+    public xSeries: string[] = [];
     constructor(private cd: ChangeDetectorRef) {
     }
     
@@ -39,11 +42,9 @@ export class ProgressOverTimeChartComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit(): void {
         this.chartElm?.changes.subscribe((elm) => {
-            if (!this.values) return;
-            // this.years = this.data.map(v => v.year).sort();
-            this.years = [2019, 2020, 2021];
+            if (!this.data) return;
+            this.years = this.data.map(v => v.year).sort();
             this.selectedYear = this.years[this.years.length - 1];
-            this.years = this.years.sort((one, two) => (one > two ? -1 : 1));
             this.chartElement = elm.toArray()[0].nativeElement;
             this.generateChart();
             this.cd.detectChanges();
@@ -51,27 +52,36 @@ export class ProgressOverTimeChartComponent implements OnInit, AfterViewInit {
     }
 
     private generateChart(): void {
+        if (!this.data) return;
+        if (this.data.length === 0) return;
+        if (!this.selectedYear) return;
+
+        const dataset = this.getDataset();
+        if(!dataset) return;
+        
         this.chart = c3.generate({
             bindto: this.chartElement,
             data: {
                 columns: [
                     ['actual', 0],
-                    ['plan', 0]
+                    ['planned', 0]
                 ],
                 colors: {
                     actual: this.scheme.domain[0],
-                    plan: this.scheme.domain[1],
+                    planned: this.scheme.domain[1],
                 },
                 type: 'area',
                 names: {
-                    actual:'الإنجاز الفعلي',
-                    plan: 'الإنجاز المخطط',
+                    actual: dataset!.actualSeries.name,
+                    planned: dataset!.plannedSeries.name
                 },
                 labels: {
                     format: (_v: number | { valueOf(): number }, id: string, i: number) => {
-                        return  id === 'plan'
-                            ? 'على المسار'
-                            : ''
+                        // return  !isNaN(i) && dataset.peakTitles[i].area == id
+                        //     ? dataset.peakTitles[i].title
+                        //     : ''
+                        
+                        return '';
                     }
                 }
             },
@@ -89,7 +99,7 @@ export class ProgressOverTimeChartComponent implements OnInit, AfterViewInit {
                 },
                 x: {
                     type: 'category',
-                    categories: ['Q1', 'Q2', 'Q3', 'Q4']
+                    categories: this.xSeries
                 }
             },
         });
@@ -98,7 +108,7 @@ export class ProgressOverTimeChartComponent implements OnInit, AfterViewInit {
             this.chart.load({
                 columns: [
                     ['actual', '20', '25', '27', '32'],
-                    ['plan', '25', '30', '35', '39'],
+                    ['planned', '25', '30', '35', '39'],
                 ]
             })
         }, 0);
@@ -109,8 +119,14 @@ export class ProgressOverTimeChartComponent implements OnInit, AfterViewInit {
         this.generateChart();
     }
 
-    public onGranularityChanged(granularity: number): void {
+    public onGranularityChanged(granularity: 'M' | 'Q'): void {
         this.granularity = granularity;
         this.generateChart();
+    }
+    
+    private getDataset(): IProgressOvertimeChart {
+        const dataset = this.data!.find(d => d.year === this.selectedYear);
+        return dataset!;
+        
     }
 }

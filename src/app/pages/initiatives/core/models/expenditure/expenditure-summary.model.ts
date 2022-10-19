@@ -2,7 +2,7 @@
 
 export interface IExpenditureSummary extends IExpenditure {
     budget: number;
-    initialPlannedAmountCumulative: number,
-    plannedAmountCumulative: number,
-    actualAmountCumulative: number
+    initialPlannedAmountCumulative: number;
+    plannedAmountCumulative: number;
+    actualAmountCumulative: number;
 }
