@@ -19,10 +19,11 @@
         <app-performance-card [values]="currentPeriodContractingPerformance" [limitPercentageToHundred]="true"></app-performance-card>
     </div>
     <div class="bg-white border border-theme-gray-300 rounded col-span-full 2xl:col-span-6">
-        <app-text-combo [data]="spendingPlan$ | async" title="تقدم الصرف" thresholdName="السيولة"></app-text-combo>
+        <app-expenditure-progress-chart [data]="spendingPlan$ | async" title="تقدم الصرف" thresholdName="السيولة"></app-expenditure-progress-chart>
     </div>
     <div class="bg-white border border-theme-gray-300 rounded col-span-full 2xl:col-span-6">
-        <app-text-combo [data]="contractingPlan$ | async" title="تقدم التعاقد" thresholdName="التكاليف المعتمدة"></app-text-combo>
+        <app-contracting-progress-chart [data]="contractingPlan$ | async" title="تقدم التعاقد" thresholdName="التكاليف المعتمدة">
+        </app-contracting-progress-chart>
     </div>
 
     <div class="flex flex-col space-y-2 col-span-full md:col-span-4 2xl:col-span-2">
@@ -34,6 +35,6 @@
         </div>
     </div>
     <div class="bg-white border border-theme-gray-300 rounded col-span-full md:col-span-8 2xl:col-span-10">
-        <app-progress-over-time-chart  title="تقدم المبادرة">></app-progress-over-time-chart>
+        <app-progress-over-time-chart [data]="progressOvertime$ | async"  title="تقدم المبادرة"></app-progress-over-time-chart>
     </div>
 </div>

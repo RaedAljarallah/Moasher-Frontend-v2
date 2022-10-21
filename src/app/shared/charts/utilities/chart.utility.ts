@@ -37,18 +37,18 @@ export class ChartUtility {
             yearValues.forEach(e => {
                 baselineSeries.push({
                     name: `${MonthUtility.parse(e.month.toString())}`,
-                    value: e.initialPlannedAmount,
-                    label: e.initialPlannedAmount.toString()
+                    value: type === 'expenditures' ? e.initialPlannedAmount : e.initialPlannedAmountCumulative,
+                    label: type === 'expenditures' ? e.initialPlannedAmount.toString() : e.initialPlannedAmountCumulative.toString()
                 });
                 plannedSeries.push({
                     name: `${MonthUtility.parse(e.month.toString())}`,
-                    value: e.plannedAmount,
-                    label: e.plannedAmount.toString()
+                    value: type === 'expenditures' ? e.plannedAmount : e.plannedAmountCumulative,
+                    label: type === 'expenditures' ? e.plannedAmount.toString() : e.plannedAmountCumulative.toString()
                 });
                 actualSeries.push({
                     name: `${MonthUtility.parse(e.month.toString())}`,
-                    value: e.actualAmount ?? 0,
-                    label: (e.actualAmount ?? 0).toString()
+                    value: type === 'expenditures' ? (e.actualAmount ?? 0) : e.actualAmountCumulative,
+                    label: type === 'expenditures' ? (e.actualAmount ?? 0).toString() : e.actualAmountCumulative
                 })
             });
 
@@ -76,12 +76,12 @@ export class ChartUtility {
                 plannedSeries.push({
                     name: `${MonthUtility.parse(p.month.toString())}`,
                     value: p.plannedProgressCumulative,
-                    label: p.plannedProgressCumulative.toString()
+                    label: p.status?.name ?? 'لا توجد حالة'
                 });
                 actualSeries.push({
                     name: `${MonthUtility.parse(p.month.toString())}`,
                     value: p.actualProgressCumulative,
-                    label: p.actualProgressCumulative.toString()
+                    label: p.status?.name ?? 'لا توجد حالة'
                 });
             });
             

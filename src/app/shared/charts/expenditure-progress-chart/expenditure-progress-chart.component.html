@@ -9,7 +9,7 @@
                 {{ year }}
             </button>
             <div class="border-l border-l-theme-gray-300"></div>
-            <button class="btn w-8 py-1 text-xs font-semibold btn-white" 
+            <button class="btn w-8 py-1 text-xs font-semibold btn-white"
                     [ngClass]="{'btn-active': granularity === 'Q'}"
                     [disabled]="granularity === 'Q'" (click)="onGranularityChanged('Q')">Q</button>
             <button class="btn w-8 py-1 text-xs font-semibold btn-white"
@@ -17,7 +17,7 @@
                     [disabled]="granularity === 'M'" (click)="onGranularityChanged('M')">M</button>
         </div>
     </div>
-    <div class="h-52 overflow-auto flex justify-center" *ngIf="data; else loading">
+    <div class="h-52 overflow-auto flex justify-center scrollbar" *ngIf="data; else loading">
         <div #financialPlanningChart></div>
     </div>
 </div>

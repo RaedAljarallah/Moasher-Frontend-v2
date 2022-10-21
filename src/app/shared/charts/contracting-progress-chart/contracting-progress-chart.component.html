@@ -1,15 +1,23 @@
 <div class="flex flex-col">
-    <div class="flex items-center justify-between border-b border-b-theme-gray-300">
-        <h2 class="text-sm px-2 py-2">{{ title }}</h2>
-        <div class="flex space-x-reverse space-x-2">
-            <button class="btn btn-sm btn-white" *ngFor="let year of years"
+    <div class="flex sm:flex-row sm:space-y-0 items-center justify-between border-b px-2 py-1 border-b-theme-gray-300"
+         [ngClass]="{'flex-col space-y-2' : years.length > 2 }">
+        <h2 class="text-sm ml-auto">{{ title }}</h2>
+        <div class="flex space-x-reverse space-x-2 mr-auto">
+            <button class="btn px-2 py-1 text-xs font-semibold btn-white" *ngFor="let year of years"
                     [ngClass]="{'btn-active': selectedYear === year}"
                     [disabled]="selectedYear === year" (click)="onYearSelected(year)">
                 {{ year }}
             </button>
+            <div class="border-l border-l-theme-gray-300"></div>
+            <button class="btn w-8 py-1 text-xs font-semibold btn-white"
+                    [ngClass]="{'btn-active': granularity === 'Q'}"
+                    [disabled]="granularity === 'Q'" (click)="onGranularityChanged('Q')">Q</button>
+            <button class="btn w-8 py-1 text-xs font-semibold btn-white"
+                    [ngClass]="{'btn-active': granularity === 'M'}"
+                    [disabled]="granularity === 'M'" (click)="onGranularityChanged('M')">M</button>
         </div>
     </div>
-    <div class="h-44 overflow-x-auto" #container *ngIf="data; else loading">
+    <div class="h-52 overflow-auto flex justify-center scrollbar" *ngIf="data; else loading">
         <div #financialPlanningChart></div>
     </div>
 </div>

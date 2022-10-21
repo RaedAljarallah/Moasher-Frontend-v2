@@ -8,19 +8,19 @@ import {
     QueryList,
     ViewChildren
 } from '@angular/core';
+import {IFinancialPlanningChart} from "../models/financial-planning-chart.model";
 import {Color} from "@swimlane/ngx-charts";
 import {financialPlanColorScheme} from "../color-schemes";
 import * as c3 from "c3";
-import * as d3 from 'd3';
-import {IFinancialPlanningChart} from "../models/financial-planning-chart.model";
+import * as d3 from "d3";
 import {IOvertimeDatasetSeries} from "../models/overtime-chart.model";
 
 @Component({
-    selector: 'app-text-combo',
-    templateUrl: './text-combo.component.html',
+    selector: 'app-expenditure-progress-chart',
+    templateUrl: './expenditure-progress-chart.component.html',
     styles: []
 })
-export class TextComboComponent implements OnInit, AfterViewInit {
+export class ExpenditureProgressChartComponent implements OnInit, AfterViewInit {
     @Input() data: IFinancialPlanningChart[] | null = [];
     @Input() title: string = '';
     @Input() thresholdName: string = '';
@@ -29,18 +29,29 @@ export class TextComboComponent implements OnInit, AfterViewInit {
     private chart: any;
     private chartElement: any;
     private maxYLevel: number = 0;
-    
+
     public scheme: Color = financialPlanColorScheme;
     public selectedYear: number = 0;
     public years: number[] = [];
     public granularity: 'M' | 'Q' = 'Q';
     public xSeries: string[] = [];
+    
     constructor(private cd: ChangeDetectorRef) {
     }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
     }
 
+    public onYearSelected(year: number): void {
+        this.selectedYear = year;
+        this.generateChart();
+    }
+
+    public onGranularityChanged(granularity: 'M' | 'Q'): void {
+        this.granularity = granularity;
+        this.generateChart();
+    }
+    
     public ngAfterViewInit(): void {
         this.chartElm?.changes.subscribe((elm) => {
             if (!this.data) return;
@@ -56,10 +67,10 @@ export class TextComboComponent implements OnInit, AfterViewInit {
         if (!this.data) return;
         if (this.data.length === 0) return;
         if (!this.selectedYear) return;
-        
+
         const dataset = this.getDataset();
         if(!dataset) return;
-        
+
         this.chart = c3.generate({
             bindto: this.chartElement,
             data: {
@@ -67,7 +78,7 @@ export class TextComboComponent implements OnInit, AfterViewInit {
                     ['actual', 0],
                     ['plan', 0],
                     ['baseline', 0],
-                    
+
                 ],
                 colors: {
                     actual: this.scheme.domain[2],
@@ -81,7 +92,7 @@ export class TextComboComponent implements OnInit, AfterViewInit {
                     actual: 'bar',
                     plan: 'bar'
                 },
-                
+
                 names: {
                     actual: dataset!.actualSeries.name,
                     plan: dataset!.plannedSeries.name,
@@ -93,11 +104,11 @@ export class TextComboComponent implements OnInit, AfterViewInit {
                             if (id === 'baseline') {
                                 return this.getLabel(dataset!.baselineSeries.series[i].value);
                             }
-                            
+
                             if (id === 'plan') {
                                 return this.getLabel(dataset!.plannedSeries.series[i].value);
                             }
-                            
+
                             if (id === 'actual') {
                                 return this.getLabel(dataset!.actualSeries.series[i].value);
                             }
@@ -106,7 +117,7 @@ export class TextComboComponent implements OnInit, AfterViewInit {
                     }
                 }
             },
-            
+
             legend: {
                 show: true,
                 hide: 'budget'
@@ -156,17 +167,6 @@ export class TextComboComponent implements OnInit, AfterViewInit {
         }, 0);
     }
 
-    public onYearSelected(year: number): void {
-        this.selectedYear = year;
-        this.generateChart();
-    }
-    
-    public onGranularityChanged(granularity: 'M' | 'Q'): void {
-        this.granularity = granularity;
-        
-        this.generateChart();
-    }
-    
     private getDataset(): IFinancialPlanningChart {
         const dataset = this.data!.find(d => d.year === this.selectedYear);
         let baselineSeries: IOvertimeDatasetSeries[] = [];
@@ -183,12 +183,12 @@ export class TextComboComponent implements OnInit, AfterViewInit {
                         .filter(e => parseInt(e.name) <= 3)
                         .map(d => d.value)
                         .reduce((a, b) => a + b);
-                    
+
                     plannedValue = dataset!.plannedSeries.series
                         .filter(e => parseInt(e.name) <= 3)
                         .map(d => d.value)
                         .reduce((a, b) => a + b);
-                    
+
                     actualValue = dataset!.actualSeries.series
                         .filter(e => parseInt(e.name) <= 3)
                         .map(d => d.value)
@@ -235,10 +235,10 @@ export class TextComboComponent implements OnInit, AfterViewInit {
                     actualValue = dataset!.actualSeries.series
                         .map(d => d.value)
                         .reduce((a, b) => a + b);
-                    
+
                     this.maxYLevel = Math.max(dataset!.budget, baselineValue, plannedValue, actualValue);
                 }
-                
+
                 baselineSeries.push({
                     name: q,
                     value: baselineValue,
@@ -257,8 +257,8 @@ export class TextComboComponent implements OnInit, AfterViewInit {
                     label: actualValue.toString()
                 });
             });
-            
-            
+
+
             return {
                 year: this.selectedYear,
                 budget: dataset!.budget,
@@ -289,7 +289,7 @@ export class TextComboComponent implements OnInit, AfterViewInit {
             if (m === '12') {
                 this.maxYLevel = Math.max(dataset!.budget, baselineValue, plannedValue, actualValue);
             }
-            
+
             baselineSeries.push({
                 name: m,
                 value: baselineValue,

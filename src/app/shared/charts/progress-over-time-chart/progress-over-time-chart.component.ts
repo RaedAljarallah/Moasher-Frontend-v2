@@ -8,7 +8,7 @@ import {
     QueryList,
     ViewChildren
 } from '@angular/core';
-import {IOvertimeChart} from "../models/overtime-chart.model";
+import {IOvertimeChart, IOvertimeDatasetSeries} from "../models/overtime-chart.model";
 import {Color} from "@swimlane/ngx-charts";
 import {overTimeColorScheme} from "../color-schemes";
 import * as c3 from "c3";
@@ -77,12 +77,11 @@ export class ProgressOverTimeChartComponent implements OnInit, AfterViewInit {
                 },
                 labels: {
                     format: (_v: number | { valueOf(): number }, id: string, i: number) => {
-                        // return  !isNaN(i) && dataset.peakTitles[i].area == id
-                        //     ? dataset.peakTitles[i].title
-                        //     : ''
-                        
-                        return '';
-                    }
+                        return  !isNaN(i) && dataset.peakTitles![i].id == id
+                            ? dataset.peakTitles![i].title
+                            : ''
+                    },
+                    
                 }
             },
             legend: { show: true },
@@ -95,7 +94,7 @@ export class ProgressOverTimeChartComponent implements OnInit, AfterViewInit {
             axis: {
                 y: {
                     show: false,
-
+                    max: 100
                 },
                 x: {
                     type: 'category',
@@ -107,8 +106,8 @@ export class ProgressOverTimeChartComponent implements OnInit, AfterViewInit {
         setTimeout(() => {
             this.chart.load({
                 columns: [
-                    ['actual', '20', '25', '27', '32'],
-                    ['planned', '25', '30', '35', '39'],
+                    ['actual', ...dataset.actualSeries.series.map(s => s.value.toString())],
+                    ['planned', ...dataset.plannedSeries.series.map(s => s.value.toString())],
                 ]
             })
         }, 0);
@@ -126,7 +125,89 @@ export class ProgressOverTimeChartComponent implements OnInit, AfterViewInit {
     
     private getDataset(): IProgressOvertimeChart {
         const dataset = this.data!.find(d => d.year === this.selectedYear);
-        return dataset!;
+        let plannedSeries: IOvertimeDatasetSeries[] = [];
+        let actualSeries: IOvertimeDatasetSeries[] = [];
+
+        if (this.granularity === 'Q') {
+            this.xSeries = ['Q1', 'Q2', 'Q3', 'Q4'];
+            this.xSeries.forEach(q => {
+                let intervalPlannedSeries!: IOvertimeDatasetSeries;
+                let intervalActualSeries!: IOvertimeDatasetSeries;
+                if (q === 'Q1') {
+                    intervalPlannedSeries = dataset!.plannedSeries.series
+                        .find((e => parseInt(e.name) === 3))!;
+
+                    intervalActualSeries = dataset!.actualSeries.series
+                        .find((e => parseInt(e.name) === 3))!;
+                }
+
+                if (q === 'Q2') {
+                    intervalPlannedSeries = dataset!.plannedSeries.series
+                        .find((e => parseInt(e.name) === 6))!;
+
+                    intervalActualSeries = dataset!.actualSeries.series
+                        .find((e => parseInt(e.name) === 6))!;
+                }
+
+                if (q === 'Q3') {
+                    intervalPlannedSeries = dataset!.plannedSeries.series
+                        .find((e => parseInt(e.name) === 9))!;
+
+                    intervalActualSeries = dataset!.actualSeries.series
+                        .find((e => parseInt(e.name) === 9))!;
+                }
+
+                if (q === 'Q4') {
+                    intervalPlannedSeries = dataset!.plannedSeries.series
+                        .find((e => parseInt(e.name) === 12))!;
+
+                    intervalActualSeries = dataset!.actualSeries.series
+                        .find((e => parseInt(e.name) === 12))!;
+                }
+
+                plannedSeries.push({
+                    name: q,
+                    value: intervalPlannedSeries.value,
+                    label: intervalPlannedSeries.label
+                });
+
+                actualSeries.push({
+                    name: q,
+                    value: intervalActualSeries.value,
+                    label: intervalActualSeries.label
+                });
+            });
+            
+            return {
+                year: this.selectedYear,
+                peakTitles: this.getPeakTitles(plannedSeries, actualSeries),
+                plannedSeries: { name: dataset!.plannedSeries.name, series: plannedSeries},
+                actualSeries: { name: dataset!.actualSeries.name, series: actualSeries},
+            }
+            
+        }
+
+        this.xSeries = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+        return {
+            year: this.selectedYear,
+            peakTitles: this.getPeakTitles(dataset!.plannedSeries!.series, dataset!.actualSeries!.series),
+            plannedSeries: dataset!.plannedSeries,
+            actualSeries: dataset!.actualSeries
+        }
+    }
+    
+    private getPeakTitles(plannedSeries: IOvertimeDatasetSeries[], actualSeries: IOvertimeDatasetSeries[]): { id: string, title: string }[] {
+        const titles: string[] = plannedSeries.map(s => s.label);
+        let result: { id: string, title: string }[] = [];
         
+        titles.forEach((value: string, index: number) => {
+            if (plannedSeries[index].value > actualSeries[index].value) {
+                result.push({ id: 'planned', title: value });
+            } else {
+                result.push({ id: 'actual', title: value });
+            }
+        });
+        
+        return result;
     }
 }

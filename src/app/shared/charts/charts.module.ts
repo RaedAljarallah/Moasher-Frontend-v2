@@ -2,22 +2,22 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {NgxChartsModule} from "@swimlane/ngx-charts";
 import { FinancialChartComponent } from './financial-chart/financial-chart.component';
-import { FinancialPlanningEfficiencyChartComponent } from './financial-planning-efficiency-chart/financial-planning-efficiency-chart.component';
-import { TextComboComponent } from './text-combo/text-combo.component';
 import { PerformanceCardComponent } from './performance-card/performance-card.component';
 import {PipesModule} from "../pipes/pipes.module";
 import { ProgressChartComponent } from './progress-chart/progress-chart.component';
 import { ProgressOverTimeChartComponent } from './progress-over-time-chart/progress-over-time-chart.component';
+import { ExpenditureProgressChartComponent } from './expenditure-progress-chart/expenditure-progress-chart.component';
+import { ContractingProgressChartComponent } from './contracting-progress-chart/contracting-progress-chart.component';
 
 
 @NgModule({
     declarations: [
         FinancialChartComponent,
-        FinancialPlanningEfficiencyChartComponent,
-        TextComboComponent,
         PerformanceCardComponent,
         ProgressChartComponent,
         ProgressOverTimeChartComponent,
+        ExpenditureProgressChartComponent,
+        ContractingProgressChartComponent,
     ],
     imports: [
         CommonModule,
@@ -26,11 +26,11 @@ import { ProgressOverTimeChartComponent } from './progress-over-time-chart/progr
     ],
     exports: [
         FinancialChartComponent,
-        FinancialPlanningEfficiencyChartComponent,
-        TextComboComponent,
         PerformanceCardComponent,
         ProgressChartComponent,
         ProgressOverTimeChartComponent,
+        ExpenditureProgressChartComponent,
+        ContractingProgressChartComponent,
     ]
 })
 export class ChartsModule {

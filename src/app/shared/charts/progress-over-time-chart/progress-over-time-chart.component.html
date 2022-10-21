@@ -17,7 +17,7 @@
                     [disabled]="granularity === 'M'" (click)="onGranularityChanged('M')">M</button>
         </div>
     </div>
-    <div class="h-72 overflow-auto flex justify-center" *ngIf="data; else loading">
+    <div class="h-72 overflow-auto flex justify-center scrollbar" *ngIf="data; else loading">
         <div #overTimeChart></div>
     </div>
 </div>
