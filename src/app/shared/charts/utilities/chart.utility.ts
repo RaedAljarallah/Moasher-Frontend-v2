@@ -6,6 +6,9 @@ import {MonthUtility} from "../../../core/utilities/month.utility";
 import {IInitiativeProgress} from "../../../pages/initiatives/core/models/initiative-progress.model";
 import {IProgressChart} from "../models/progress-chart.model";
 import {IProgressOvertimeChart} from "../models/progress-overtime-chart.model";
+import {IEnumValue} from "../../../core/models/enum-value.model";
+import {IStatusSummaryChart} from "../models/status-summary-chart.model";
+import {EnumValueUtility} from "../../../core/utilities/enum-value.utility";
 
 export class ChartUtility {
     static getCurrentQuarter(): string {
@@ -94,4 +97,30 @@ export class ChartUtility {
         
         return progressOvertimeChart;
     }
+    
+    static generateStatusSummaryChart(data: IEnumValue[]): IStatusSummaryChart {
+        let enumValues: IEnumValue[] = [];
+        let result: IStatusSummaryChart = {values: [], schemes: []};
+        data.forEach(data => {
+            if (!data.name) {
+                enumValues.push({
+                    name: 'لا توجد حالة',
+                    style: 'no-color'
+                });
+            } else {
+                enumValues.push({ name: data.name, style: data.style });
+            }
+        });
+        
+        let names = _.uniq(enumValues.map(v => v.name));
+        names.forEach(name => {
+            let status = enumValues.filter(v => v.name === name);
+            let count = status.length;
+            result.values.push({ name: name!, value: count});
+            result.schemes.push(EnumValueUtility.toHex(status[0].style!));
+        });
+        
+        return result;
+    }
+    
 }

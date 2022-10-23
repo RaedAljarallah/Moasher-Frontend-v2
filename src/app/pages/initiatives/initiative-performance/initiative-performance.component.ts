@@ -1,7 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {forkJoin, Observable} from "rxjs";
 import {ApiService} from "../../../core/services/api.service";
-import {map, finalize} from "rxjs/operators";
+import {map} from "rxjs/operators";
 import {IPerformanceCardValue} from "../../../shared/charts/models/performance-card-value.model";
 import {IProgressChart} from "../../../shared/charts/models/progress-chart.model";
 import {DateUtility} from "../../../core/utilities/date.utility";
@@ -21,7 +21,6 @@ import {IMilestone} from "../core/models/milestone/milestone.model";
 export class InitiativePerformanceComponent implements OnInit {
     @Input() initiativeId: string = '';
 
-    public isInitiativeSummaryLoading: boolean = true;
     public estimateAtCompletion?: IPerformanceCardValue;
     public currentPeriodContractingPerformance?: IPerformanceCardValue;
     public currentPeriodSpendingPerformance?: IPerformanceCardValue;
@@ -49,12 +48,8 @@ export class InitiativePerformanceComponent implements OnInit {
 
     private getInitiativeSummary(): void {
         this.api.get<IInitiativeSummary>(`initiatives/summary?id=${this.initiativeId}`)
-            .pipe(
-                finalize(() => this.isInitiativeSummaryLoading = false),
-                map((res) => res.result),
-            )
+            .pipe(map((res) => res.result))
             .subscribe(result => {
-
                 this.fundingPerformance = {
                     target: {
                         name: 'التكاليف المطلوبة',
@@ -123,7 +118,7 @@ export class InitiativePerformanceComponent implements OnInit {
                 this.currentPeriodContractingPerformance = {
                     target: {
                         name: 'المستهدف',
-                        value: result.plannedToDateContractsAmount,
+                        value: result.plannedToDateContractsAmount + result.contractsAmount,
                         tooltip: `إجمالي مخطط قيمة العقود القائمة بنهاية ${DateUtility.getDate()}`
                     },
                     actual: {

@@ -1,4 +1,5 @@
-﻿export interface IAreaDateSet {
+﻿// TODO: TO be deleted
+export interface IAreaDateSet {
     xTicks: string[];
     peakTitles: { area: string, title: string }[];
     firstArea: {

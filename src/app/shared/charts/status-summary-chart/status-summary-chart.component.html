@@ -1,0 +1,22 @@
+<div class="flex flex-col">
+    <div class="px-2 py-[0.44rem] border-b border-b-theme-gray-300">
+        <h2 class="text-sm">{{ title }}</h2>
+    </div>
+    <div class="flex justify-center items-center ltr relative" *ngIf="data; else loading">
+        <span class="text-sm absolute">{{total}}</span>
+        <ngx-charts-pie-chart
+                [results]="data.values"
+                [legend]="false"
+                [explodeSlices]="false"
+                [labels]="true"
+                [labelFormatting]="formatLabel"
+                [trimLabels]="false"
+                [doughnut]="true"
+                [scheme]="scheme">
+        </ngx-charts-pie-chart>
+    </div>
+</div>
+
+<ng-template #loading>
+    <p>Loading ...</p>
+</ng-template>
