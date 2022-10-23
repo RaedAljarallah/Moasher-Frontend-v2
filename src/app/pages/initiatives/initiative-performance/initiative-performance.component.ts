@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Observable} from "rxjs";
+import {forkJoin, Observable} from "rxjs";
 import {ApiService} from "../../../core/services/api.service";
 import {map, finalize} from "rxjs/operators";
 import {IPerformanceCardValue} from "../../../shared/charts/models/performance-card-value.model";
@@ -12,6 +12,7 @@ import {ChartUtility} from "../../../shared/charts/utilities/chart.utility";
 import {IInitiativeProgress} from "../core/models/initiative-progress.model";
 import {IInitiativeSummary} from "../core/models/initiative-summary.model";
 import {IProgressOvertimeChart} from "../../../shared/charts/models/progress-overtime-chart.model";
+import {IMilestone} from "../core/models/milestone/milestone.model";
 
 @Component({
     selector: 'app-initiative-performance',
@@ -28,7 +29,7 @@ export class InitiativePerformanceComponent implements OnInit {
     public fundingPerformance?: IPerformanceCardValue;
     public contractingPerformance?: IPerformanceCardValue;
     public initiativeProgress?: IProgressChart;
-    public milestoneProgressPerformance?: IPerformanceCardValue;
+    public milestoneProgressPerformance$: Observable<IPerformanceCardValue> = new Observable<IPerformanceCardValue>();
     public spendingPlan$: Observable<IFinancialPlanningChart[]> = new Observable<IFinancialPlanningChart[]>();
     public contractingPlan$: Observable<IFinancialPlanningChart[]> = new Observable<IFinancialPlanningChart[]>();
     public progressOvertime$: Observable<IProgressOvertimeChart[]> = new Observable<IProgressOvertimeChart[]>();
@@ -42,6 +43,7 @@ export class InitiativePerformanceComponent implements OnInit {
         this.spendingPlan$ = this.getSpendingPlan();
         this.contractingPlan$ = this.getContractingPlan();
         this.progressOvertime$ = this.getProgressOvertime();
+        this.milestoneProgressPerformance$ = this.getMilestonesProgress();
     }
 
 
@@ -130,20 +132,7 @@ export class InitiativePerformanceComponent implements OnInit {
                         tooltip: 'إجمالي قيمة العقود القائمة للمبادرة'
                     }
                 }
-
-                this.milestoneProgressPerformance = {
-                    target: {
-                        name: 'المعالم المستحقة',
-                        value: result.toDateDueMilestones,
-                        tooltip: `عدد المعالم المستحقة بنهاية ${DateUtility.getDate()}`
-                    },
-                    actual: {
-                        name: 'المعالم المنجزة',
-                        value: result.toDateAchievedMilestones,
-                        tooltip: 'عدد المعالم المنجزة حتى تاريخه'
-                    }
-                }
-
+                
                 this.initiativeProgress = {
                     planned: result.plannedProgress,
                     actual: result.actualProgress,
@@ -152,6 +141,7 @@ export class InitiativePerformanceComponent implements OnInit {
 
             })
     }
+    
     private getSpendingPlan(): Observable<IFinancialPlanningChart[]> {
         return this.api.get<IExpenditureSummary[]>(`expenditures?initiativeId=${this.initiativeId}`).pipe(
             map(res => {
@@ -172,6 +162,32 @@ export class InitiativePerformanceComponent implements OnInit {
         return this.api.get<IInitiativeProgress[]>(`initiatives/progress?initiativeId=${this.initiativeId}`).pipe(
             map(res => {
                 return ChartUtility.generateProgressOvertimeChart(res.result);
+            })
+        )
+    }
+    
+    private getMilestonesProgress(): Observable<IPerformanceCardValue> {
+        let currentDate = DateUtility.getDate();
+        let completedMilestones = this.api.get<IMilestone[]>(`milestones?initiativeId=${this.initiativeId}&status=completed`).pipe(
+            map(res => res.result)
+        );
+        let plannedMilestones = this.api.get<IMilestone[]>(`milestones?initiativeId=${this.initiativeId}&plannedTo=${currentDate}`).pipe(
+            map(res => res.result)
+        );
+        return forkJoin([completedMilestones, plannedMilestones]).pipe(
+            map(res => {
+                return {
+                    target: {
+                        name: 'المعالم المستحقة',
+                        value: res[1].length,
+                        tooltip: `عدد المعالم المستحقة بنهاية ${DateUtility.getDate()}`
+                    },
+                    actual: {
+                        name: 'المعالم المنجزة',
+                        value: res[0].length,
+                        tooltip: 'عدد المعالم المنجزة حتى تاريخه'
+                    }
+                }
             })
         )
     }

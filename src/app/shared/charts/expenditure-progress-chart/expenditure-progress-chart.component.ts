@@ -14,6 +14,7 @@ import {financialPlanColorScheme} from "../color-schemes";
 import * as c3 from "c3";
 import * as d3 from "d3";
 import {IOvertimeDatasetSeries} from "../models/overtime-chart.model";
+import {DateUtility} from "../../../core/utilities/date.utility";
 
 @Component({
     selector: 'app-expenditure-progress-chart',
@@ -168,108 +169,126 @@ export class ExpenditureProgressChartComponent implements OnInit, AfterViewInit 
     }
 
     private getDataset(): IFinancialPlanningChart {
-        const dataset = this.data!.find(d => d.year === this.selectedYear);
+        const dataset = this.data!.find(d => d.year === this.selectedYear)!;
+        return this.granularity === 'Q'
+            ? this.getQuarterlyExpenditure(dataset)
+            : this.getMonthlyExpenditure(dataset)
+    }
+
+    private getQuarterlyExpenditure(dataset: IFinancialPlanningChart): IFinancialPlanningChart {
+        const months = dataset.plannedSeries.series.map(s => s.name);
+        const quarters = DateUtility.getQuartersOfMonths(parseInt(months[0]), parseInt(months[months.length - 1]));
+        if (quarters.length === 1) {
+            return this.getMonthlyExpenditure(dataset);
+        }
+        
         let baselineSeries: IOvertimeDatasetSeries[] = [];
         let plannedSeries: IOvertimeDatasetSeries[] = [];
         let actualSeries: IOvertimeDatasetSeries[] = [];
-        if (this.granularity === 'Q') {
-            this.xSeries = ['Q1', 'Q2', 'Q3', 'Q4'];
-            this.xSeries.forEach(q => {
-                let baselineValue: number = 0;
-                let plannedValue: number = 0;
-                let actualValue: number = 0;
-                if (q === 'Q1') {
-                    baselineValue = dataset!.baselineSeries.series
-                        .filter(e => parseInt(e.name) <= 3)
-                        .map(d => d.value)
-                        .reduce((a, b) => a + b);
+        this.xSeries = quarters.map(q => `Q${q}`);
+        
+        this.xSeries.forEach((q, index) => {
+            let baselineValue: number = 0;
+            let plannedValue: number = 0;
+            let actualValue: number = 0;
+            if (q === 'Q1') {
+                baselineValue = dataset!.baselineSeries.series
+                    .filter(e => parseInt(e.name) <= 3)
+                    .map(d => d.value)
+                    .reduce((a, b) => a + b);
 
-                    plannedValue = dataset!.plannedSeries.series
-                        .filter(e => parseInt(e.name) <= 3)
-                        .map(d => d.value)
-                        .reduce((a, b) => a + b);
+                plannedValue = dataset!.plannedSeries.series
+                    .filter(e => parseInt(e.name) <= 3)
+                    .map(d => d.value)
+                    .reduce((a, b) => a + b);
 
-                    actualValue = dataset!.actualSeries.series
-                        .filter(e => parseInt(e.name) <= 3)
-                        .map(d => d.value)
-                        .reduce((a, b) => a + b);
-                }
+                actualValue = dataset!.actualSeries.series
+                    .filter(e => parseInt(e.name) <= 3)
+                    .map(d => d.value)
+                    .reduce((a, b) => a + b);
+            }
 
-                if (q === 'Q2') {
-                    baselineValue = dataset!.baselineSeries.series
-                        .filter(e => parseInt(e.name) <= 6)
-                        .map(d => d.value)
-                        .reduce((a, b) => a + b);
-                    plannedValue = dataset!.plannedSeries.series
-                        .filter(e => parseInt(e.name) <= 6)
-                        .map(d => d.value)
-                        .reduce((a, b) => a + b);
-                    actualValue = dataset!.actualSeries.series
-                        .filter(e => parseInt(e.name) <= 6)
-                        .map(d => d.value)
-                        .reduce((a, b) => a + b);
-                }
+            if (q === 'Q2') {
+                baselineValue = dataset!.baselineSeries.series
+                    .filter(e => parseInt(e.name) <= 6)
+                    .map(d => d.value)
+                    .reduce((a, b) => a + b);
+                plannedValue = dataset!.plannedSeries.series
+                    .filter(e => parseInt(e.name) <= 6)
+                    .map(d => d.value)
+                    .reduce((a, b) => a + b);
+                actualValue = dataset!.actualSeries.series
+                    .filter(e => parseInt(e.name) <= 6)
+                    .map(d => d.value)
+                    .reduce((a, b) => a + b);
+            }
 
-                if (q === 'Q3') {
-                    baselineValue = dataset!.baselineSeries.series
-                        .filter(e => parseInt(e.name) <= 9)
-                        .map(d => d.value)
-                        .reduce((a, b) => a + b);
-                    plannedValue = dataset!.plannedSeries.series
-                        .filter(e => parseInt(e.name) <= 9)
-                        .map(d => d.value)
-                        .reduce((a, b) => a + b);
-                    actualValue = dataset!.actualSeries.series
-                        .filter(e => parseInt(e.name) <= 9)
-                        .map(d => d.value)
-                        .reduce((a, b) => a + b);
-                }
+            if (q === 'Q3') {
+                baselineValue = dataset!.baselineSeries.series
+                    .filter(e => parseInt(e.name) <= 9)
+                    .map(d => d.value)
+                    .reduce((a, b) => a + b);
+                plannedValue = dataset!.plannedSeries.series
+                    .filter(e => parseInt(e.name) <= 9)
+                    .map(d => d.value)
+                    .reduce((a, b) => a + b);
+                actualValue = dataset!.actualSeries.series
+                    .filter(e => parseInt(e.name) <= 9)
+                    .map(d => d.value)
+                    .reduce((a, b) => a + b);
+            }
 
-                if (q === 'Q4') {
-                    baselineValue = dataset!.baselineSeries.series
-                        .map(d => d.value)
-                        .reduce((a, b) => a + b);
-                    plannedValue = dataset!.plannedSeries.series
-                        .map(d => d.value)
-                        .reduce((a, b) => a + b);
-                    actualValue = dataset!.actualSeries.series
-                        .map(d => d.value)
-                        .reduce((a, b) => a + b);
+            if (q === 'Q4') {
+                baselineValue = dataset!.baselineSeries.series
+                    .map(d => d.value)
+                    .reduce((a, b) => a + b);
+                plannedValue = dataset!.plannedSeries.series
+                    .map(d => d.value)
+                    .reduce((a, b) => a + b);
+                actualValue = dataset!.actualSeries.series
+                    .map(d => d.value)
+                    .reduce((a, b) => a + b);
+            }
 
-                    this.maxYLevel = Math.max(dataset!.budget, baselineValue, plannedValue, actualValue);
-                }
-
-                baselineSeries.push({
-                    name: q,
-                    value: baselineValue,
-                    label: baselineValue.toString()
-                });
-
-                plannedSeries.push({
-                    name: q,
-                    value: plannedValue,
-                    label: plannedValue.toString()
-                });
-
-                actualSeries.push({
-                    name: q,
-                    value: actualValue,
-                    label: actualValue.toString()
-                });
+            if (index === this.xSeries.length - 1) {
+                this.maxYLevel = Math.max(dataset!.budget, baselineValue, plannedValue, actualValue);
+            }
+            
+            baselineSeries.push({
+                name: q,
+                value: baselineValue,
+                label: baselineValue.toString()
             });
 
+            plannedSeries.push({
+                name: q,
+                value: plannedValue,
+                label: plannedValue.toString()
+            });
 
-            return {
-                year: this.selectedYear,
-                budget: dataset!.budget,
-                baselineSeries: { name: dataset!.baselineSeries.name, series: baselineSeries},
-                plannedSeries: { name: dataset!.plannedSeries.name, series: plannedSeries},
-                actualSeries: { name: dataset!.actualSeries.name, series: actualSeries},
-            }
+            actualSeries.push({
+                name: q,
+                value: actualValue,
+                label: actualValue.toString()
+            });
+        });
+
+
+        return {
+            year: this.selectedYear,
+            budget: dataset!.budget,
+            baselineSeries: { name: dataset!.baselineSeries.name, series: baselineSeries},
+            plannedSeries: { name: dataset!.plannedSeries.name, series: plannedSeries},
+            actualSeries: { name: dataset!.actualSeries.name, series: actualSeries},
         }
-
-        this.xSeries = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
-        this.xSeries.forEach(m => {
+    }
+    
+    private getMonthlyExpenditure(dataset: IFinancialPlanningChart): IFinancialPlanningChart {
+        let baselineSeries: IOvertimeDatasetSeries[] = [];
+        let plannedSeries: IOvertimeDatasetSeries[] = [];
+        let actualSeries: IOvertimeDatasetSeries[] = [];
+        this.xSeries = dataset.plannedSeries.series.map(s => s.name);
+        this.xSeries.forEach((m, index) => {
             let baselineValue: number = 0;
             let plannedValue: number = 0;
             let actualValue: number = 0;
@@ -286,7 +305,7 @@ export class ExpenditureProgressChartComponent implements OnInit, AfterViewInit 
                 .map(d => d.value)
                 .reduce((a, b) => a + b);
 
-            if (m === '12') {
+            if (index === this.xSeries.length - 1) {
                 this.maxYLevel = Math.max(dataset!.budget, baselineValue, plannedValue, actualValue);
             }
 
@@ -317,7 +336,7 @@ export class ExpenditureProgressChartComponent implements OnInit, AfterViewInit 
             actualSeries: { name: dataset!.actualSeries.name, series: actualSeries},
         }
     }
-
+    
     private getLabel(value: number): string {
         if (value === 0) return '';
         const numberToThousands = value / 1000000;

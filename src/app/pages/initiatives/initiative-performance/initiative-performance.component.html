@@ -31,7 +31,7 @@
             <app-progress-chart title="حالة المبادرة" [values]="initiativeProgress"></app-progress-chart>
         </div>
         <div class="bg-white border border-theme-gray-300 rounded">
-            <app-performance-card [values]="milestoneProgressPerformance"></app-performance-card>
+            <app-performance-card [values]="milestoneProgressPerformance$ | async"></app-performance-card>
         </div>
     </div>
     <div class="bg-white border border-theme-gray-300 rounded col-span-full md:col-span-8 2xl:col-span-10">

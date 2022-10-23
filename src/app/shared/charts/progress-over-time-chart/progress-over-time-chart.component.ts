@@ -37,10 +37,10 @@ export class ProgressOverTimeChartComponent implements OnInit, AfterViewInit {
     constructor(private cd: ChangeDetectorRef) {
     }
     
-    ngOnInit(): void {
+    public ngOnInit(): void {
     }
 
-    ngAfterViewInit(): void {
+    public ngAfterViewInit(): void {
         this.chartElm?.changes.subscribe((elm) => {
             if (!this.data) return;
             this.years = this.data.map(v => v.year).sort();
@@ -127,15 +127,11 @@ export class ProgressOverTimeChartComponent implements OnInit, AfterViewInit {
     
     private getDataset(): IProgressOvertimeChart {
         const dataset = this.data!.find(d => d.year === this.selectedYear)!;
-        let plannedSeries: IOvertimeDatasetSeries[] = [];
-        let actualSeries: IOvertimeDatasetSeries[] = [];
-        const months = dataset.plannedSeries.series.map(s => s.name);
-        
-        if (this.granularity === 'Q') {
-            return this.getQuarterlyProgress(dataset);
-        }
 
-        return this.getMonthlyProgress(dataset);
+        return this.granularity === 'Q' 
+            ? this.getQuarterlyProgress(dataset) 
+            : this.getMonthlyProgress(dataset);
+
     }
     
     private getQuarterlyProgress(dataset: IProgressOvertimeChart): IProgressOvertimeChart {

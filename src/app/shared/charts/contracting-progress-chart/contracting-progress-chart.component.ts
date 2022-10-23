@@ -14,6 +14,7 @@ import {financialPlanColorScheme} from "../color-schemes";
 import * as c3 from "c3";
 import * as d3 from "d3";
 import {IOvertimeDatasetSeries} from "../models/overtime-chart.model";
+import {DateUtility} from "../../../core/utilities/date.utility";
 
 @Component({
     selector: 'app-contracting-progress-chart',
@@ -168,96 +169,121 @@ export class ContractingProgressChartComponent implements OnInit, AfterViewInit 
     }
 
     private getDataset(): IFinancialPlanningChart {
-        const dataset = this.data!.find(d => d.year === this.selectedYear);
+        const dataset = this.data!.find(d => d.year === this.selectedYear)!;
+        return this.granularity === 'Q'
+            ? this.getQuarterlyContracting(dataset)
+            : this.getMonthlyContracting(dataset)
+    }
+
+    private getQuarterlyContracting(dataset: IFinancialPlanningChart): IFinancialPlanningChart {
+        const months = dataset.plannedSeries.series.map(s => s.name);
+        const quarters = DateUtility.getQuartersOfMonths(parseInt(months[0]), parseInt(months[months.length - 1]));
+        if (quarters.length === 1) {
+            return this.getMonthlyContracting(dataset);
+        }
+
         let baselineSeries: IOvertimeDatasetSeries[] = [];
         let plannedSeries: IOvertimeDatasetSeries[] = [];
         let actualSeries: IOvertimeDatasetSeries[] = [];
-        if (this.granularity === 'Q') {
-            this.xSeries = ['Q1', 'Q2', 'Q3', 'Q4'];
-            this.xSeries.forEach(q => {
-                let baselineValue: number = 0;
-                let plannedValue: number = 0;
-                let actualValue: number = 0;
-                if (q === 'Q1') {
-                    baselineValue = dataset!.baselineSeries.series
-                        .find(e => parseInt(e.name) === 3)!.value;
+        this.xSeries = quarters.map(q => `Q${q}`);
+        this.xSeries.forEach((q, index) => {
+            let baselineValue: number = 0;
+            let plannedValue: number = 0;
+            let actualValue: number = 0;
+            if (q === 'Q1') {
+                baselineValue = dataset!.baselineSeries.series
+                    .filter((e => parseInt(e.name) >=1 && parseInt(e.name) <= 3))
+                    .slice(-1)[0].value;
 
-                    plannedValue = dataset!.plannedSeries.series
-                        .find(e => parseInt(e.name) === 3)!.value;
+                plannedValue = dataset!.plannedSeries.series
+                    .filter((e => parseInt(e.name) >=1 && parseInt(e.name) <= 3))
+                    .slice(-1)[0].value;
 
-                    actualValue = dataset!.actualSeries.series
-                        .find(e => parseInt(e.name) === 3)!.value;
-                }
+                actualValue = dataset!.actualSeries.series
+                    .filter((e => parseInt(e.name) >=1 && parseInt(e.name) <= 3))
+                    .slice(-1)[0].value;
+            }
 
-                if (q === 'Q2') {
-                    baselineValue = dataset!.baselineSeries.series
-                        .find(e => parseInt(e.name) === 6)!.value;
-                    
-                    plannedValue = dataset!.plannedSeries.series
-                        .find(e => parseInt(e.name) === 6)!.value;
-                    
-                    actualValue = dataset!.actualSeries.series
-                        .find(e => parseInt(e.name) === 6)!.value;
-                }
+            if (q === 'Q2') {
+                baselineValue = dataset!.baselineSeries.series
+                    .filter((e => parseInt(e.name) >=4 && parseInt(e.name) <= 6))
+                    .slice(-1)[0].value;
 
-                if (q === 'Q3') {
-                    baselineValue = dataset!.baselineSeries.series
-                        .find(e => parseInt(e.name) === 9)!.value;
-                    
-                    plannedValue = dataset!.plannedSeries.series
-                        .find(e => parseInt(e.name) === 9)!.value;
-                    
-                    actualValue = dataset!.actualSeries.series
-                        .find(e => parseInt(e.name) === 9)!.value;
-                }
+                plannedValue = dataset!.plannedSeries.series
+                    .filter((e => parseInt(e.name) >=4 && parseInt(e.name) <= 6))
+                    .slice(-1)[0].value;
 
-                if (q === 'Q4') {
-                    baselineValue = dataset!.baselineSeries.series
-                        .find(e => parseInt(e.name) === 12)!.value;
-                    
-                    plannedValue = dataset!.plannedSeries.series
-                        .find(e => parseInt(e.name) === 12)!.value;
-                    
-                    actualValue = dataset!.actualSeries.series
-                        .find(e => parseInt(e.name) === 12)!.value;
+                actualValue = dataset!.actualSeries.series
+                    .filter((e => parseInt(e.name) >=4 && parseInt(e.name) <= 6))
+                    .slice(-1)[0].value;
+            }
 
-                    this.maxYLevel = Math.max(dataset!.budget, baselineValue, plannedValue, actualValue);
-                }
+            if (q === 'Q3') {
+                baselineValue = dataset!.baselineSeries.series
+                    .filter((e => parseInt(e.name) >=7 && parseInt(e.name) <= 9))
+                    .slice(-1)[0].value;
 
-                baselineSeries.push({
-                    name: q,
-                    value: baselineValue,
-                    label: baselineValue.toString()
-                });
+                plannedValue = dataset!.plannedSeries.series
+                    .filter((e => parseInt(e.name) >=7 && parseInt(e.name) <= 9))
+                    .slice(-1)[0].value;
 
-                plannedSeries.push({
-                    name: q,
-                    value: plannedValue,
-                    label: plannedValue.toString()
-                });
+                actualValue = dataset!.actualSeries.series
+                    .filter((e => parseInt(e.name) >=7 && parseInt(e.name) <= 9))
+                    .slice(-1)[0].value;
+            }
 
-                actualSeries.push({
-                    name: q,
-                    value: actualValue,
-                    label: actualValue.toString()
-                });
+            if (q === 'Q4') {
+                baselineValue = dataset!.baselineSeries.series
+                    .filter((e => parseInt(e.name) >=10 && parseInt(e.name) <= 12))
+                    .slice(-1)[0].value;
+
+                plannedValue = dataset!.plannedSeries.series
+                    .filter((e => parseInt(e.name) >=10 && parseInt(e.name) <= 12))
+                    .slice(-1)[0].value;
+
+                actualValue = dataset!.actualSeries.series
+                    .filter((e => parseInt(e.name) >=10 && parseInt(e.name) <= 12))
+                    .slice(-1)[0].value;
+            }
+            
+            if (index === this.xSeries.length - 1) {
+                this.maxYLevel = Math.max(dataset!.budget, baselineValue, plannedValue, actualValue);
+            }
+            
+            baselineSeries.push({
+                name: q,
+                value: baselineValue,
+                label: baselineValue.toString()
             });
 
+            plannedSeries.push({
+                name: q,
+                value: plannedValue,
+                label: plannedValue.toString()
+            });
 
-            return {
-                year: this.selectedYear,
-                budget: dataset!.budget,
-                baselineSeries: { name: dataset!.baselineSeries.name, series: baselineSeries},
-                plannedSeries: { name: dataset!.plannedSeries.name, series: plannedSeries},
-                actualSeries: { name: dataset!.actualSeries.name, series: actualSeries},
-            }
+            actualSeries.push({
+                name: q,
+                value: actualValue,
+                label: actualValue.toString()
+            });
+        });
+
+        return {
+            year: this.selectedYear,
+            budget: dataset!.budget,
+            baselineSeries: { name: dataset!.baselineSeries.name, series: baselineSeries},
+            plannedSeries: { name: dataset!.plannedSeries.name, series: plannedSeries},
+            actualSeries: { name: dataset!.actualSeries.name, series: actualSeries},
         }
+    }
 
-        this.xSeries = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+    private getMonthlyContracting(dataset: IFinancialPlanningChart): IFinancialPlanningChart {
+        this.xSeries = dataset.plannedSeries.series.map(s => s.name);
         const lastBaselineIndex = dataset!.baselineSeries.series.length - 1;
         const lastPlannedIndex = dataset!.plannedSeries.series.length - 1;
         const lastActualIndex = dataset!.actualSeries.series.length - 1;
-        this.maxYLevel = Math.max(dataset!.budget, 
+        this.maxYLevel = Math.max(dataset!.budget,
             dataset!.baselineSeries.series[lastBaselineIndex].value,
             dataset!.plannedSeries.series[lastPlannedIndex].value,
             dataset!.actualSeries.series[lastActualIndex].value);
@@ -269,7 +295,6 @@ export class ContractingProgressChartComponent implements OnInit, AfterViewInit 
             actualSeries: { name: dataset!.actualSeries.name, series: dataset!.actualSeries.series},
         }
     }
-
     private getLabel(value: number): string {
         if (value === 0) return '';
         const numberToThousands = value / 1000000;

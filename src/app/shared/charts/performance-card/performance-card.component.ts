@@ -12,7 +12,7 @@ import {IPerformanceCardValue} from "../models/performance-card-value.model";
     styles: []
 })
 export class PerformanceCardComponent implements OnInit, AfterViewInit {
-    @Input() values?: IPerformanceCardValue;
+    @Input() values: IPerformanceCardValue | null | undefined = null;
     @Input() limitPercentageToHundred: boolean = false;
     @ViewChildren('performanceChart') chartElm?: QueryList<ElementRef>;
     

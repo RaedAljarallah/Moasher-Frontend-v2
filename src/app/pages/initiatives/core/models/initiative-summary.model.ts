@@ -15,6 +15,4 @@ export interface IInitiativeSummary {
     estimatedBudgetAtCompletion: number;
     plannedToDateExpenditure: number;
     plannedToDateContractsAmount: number;
-    toDateDueMilestones: number;
-    toDateAchievedMilestones: number;
 }
