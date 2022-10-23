@@ -1,4 +1,5 @@
-﻿import {format, getQuarter, getYear, getMonth, addHours, addMonths } from 'date-fns';
+﻿import {format, getQuarter, getYear, getMonth, addHours, addMonths, monthsToQuarters } from 'date-fns';
+import {NumberUtility} from "./number.utility";
 
 export class DateUtility {
     static getDate(date?: Date | null): string {
@@ -29,19 +30,27 @@ export class DateUtility {
         return new Date().getMonth();
     }
     
+    static getQuartersOfMonths(startMonth: number, endMonth: number): number[] {
+        const firstQuarter = DateUtility.getQuarterOfMonth(startMonth);
+        const lastQuarter = DateUtility.getQuarterOfMonth(endMonth);
+        return NumberUtility.range(firstQuarter, lastQuarter);
+    }
+    
     static getQuarterMonths(quarter: number): number[] {
         const quarterFirstMonth = ((quarter - 1) * 3) + 1;
         return [quarterFirstMonth, quarterFirstMonth + 1, quarterFirstMonth + 2];
     }
 
+    static getQuarterOfMonth(month: number): number {
+        if (month > 12 || month < 1) return 0;
+        
+        return Math.floor((month + 2) / 3);
+    }
+    
     static getYearsRange(startDate: Date, endDate: Date): number[] {
         let startYear = getYear(startDate);
         let endYear = getYear(endDate);
-        let range: number[] = [];
-        for (let i = startYear; i <= endYear; i++) {
-            range.push(i);
-        }
-        return range;
+        return NumberUtility.range(startYear, endYear);
     }
 
     static toUTCNow(date: Date | null): Date | null {

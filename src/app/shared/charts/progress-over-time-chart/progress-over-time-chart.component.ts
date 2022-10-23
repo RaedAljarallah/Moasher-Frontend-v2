@@ -8,13 +8,13 @@ import {
     QueryList,
     ViewChildren
 } from '@angular/core';
-import {IOvertimeChart, IOvertimeDatasetSeries} from "../models/overtime-chart.model";
+import {IOvertimeDatasetSeries} from "../models/overtime-chart.model";
 import {Color} from "@swimlane/ngx-charts";
 import {overTimeColorScheme} from "../color-schemes";
 import * as c3 from "c3";
 import * as _ from 'lodash';
-import {IAreaDateSet} from "../models/area-data-set.model";
 import {IProgressOvertimeChart} from "../models/progress-overtime-chart.model";
+import {DateUtility} from "../../../core/utilities/date.utility";
 
 @Component({
     selector: 'app-progress-over-time-chart',
@@ -44,7 +44,9 @@ export class ProgressOverTimeChartComponent implements OnInit, AfterViewInit {
         this.chartElm?.changes.subscribe((elm) => {
             if (!this.data) return;
             this.years = this.data.map(v => v.year).sort();
-            this.selectedYear = this.years[this.years.length - 1];
+            const lastYear = this.years[this.years.length - 1];
+            const currentYear = DateUtility.getCurrentYear();
+            this.selectedYear = currentYear > lastYear ? lastYear : currentYear;
             this.chartElement = elm.toArray()[0].nativeElement;
             this.generateChart();
             this.cd.detectChanges();
@@ -124,70 +126,94 @@ export class ProgressOverTimeChartComponent implements OnInit, AfterViewInit {
     }
     
     private getDataset(): IProgressOvertimeChart {
-        const dataset = this.data!.find(d => d.year === this.selectedYear);
+        const dataset = this.data!.find(d => d.year === this.selectedYear)!;
         let plannedSeries: IOvertimeDatasetSeries[] = [];
         let actualSeries: IOvertimeDatasetSeries[] = [];
-
+        const months = dataset.plannedSeries.series.map(s => s.name);
+        
         if (this.granularity === 'Q') {
-            this.xSeries = ['Q1', 'Q2', 'Q3', 'Q4'];
-            this.xSeries.forEach(q => {
-                let intervalPlannedSeries!: IOvertimeDatasetSeries;
-                let intervalActualSeries!: IOvertimeDatasetSeries;
-                if (q === 'Q1') {
-                    intervalPlannedSeries = dataset!.plannedSeries.series
-                        .find((e => parseInt(e.name) === 3))!;
-
-                    intervalActualSeries = dataset!.actualSeries.series
-                        .find((e => parseInt(e.name) === 3))!;
-                }
-
-                if (q === 'Q2') {
-                    intervalPlannedSeries = dataset!.plannedSeries.series
-                        .find((e => parseInt(e.name) === 6))!;
-
-                    intervalActualSeries = dataset!.actualSeries.series
-                        .find((e => parseInt(e.name) === 6))!;
-                }
-
-                if (q === 'Q3') {
-                    intervalPlannedSeries = dataset!.plannedSeries.series
-                        .find((e => parseInt(e.name) === 9))!;
-
-                    intervalActualSeries = dataset!.actualSeries.series
-                        .find((e => parseInt(e.name) === 9))!;
-                }
-
-                if (q === 'Q4') {
-                    intervalPlannedSeries = dataset!.plannedSeries.series
-                        .find((e => parseInt(e.name) === 12))!;
-
-                    intervalActualSeries = dataset!.actualSeries.series
-                        .find((e => parseInt(e.name) === 12))!;
-                }
-
-                plannedSeries.push({
-                    name: q,
-                    value: intervalPlannedSeries.value,
-                    label: intervalPlannedSeries.label
-                });
-
-                actualSeries.push({
-                    name: q,
-                    value: intervalActualSeries.value,
-                    label: intervalActualSeries.label
-                });
-            });
-            
-            return {
-                year: this.selectedYear,
-                peakTitles: this.getPeakTitles(plannedSeries, actualSeries),
-                plannedSeries: { name: dataset!.plannedSeries.name, series: plannedSeries},
-                actualSeries: { name: dataset!.actualSeries.name, series: actualSeries},
-            }
-            
+            return this.getQuarterlyProgress(dataset);
         }
 
-        this.xSeries = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+        return this.getMonthlyProgress(dataset);
+    }
+    
+    private getQuarterlyProgress(dataset: IProgressOvertimeChart): IProgressOvertimeChart {
+        const months = dataset.plannedSeries.series.map(s => s.name);
+        const quarters = DateUtility.getQuartersOfMonths(parseInt(months[0]), parseInt(months[months.length - 1]));
+        if (quarters.length === 1) {
+            return this.getMonthlyProgress(dataset);
+        }
+
+        let plannedSeries: IOvertimeDatasetSeries[] = [];
+        let actualSeries: IOvertimeDatasetSeries[] = [];
+        this.xSeries = quarters.map(q => `Q${q}`);
+        this.xSeries.forEach(q => {
+            let intervalPlannedSeries!: IOvertimeDatasetSeries;
+            let intervalActualSeries!: IOvertimeDatasetSeries;
+            if (q === 'Q1') {
+                intervalPlannedSeries = dataset!.plannedSeries.series
+                    .filter((e => parseInt(e.name) >=1 && parseInt(e.name) <= 3))
+                    .slice(-1)[0];
+
+                intervalActualSeries = dataset!.actualSeries.series
+                    .filter((e => parseInt(e.name) >=1 && parseInt(e.name) <= 3))
+                    .slice(-1)[0];
+            }
+
+            if (q === 'Q2') {
+                intervalPlannedSeries = dataset!.plannedSeries.series
+                    .filter((e => parseInt(e.name) >=4 && parseInt(e.name) <= 6))
+                    .slice(-1)[0];
+
+                intervalActualSeries = dataset!.actualSeries.series
+                    .filter((e => parseInt(e.name) >=4 && parseInt(e.name) <= 6))
+                    .slice(-1)[0];
+            }
+
+            if (q === 'Q3') {
+                intervalPlannedSeries = dataset!.plannedSeries.series
+                    .filter((e => parseInt(e.name) >=7 && parseInt(e.name) <= 9))
+                    .slice(-1)[0];
+
+                intervalActualSeries = dataset!.actualSeries.series
+                    .filter((e => parseInt(e.name) >=7 && parseInt(e.name) <= 9))
+                    .slice(-1)[0];
+            }
+
+            if (q === 'Q4') {
+                intervalPlannedSeries = dataset!.plannedSeries.series
+                    .filter((e => parseInt(e.name) >=10 && parseInt(e.name) <= 12))
+                    .slice(-1)[0];
+
+                intervalActualSeries = dataset!.actualSeries.series
+                    .filter((e => parseInt(e.name) >=10 && parseInt(e.name) <= 12))
+                    .slice(-1)[0];
+            }
+
+            plannedSeries.push({
+                name: q,
+                value: intervalPlannedSeries.value,
+                label: intervalPlannedSeries.label
+            });
+
+            actualSeries.push({
+                name: q,
+                value: intervalActualSeries.value,
+                label: intervalActualSeries.label
+            });
+        });
+
+        return {
+            year: this.selectedYear,
+            peakTitles: this.getPeakTitles(plannedSeries, actualSeries),
+            plannedSeries: { name: dataset!.plannedSeries.name, series: plannedSeries},
+            actualSeries: { name: dataset!.actualSeries.name, series: actualSeries},
+        }
+    }
+    
+    private getMonthlyProgress(dataset: IProgressOvertimeChart): IProgressOvertimeChart {
+        this.xSeries = dataset.plannedSeries.series.map(s => s.name);
         return {
             year: this.selectedYear,
             peakTitles: this.getPeakTitles(dataset!.plannedSeries!.series, dataset!.actualSeries!.series),
