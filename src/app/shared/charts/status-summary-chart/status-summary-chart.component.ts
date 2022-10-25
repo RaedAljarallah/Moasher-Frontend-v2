@@ -32,6 +32,7 @@ export class StatusSummaryChartComponent implements OnInit, OnChanges {
 
     public get total(): number {
         if (!this.data) return 0;
+        if (this.data.values.length === 0) return 0;
         return this.data.values.map(v => v.value).reduce((a, b) => a + b);
     }
 

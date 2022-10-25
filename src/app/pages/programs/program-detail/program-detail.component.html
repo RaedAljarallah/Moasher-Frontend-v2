@@ -2,7 +2,7 @@
                  (deleteClicked)="delete()"
                  (editClicked)="update()">
     <ng-container *ngIf="detailPageState">
-        <app-program-performance *ngIf="selectedTab === 'performance'"></app-program-performance>
+        <app-program-performance [programId]="detailPageState.id" *ngIf="selectedTab === 'performance'"></app-program-performance>
         <app-initiatives-list [subList]="true" [url]="'initiatives?programId=' + detailPageState.id"
                               *ngIf="selectedTab === 'initiatives'"></app-initiatives-list>
         <app-kpis-list [subList]="true" [url]="'kpis?programId=' + detailPageState.id"

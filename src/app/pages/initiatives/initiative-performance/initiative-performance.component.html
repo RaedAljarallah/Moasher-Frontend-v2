@@ -1,21 +1,21 @@
 <div class="grid grid-cols-12 gap-2">
     <div class="bg-white border border-theme-gray-300 rounded col-span-full sm:col-span-6 md:col-span-4 2xl:col-span-2">
-        <app-performance-card [values]="fundingPerformance"></app-performance-card>
+        <app-performance-card [values]="initiativeSummaryChart?.fundingPerformance"></app-performance-card>
     </div>
     <div class="bg-white border border-theme-gray-300 rounded col-span-full sm:col-span-6 md:col-span-4 2xl:col-span-2">
-        <app-performance-card [values]="estimateAtCompletion"></app-performance-card>
+        <app-performance-card [values]="initiativeSummaryChart?.estimateAtCompletion"></app-performance-card>
     </div>
     <div class="bg-white border border-theme-gray-300 rounded col-span-full sm:col-span-6 md:col-span-4 2xl:col-span-2">
-        <app-performance-card [values]="contractingPerformance"></app-performance-card>
+        <app-performance-card [values]="initiativeSummaryChart?.contractingPerformance"></app-performance-card>
     </div>
     <div class="bg-white border border-theme-gray-300 rounded col-span-full sm:col-span-6 md:col-span-4 2xl:col-span-2">
-        <app-performance-card [values]="allTimeSpendingPerformance"></app-performance-card>
+        <app-performance-card [values]="initiativeSummaryChart?.allTimeSpendingPerformance"></app-performance-card>
     </div>
     <div class="bg-white border border-theme-gray-300 rounded col-span-full sm:col-span-6 md:col-span-4 2xl:col-span-2">
-        <app-performance-card [values]="currentPeriodSpendingPerformance" [limitPercentageToHundred]="true"></app-performance-card>
+        <app-performance-card [values]="initiativeSummaryChart?.currentPeriodSpendingPerformance" [limitPercentageToHundred]="true"></app-performance-card>
     </div>
     <div class="bg-white border border-theme-gray-300 rounded col-span-full sm:col-span-6 md:col-span-4 2xl:col-span-2">
-        <app-performance-card [values]="currentPeriodContractingPerformance" [limitPercentageToHundred]="true"></app-performance-card>
+        <app-performance-card [values]="initiativeSummaryChart?.currentPeriodContractingPerformance" [limitPercentageToHundred]="true"></app-performance-card>
     </div>
     <div class="bg-white border border-theme-gray-300 rounded col-span-full 2xl:col-span-6">
         <app-expenditure-progress-chart [data]="spendingPlan$ | async" title="تقدم الصرف" thresholdName="السيولة"></app-expenditure-progress-chart>
@@ -27,7 +27,7 @@
 
     <div class="flex flex-col space-y-2 col-span-full md:col-span-4 2xl:col-span-2">
         <div class="bg-white border border-theme-gray-300 rounded">
-            <app-progress-chart title="حالة المبادرة" [values]="initiativeProgress"></app-progress-chart>
+            <app-progress-chart title="حالة المبادرة" [values]="initiativeSummaryChart?.initiativeProgress"></app-progress-chart>
         </div>
         <div class="bg-white border border-theme-gray-300 rounded">
             <app-performance-card [values]="milestoneProgressPerformance$ | async"></app-performance-card>
