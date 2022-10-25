@@ -26,7 +26,7 @@ export class PortfolioPerformanceComponent implements OnInit {
         this.chart.getInitiativeSummary(params).subscribe(result => this.initiativeSummaryChart = result);
         this.spendingPlan$ = this.chart.getSpendingPlan(params);
         this.contractingPlan$ = this.chart.getContractingPlan(params);
-        this.progressOvertime$ = this.chart.getProgressOvertime(params);
+        //this.progressOvertime$ = this.chart.getProgressOvertime(params);
         this.milestoneProgressPerformance$ = this.chart.getMilestonesProgress(params);
     }
 

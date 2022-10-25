@@ -135,8 +135,8 @@ export class ChartService {
         )
     }
     
-    public getProgressOvertime(params: {key: string, value: string}): Observable<IProgressOvertimeChart[]> {
-        const httpParams = new HttpParams().append(params.key, params.value);
+    public getProgressOvertime(initiativeId: string): Observable<IProgressOvertimeChart[]> {
+        const httpParams = new HttpParams().append('id', initiativeId);
         return this.api.get<IInitiativeProgress[]>('initiatives/progress', { params: httpParams }).pipe(
             map(res => {
                 return ChartUtility.generateProgressOvertimeChart(res.result);

@@ -8,8 +8,9 @@ export class EnumTypeCommand {
     public name!: string;
     public style!: string;
     public category!: string;
-    public metadata?: { [key: string]: string };
-
+    public limitFrom?: number;
+    public limitTo?: number;
+    public isDefault: boolean = false;
     constructor(model: IEnumType | FormGroup | null) {
         if (model == null) {
             return;
@@ -19,6 +20,9 @@ export class EnumTypeCommand {
             const form = <FormGroup>model;
             this.style = _.get(form.get('style'), 'value', null);
             this.name = _.get(form.get('name'), 'value', null);
+            this.limitFrom = parseFloat(_.get(form.get('limitFrom'), 'value', null));
+            this.limitTo = parseFloat(_.get(form.get('limitTo'), 'value', null));
+            this.isDefault = _.get(form.get('isDefault'), 'value', false);
             return;
         }
 
@@ -26,15 +30,13 @@ export class EnumTypeCommand {
         this.name = model.name;
         this.style = model.style;
         this.category = model.category;
-        this.metadata = model.metadata;
+        this.limitFrom = model.limitFrom;
+        this.limitTo = model.limitTo;
+        this.isDefault = model.isDefault;
     }
 
     public setCategory(category: EnumTypeCategory): EnumTypeCommand {
         this.category = category;
         return this;
-    }
-    
-    public setMetadata(form: FormGroup, key: string): void {
-        this.metadata = { [key]: _.get(form.get('metadata'), 'value', null) }
     }
 }

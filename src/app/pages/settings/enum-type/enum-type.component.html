@@ -2,7 +2,7 @@
     <ng-template #tableCell let-data="data">
         <td>{{ data.name }}</td>
         <td><span class="rounded-full px-2" [ngClass]="data.style">{{ data.name }}</span></td>
-        <td *ngIf="withMetadata">{{ data.metadata?.['diff'] }}%</td>
+        <td *ngIf="withMetadata">{{ data.isDefault ? 'لا يوجد تقدم' : 'من: ' + data.limitFrom + '%' + ' حتى: ' + data.limitTo + '%'}}</td>
         <td class="flex space-x-1 space-x-reverse justify-end items-center">
             <button class="btn px-2 py-1 text-xs btn-white border-none rounded" (click)="onUpdate(data)">
                 <i class="fa fa-edit"></i>

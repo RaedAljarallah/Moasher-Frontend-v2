@@ -4,5 +4,8 @@ export interface IEnumType extends IBaseModel {
     category: string;
     name: string;
     style: string;
-    metadata?: { [key: string]: string }
+    metadata?: { [key: string]: string };
+    limitFrom?: number;
+    limitTo?: number;
+    isDefault: boolean;
 }

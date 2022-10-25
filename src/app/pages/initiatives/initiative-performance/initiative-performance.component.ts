@@ -27,7 +27,7 @@ export class InitiativePerformanceComponent implements OnInit {
         this.chart.getInitiativeSummary({key: 'id', value: this.initiativeId}).subscribe(result => this.initiativeSummaryChart = result);
         this.spendingPlan$ = this.chart.getSpendingPlan(params);
         this.contractingPlan$ = this.chart.getContractingPlan(params);
-        this.progressOvertime$ = this.chart.getProgressOvertime(params);
+        this.progressOvertime$ = this.chart.getProgressOvertime(this.initiativeId);
         this.milestoneProgressPerformance$ = this.chart.getMilestonesProgress(params);
     }
     

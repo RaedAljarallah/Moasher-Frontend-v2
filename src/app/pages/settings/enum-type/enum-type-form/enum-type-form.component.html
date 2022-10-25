@@ -13,13 +13,24 @@
                     
                 </app-form-input>
             </div>
-            <div class="col-span-full" *ngIf="withMetadata">
-                <app-form-input [control]="metadata" id="metadata" name="فرق نسبة التقدم"></app-form-input>
+            <ng-container *ngIf="showMetadataInput">
+                <div class="col-span-full sm:col-span-6">
+                    <app-form-input [control]="limitFrom" id="limitFrom" name="فرق نسبة التقدم من"></app-form-input>
+                </div>
+                <div class="col-span-full sm:col-span-6">
+                    <app-form-input [control]="limitTo" id="limitTo" name="فرق نسبة التقدم حتى"></app-form-input>
+                </div>
+            </ng-container>
+
+            <div class="col-span-full mt-2" *ngIf="showIsDefault">
+                <app-form-input [control]="isDefault" id="isDefault" name="قيمة إفتراضية"
+                                type="checkbox"></app-form-input>
             </div>
         </div>
     </ng-container>
     <div class="flex justify-end border-t border-t-theme-gray-200 pt-4">
-        <button type="submit" class="btn py-1.5 w-20 btn-secondary text-center text-sm">{{isDeleteRequest ? 'حذف' : 'حفظ'}}</button>
+        <button type="submit" class="btn py-1.5 w-20 btn-secondary text-center text-sm" appLoadingBtn
+                [isLoading]="isLoading" [disabled]="isLoading">{{isDeleteRequest ? 'حذف' : 'حفظ'}}</button>
     </div>
 </app-form>
 
