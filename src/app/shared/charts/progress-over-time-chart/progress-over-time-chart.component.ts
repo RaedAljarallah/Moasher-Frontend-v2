@@ -82,8 +82,7 @@ export class ProgressOverTimeChartComponent implements OnInit, AfterViewInit {
                         return  !isNaN(i) && dataset.peakTitles![i].id == id
                             ? dataset.peakTitles![i].title
                             : ''
-                    },
-                    
+                    }
                 }
             },
             legend: { show: true },

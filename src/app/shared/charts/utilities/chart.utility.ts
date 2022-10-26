@@ -9,6 +9,8 @@ import {IProgressOvertimeChart} from "../models/progress-overtime-chart.model";
 import {IEnumValue} from "../../../core/models/enum-value.model";
 import {IStatusSummaryChart} from "../models/status-summary-chart.model";
 import {EnumValueUtility} from "../../../core/utilities/enum-value.utility";
+import {IInitiativeStatusProgress} from "../../../pages/initiatives/core/models/initiative-status-progress.model";
+import {IStatusProgressChart} from "../models/status-progress-chart.model";
 
 export class ChartUtility {
     static getCurrentQuarter(): string {
@@ -17,6 +19,7 @@ export class ChartUtility {
 
         return `Q${currentQuarter}-${currentYear}`;
     }
+
     static getNextQuarter(): string {
         let currentYear = DateUtility.getCurrentYear();
         let nextQuarter = DateUtility.getCurrentQuarter() + 1;
@@ -27,7 +30,7 @@ export class ChartUtility {
 
         return `Q${nextQuarter}-${currentYear}`;
     }
-    
+
     static generateFinancialPlanningChart(values: any[], type: 'expenditures' | 'contracts'): IFinancialPlanningChart[] {
         let years = _.uniq(values.map(e => e.year));
         let financialPlanningChart: IFinancialPlanningChart[] = [];
@@ -58,19 +61,22 @@ export class ChartUtility {
             financialPlanningChart.push({
                 year: year,
                 budget: type === 'expenditures' ? yearValues[0].budget ?? 0 : yearValues[0].approvedCost ?? 0,
-                baselineSeries: { name: 'المخطط الأصلي', series: baselineSeries},
-                plannedSeries: { name: 'المخطط المحدث', series: plannedSeries},
-                actualSeries: { name: type === 'expenditures' ? 'المنصرف الفعلي' : 'الإرتباط الفعلي', series: actualSeries}
+                baselineSeries: {name: 'المخطط الأصلي', series: baselineSeries},
+                plannedSeries: {name: 'المخطط المحدث', series: plannedSeries},
+                actualSeries: {
+                    name: type === 'expenditures' ? 'المنصرف الفعلي' : 'الإرتباط الفعلي',
+                    series: actualSeries
+                }
             })
         });
 
         return financialPlanningChart;
     }
-    
+
     static generateProgressOvertimeChart(progress: IInitiativeProgress[]): IProgressOvertimeChart[] {
         let years = _.uniq(progress.map(p => p.year));
         let progressOvertimeChart: IProgressOvertimeChart[] = [];
-        
+
         years.forEach(year => {
             let plannedSeries: IOvertimeDatasetSeries[] = [];
             let actualSeries: IOvertimeDatasetSeries[] = [];
@@ -87,17 +93,17 @@ export class ChartUtility {
                     label: p.status?.name ?? 'لا توجد حالة'
                 });
             });
-            
+
             progressOvertimeChart.push({
                 year: year,
-                plannedSeries: { name: 'الإنجاز المخطط', series: plannedSeries },
-                actualSeries: { name: 'الإنجاز الفعلي', series: actualSeries }
+                plannedSeries: {name: 'الإنجاز المخطط', series: plannedSeries},
+                actualSeries: {name: 'الإنجاز الفعلي', series: actualSeries}
             })
         })
-        
+
         return progressOvertimeChart;
     }
-    
+
     static generateStatusSummaryChart(data: IEnumValue[]): IStatusSummaryChart {
         let enumValues: IEnumValue[] = [];
         let result: IStatusSummaryChart = {values: [], schemes: []};
@@ -108,19 +114,46 @@ export class ChartUtility {
                     style: 'no-color'
                 });
             } else {
-                enumValues.push({ name: data.name, style: data.style });
+                enumValues.push({name: data.name, style: data.style});
             }
         });
-        
+
         let names = _.uniq(enumValues.map(v => v.name));
         names.forEach(name => {
             let status = enumValues.filter(v => v.name === name);
             let count = status.length;
-            result.values.push({ name: name!, value: count});
+            result.values.push({name: name!, value: count});
             result.schemes.push(EnumValueUtility.toHex(status[0].style!));
         });
-        
+
         return result;
     }
-    
+
+    static generateStatusProgressChart(progress: IInitiativeStatusProgress[]): IStatusProgressChart[] {
+        let years = _.uniq(progress.map(p => p.year));
+        let statusProgress: IStatusProgressChart[] = [];
+        years.forEach(year => {
+            let yearProgress = progress.filter(p => p.year == year);
+            let scheme = yearProgress[0].progress.map(p => EnumValueUtility.toHex(p.status.style!));
+            let datasets: { name: string, values: { label: string, value: number }[] }[] = [];
+            yearProgress.forEach(p => {
+                let totalCount = p.progress.map(p => p.count).reduce((a, b) => a + b);
+                datasets.push({
+                    name: `${MonthUtility.parse(p.month)}`,
+                    values: p.progress.map(p => ({
+                        label: p.status.name!,
+                        value: _.round((p.count / totalCount) * 100, 2)
+                    }))
+                })
+            });
+
+            statusProgress.push({
+                year: year,
+                scheme: scheme,
+                datasets: datasets
+            });
+        });
+
+        return statusProgress;
+    }
 }

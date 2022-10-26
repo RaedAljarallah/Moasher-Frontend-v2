@@ -9,6 +9,7 @@ import { ProgressOverTimeChartComponent } from './progress-over-time-chart/progr
 import { ExpenditureProgressChartComponent } from './expenditure-progress-chart/expenditure-progress-chart.component';
 import { ContractingProgressChartComponent } from './contracting-progress-chart/contracting-progress-chart.component';
 import { StatusSummaryChartComponent } from './status-summary-chart/status-summary-chart.component';
+import { StatusProgressChartComponent } from './status-progress-chart/status-progress-chart.component';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { StatusSummaryChartComponent } from './status-summary-chart/status-summa
         ExpenditureProgressChartComponent,
         ContractingProgressChartComponent,
         StatusSummaryChartComponent,
+        StatusProgressChartComponent,
     ],
     imports: [
         CommonModule,
@@ -34,6 +36,7 @@ import { StatusSummaryChartComponent } from './status-summary-chart/status-summa
         ExpenditureProgressChartComponent,
         ContractingProgressChartComponent,
         StatusSummaryChartComponent,
+        StatusProgressChartComponent,
     ]
 })
 export class ChartsModule {

@@ -14,6 +14,8 @@ import {IProgressOvertimeChart} from "../models/progress-overtime-chart.model";
 import {IInitiativeProgress} from "../../../pages/initiatives/core/models/initiative-progress.model";
 import {IPerformanceCardValue} from "../models/performance-card-value.model";
 import {IMilestone} from "../../../pages/initiatives/core/models/milestone/milestone.model";
+import {IStatusProgressChart} from "../models/status-progress-chart.model";
+import {IInitiativeStatusProgress} from "../../../pages/initiatives/core/models/initiative-status-progress.model";
 
 @Injectable({
     providedIn: 'root'
@@ -170,4 +172,13 @@ export class ChartService {
             })
         )
     }
+    
+    public getStatusProgress(params: {key: string, value: string}): Observable<IStatusProgressChart[]> {
+        const httpParams = new HttpParams().append(params.key, params.value);
+        return this.api.get<IInitiativeStatusProgress[]>('initiatives/status-progress', { params: httpParams}).pipe(
+            map(res => {
+                return ChartUtility.generateStatusProgressChart(res.result);
+            })
+        )
+    } 
 }
