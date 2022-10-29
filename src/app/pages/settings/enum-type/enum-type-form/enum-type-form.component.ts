@@ -26,6 +26,7 @@ export class EnumTypeFormComponent extends FormBase<IEnumType, EnumTypeCommand> 
     protected _url: string = 'enum-types';
     
     protected initCommand(): void {
+        console.log(this.form);
         this.command = new EnumTypeCommand(this.form).setCategory(this.category);
         this.command.id = this.inputCommand.id;
         if (!this.withMetadata) {
@@ -82,7 +83,7 @@ export class EnumTypeFormComponent extends FormBase<IEnumType, EnumTypeCommand> 
                 this.form.addControl('limitFrom', this.limitFrom);
                 this.form.addControl('limitTo', this.limitTo);
                 this.form.addControl('isDefault', this.isDefault);
-                if (this.formAction === FormAction.Update && this.isDefault) {
+                if (this.formAction === FormAction.Update && this.isDefault.value === true) {
                     this.form.removeControl('limitFrom');
                     this.form.removeControl('limitTo');
                 }

@@ -12,7 +12,7 @@ import {IProgressChart} from "../models/progress-chart.model";
     styles: []
 })
 export class ProgressChartComponent implements OnInit, AfterViewInit {
-    @Input() values?: IProgressChart;
+    @Input() values?: IProgressChart | null;
     @Input() title: string = '';
     @ViewChildren('progressChart') chartElm?: QueryList<ElementRef>;
 

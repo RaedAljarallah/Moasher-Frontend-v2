@@ -153,7 +153,6 @@ export class ChartUtility {
                 datasets: datasets
             });
         });
-
         return statusProgress;
     }
 }

@@ -45,6 +45,8 @@ export class KpiFormComponent extends FormBase<IKpi, KpiCommand> implements OnIn
     public frequency!: FormControl;
     public polarity!: FormControl;
     public validationStatus!: FormControl;
+    public startDate!: FormControl;
+    public endDate!: FormControl;
     public formula!: FormControl;
     public baselineValue!: FormControl;
     public baselineYear!: FormControl;
@@ -119,6 +121,12 @@ export class KpiFormComponent extends FormBase<IKpi, KpiCommand> implements OnIn
             this.validationStatus = new FormControl(ValidationStatus[this.inputCommand.validationStatus]?.toString(), [
                 Validators.required
             ]);
+            this.startDate = new FormControl(this.getDate(this.inputCommand.startDate), [
+                Validators.required
+            ]);
+            this.endDate = new FormControl(this.getDate(this.inputCommand.endDate), [
+                Validators.required
+            ]);
             this.formula = new FormControl(this.inputCommand.formula, [
                 Validators.maxLength(500)
             ]);
@@ -165,6 +173,8 @@ export class KpiFormComponent extends FormBase<IKpi, KpiCommand> implements OnIn
                 frequency: this.frequency,
                 polarity: this.polarity,
                 validationStatus: this.validationStatus,
+                startDate: this.startDate,
+                endDate: this.endDate,
                 formula: this.formula,
                 baselineValue: this.baselineValue,
                 baselineYear: this.baselineYear,
@@ -201,6 +211,8 @@ export class KpiFormComponent extends FormBase<IKpi, KpiCommand> implements OnIn
                         this.frequency,
                         this.polarity,
                         this.validationStatus,
+                        this.startDate,
+                        this.endDate,
                         this.measurementUnit,
                         this.visible,
                         this.visibleOnDashboard,

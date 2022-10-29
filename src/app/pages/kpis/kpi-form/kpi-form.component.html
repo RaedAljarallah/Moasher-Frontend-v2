@@ -75,6 +75,14 @@
 
             <div class="grid grid-cols-12 gap-2" [ngClass]="step === 2 ? 'show' : 'hide invisible h-0'">
                 <div class="col-span-full sm:col-span-6">
+                    <app-form-input [control]="startDate" id="startDate" name="تاريخ بداية القياس"
+                                    type="date"></app-form-input>
+                </div>
+                <div class="col-span-full sm:col-span-6">
+                    <app-form-input [control]="endDate" id="endDate" name="تاريخ نهاية القياس"
+                                    type="date"></app-form-input>
+                </div>
+                <div class="col-span-full sm:col-span-6">
                     <app-form-input [control]="frequency" id="frequency" name="فترة تكرار القياس" type="list"
                                     listType="static"
                                     [staticListItems]="frequencySelectList">

@@ -5,6 +5,7 @@ import {IPerformanceCardValue} from "../../../shared/charts/models/performance-c
 import {IFinancialPlanningChart} from "../../../shared/charts/models/financial-planning-chart.model";
 import {IProgressOvertimeChart} from "../../../shared/charts/models/progress-overtime-chart.model";
 import {ChartService} from "../../../shared/charts/services/chart.service";
+import {IStatusProgressChart} from "../../../shared/charts/models/status-progress-chart.model";
 
 @Component({
     selector: 'app-portfolio-performance',
@@ -17,7 +18,7 @@ export class PortfolioPerformanceComponent implements OnInit {
     public milestoneProgressPerformance$: Observable<IPerformanceCardValue> = new Observable<IPerformanceCardValue>();
     public spendingPlan$: Observable<IFinancialPlanningChart[]> = new Observable<IFinancialPlanningChart[]>();
     public contractingPlan$: Observable<IFinancialPlanningChart[]> = new Observable<IFinancialPlanningChart[]>();
-    public progressOvertime$: Observable<IProgressOvertimeChart[]> = new Observable<IProgressOvertimeChart[]>();
+    public progressOvertime$: Observable<IStatusProgressChart[]> = new Observable<IStatusProgressChart[]>();
     constructor(private chart: ChartService) {
     }
 
@@ -26,7 +27,7 @@ export class PortfolioPerformanceComponent implements OnInit {
         this.chart.getInitiativeSummary(params).subscribe(result => this.initiativeSummaryChart = result);
         this.spendingPlan$ = this.chart.getSpendingPlan(params);
         this.contractingPlan$ = this.chart.getContractingPlan(params);
-        //this.progressOvertime$ = this.chart.getProgressOvertime(params);
+        this.progressOvertime$ = this.chart.getInitiativesStatusProgress(params);
         this.milestoneProgressPerformance$ = this.chart.getMilestonesProgress(params);
     }
 

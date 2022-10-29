@@ -31,7 +31,9 @@ export class StatusProgressChartComponent implements OnInit, AfterViewInit {
     public selectedYear: number = 0;
     public years: number[] = [];
     public granularity: 'M' | 'Q' = 'Q';
-    public xSeries: string[] = [];
+    
+    private xSeries: string[] = [];
+    private titles: string[][] = [];
     constructor(private cd: ChangeDetectorRef) {
     }
 
@@ -77,11 +79,8 @@ export class StatusProgressChartComponent implements OnInit, AfterViewInit {
                 names: this.getNames(dataset!.names!),
                 labels: {
                     format: (_v: number | { valueOf(): number }, id: string, i: number) => {
-                        // return  !isNaN(i) && dataset.peakTitles![i].id == id
-                        //     ? dataset.peakTitles![i].title
-                        //     : ''
-                        
-                        return '';
+                        return !isNaN(i) ? this.titles[i][parseInt(id) - 1] : '';
+
                     }
                 }
             },
@@ -157,6 +156,7 @@ export class StatusProgressChartComponent implements OnInit, AfterViewInit {
             })
         });
         
+        this.titles = this.getTitles(result);
         return {
             year: this.selectedYear,
             scheme: dataset.scheme,
@@ -167,6 +167,7 @@ export class StatusProgressChartComponent implements OnInit, AfterViewInit {
 
     private getMonthlyProgress(dataset: IStatusProgressChart): IStatusProgressChart {
         this.xSeries = dataset.datasets.map(d => d.name);
+        this.titles = this.getTitles(dataset.datasets);
         return {
             year: this.selectedYear,
             scheme: dataset.scheme,
@@ -203,6 +204,23 @@ export class StatusProgressChartComponent implements OnInit, AfterViewInit {
             })
             
             result.push(item);
+        });
+        
+        return result;
+    }
+    
+    private getTitles(datasets:  {name: string, values: {label: string, value: number}[]}[]): string[][] {
+        let result: string[][] = [];
+        datasets.forEach(data => {
+            let items: string[] = [];
+            data.values.forEach(v => {
+                if (!items.includes(v.value.toString() + "%")) {
+                    items.push(_.round(v.value, 2) + "%")
+                } else {
+                    items.push('');
+                }
+            });
+            result.push(items);
         });
         
         return result;

@@ -16,6 +16,10 @@ import {IPerformanceCardValue} from "../models/performance-card-value.model";
 import {IMilestone} from "../../../pages/initiatives/core/models/milestone/milestone.model";
 import {IStatusProgressChart} from "../models/status-progress-chart.model";
 import {IInitiativeStatusProgress} from "../../../pages/initiatives/core/models/initiative-status-progress.model";
+import {IProgressChart} from "../models/progress-chart.model";
+import {IKpi} from "../../../pages/kpis/core/models/kpi.model";
+import {IKpiValue} from "../../../pages/kpis/core/models/kpi-value/kpi-value.model";
+import {IStatusSummaryChart} from "../models/status-summary-chart.model";
 
 @Injectable({
     providedIn: 'root'
@@ -137,7 +141,7 @@ export class ChartService {
         )
     }
     
-    public getProgressOvertime(initiativeId: string): Observable<IProgressOvertimeChart[]> {
+    public getInitiativeProgressOvertime(initiativeId: string): Observable<IProgressOvertimeChart[]> {
         const httpParams = new HttpParams().append('id', initiativeId);
         return this.api.get<IInitiativeProgress[]>('initiatives/progress', { params: httpParams }).pipe(
             map(res => {
@@ -173,12 +177,80 @@ export class ChartService {
         )
     }
     
-    public getStatusProgress(params: {key: string, value: string}): Observable<IStatusProgressChart[]> {
+    public getInitiativesStatusProgress(params: {key: string, value: string}): Observable<IStatusProgressChart[]> {
         const httpParams = new HttpParams().append(params.key, params.value);
         return this.api.get<IInitiativeStatusProgress[]>('initiatives/status-progress', { params: httpParams}).pipe(
             map(res => {
                 return ChartUtility.generateStatusProgressChart(res.result);
             })
         )
-    } 
+    }
+
+    public getKpisStatusProgress(params: {key: string, value: string}): Observable<IStatusProgressChart[]> {
+        const httpParams = new HttpParams().append(params.key, params.value);
+        return this.api.get<IInitiativeStatusProgress[]>('kpis/status-progress', { params: httpParams}).pipe(
+            map(res => {
+                return ChartUtility.generateStatusProgressChart(res.result);
+            })
+        )
+    }
+    
+    public getKpisStatuses(params: {key: string, value: string}): Observable<IStatusSummaryChart> {
+        const httpParams = new HttpParams().append(params.key, params.value);
+        return this.api.get<IKpi[]>('kpis', { params: httpParams}).pipe(
+            map(res => {
+                const statuses = res.result.map(k => k.status ?? {});
+                return ChartUtility.generateStatusSummaryChart(statuses);
+            })
+        )
+    }
+    
+    public getKpiProgress(kpiId: string): Observable<IProgressChart> {
+        return this.api.get<IKpi[]>('kpis', { params: new HttpParams().append('id', kpiId)}).pipe(
+            map(res => {
+                const result = res.result[0];
+                return {
+                    planned: result.plannedProgress ?? 0,
+                    actual: result.actualProgress ?? 0,
+                    status: result.status ?? {}
+                }
+            })
+        )
+    }
+    
+    public getKpiValuesProgress(params: {key: string, value: string}): Observable<IPerformanceCardValue> {
+        const httpParams = new HttpParams().append(params.key, params.value);
+        const currentDate = DateUtility.getDate();
+        const completedValues = this.api.get<IKpiValue[]>('kpi-values?status=completed', { params: httpParams }).pipe(
+            map(res => res.result)
+        );
+        const plannedValues = this.api.get<IKpiValue[]>(`kpi-values?plannedTo=${currentDate}`, { params: httpParams }).pipe(
+            map(res => res.result)
+        );
+        return forkJoin([completedValues, plannedValues]).pipe(
+            map(res => {
+                return {
+                    target: {
+                        name: 'المستهدفات المستحقة',
+                        value: res[1].length,
+                        tooltip: `عدد المستهدفات المستحقة بنهاية ${DateUtility.getDate()}`
+                    },
+                    actual: {
+                        name: 'المستهدفات المنجزة',
+                        value: res[0].length,
+                        tooltip: 'عدد المستهدفات المنجزة حتى تاريخه'
+                    }
+                }
+            })
+        )
+    }
+
+    public getKpiProgressOvertime(kpiId: string): Observable<IProgressOvertimeChart[]> {
+        const httpParams = new HttpParams().append('id', kpiId);
+        return this.api.get<IInitiativeProgress[]>('kpis/progress', { params: httpParams }).pipe(
+            map(res => {
+                return ChartUtility.generateProgressOvertimeChart(res.result);
+            })
+        )
+    }
 }

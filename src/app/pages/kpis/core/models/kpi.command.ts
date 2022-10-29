@@ -21,6 +21,8 @@ export class KpiCommand {
     public frequency!: Frequency;
     public polarity!: Polarity;
     public validationStatus!: ValidationStatus;
+    public startDate!: Date | null;
+    public endDate!: Date | null;
     public measurementUnit!: string;
     public formula?: string;
     public dataSource?: string;
@@ -55,6 +57,8 @@ export class KpiCommand {
             this.frequency = _.get(form.get('frequency'), 'value', null);
             this.polarity = _.get(form.get('polarity'), 'value', null);
             this.validationStatus = _.get(form.get('validationStatus'), 'value', null);
+            this.startDate = _.get(form.get('startDate'), 'value', null);
+            this.endDate = _.get(form.get('endDate'), 'value', null);
             this.formula = _.get(form.get('formula'), 'value', null);
             this.baselineValue = parseFloat(_.get(form.get('baselineValue'), 'value', null));
             this.baselineYear = parseInt(_.get(form.get('baselineYear'), 'value', null));

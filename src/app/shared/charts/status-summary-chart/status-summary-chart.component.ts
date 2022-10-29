@@ -8,7 +8,7 @@ import {IStatusSummaryChart} from "../models/status-summary-chart.model";
     styles: []
 })
 export class StatusSummaryChartComponent implements OnInit, OnChanges {
-    @Input() data?: IStatusSummaryChart;
+    @Input() data?: IStatusSummaryChart | null;
     @Input() title: string = '';
     public scheme!: Color;
     constructor() {

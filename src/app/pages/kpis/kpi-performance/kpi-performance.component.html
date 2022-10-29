@@ -1,1 +1,13 @@
-<p>kpi-performance works!</p>
+<div class="grid grid-cols-12 gap-2">
+    <div class="flex flex-col space-y-2 col-span-full md:col-span-4 2xl:col-span-2">
+        <div class="bg-white border border-theme-gray-300 rounded">
+            <app-progress-chart title="حالة المؤشر" [values]="kpiProgress$ | async"></app-progress-chart>
+        </div>
+        <div class="bg-white border border-theme-gray-300 rounded">
+            <app-performance-card [values]="kpiValuesProgressPerformance$ | async"></app-performance-card>
+        </div>
+    </div>
+    <div class="bg-white border border-theme-gray-300 rounded col-span-full md:col-span-8 2xl:col-span-10">
+        <app-progress-over-time-chart [data]="progressOvertime$ | async"  title="تقدم المؤشر"></app-progress-over-time-chart>
+    </div>
+</div>

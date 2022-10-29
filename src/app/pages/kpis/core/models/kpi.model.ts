@@ -14,6 +14,8 @@ export interface IKpi extends IBaseModel{
     frequency: Frequency;
     polarity: Polarity;
     validationStatus: ValidationStatus;
+    startDate: Date,
+    endDate: Date,
     formula?: string;
     baselineValue?: number;
     baselineYear?: number;
