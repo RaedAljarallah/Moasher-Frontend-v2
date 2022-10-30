@@ -1,1 +1,37 @@
-<p>users-list works!</p>
+<div class="pt-2 pb-4 px-4 bg-white border border-theme-gray-300 rounded-lg flex flex-col">
+    <h1 class="font-semibold text-xl mb-3">المستخدمين</h1>
+    <app-table [headers]="headers" [filterFields]="filterFields" [items]="data$ | async"
+               (addClicked)="onCreate()">
+        <ng-template #tableCell let-data="data">
+            <td>{{ data.firstName + ' ' + data.lastName }}</td>
+            <td>{{ data.email }}</td>
+            <td>{{ data.phoneNumber }}</td>
+            <td>{{ data.entityName }}</td>
+            <td>{{ data.localizedRole }}</td>
+            <td *ngIf="data.isActive && !data.isSuspended">مفعل</td>
+            <td *ngIf="data.isActive && data.isSuspended">معلق</td>
+            <td *ngIf="!data.isActive">غير مفعل</td>
+            <td>
+                <app-table-actions-buttons
+                        [isLoading]="isFormLoading[data.id]"
+                        (UpdateBtnClicked)="onUpdate(data)"
+                        (DeleteBtnClicked)="onDelete(data)">
+                </app-table-actions-buttons>
+            </td>
+        </ng-template>
+    </app-table>
+
+    <app-modal modalId="UserModal" size="lg" #modal>
+        <p class="text-sm font-semibold ml-2" modal-head>{{ formTitle }}</p>
+        <div modal-body>
+            <app-user-form
+                    *ngIf="modal.showBody"
+                    [inputCommand]="command"
+                    [formAction]="formAction"
+                    (formSubmitted)="updateItems($event)">
+            </app-user-form>
+        </div>
+    </app-modal>
+</div>
+
+

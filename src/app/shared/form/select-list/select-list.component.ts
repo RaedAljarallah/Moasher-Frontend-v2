@@ -27,6 +27,7 @@ export class SelectListComponent implements OnInit {
     @Input() propertyName: string = '';
     @Input() theme: string = 'theme-form-select';
     @Input() badgeTemplate: boolean = false;
+    @Input() bindLabel: string = 'name';
     @Output() filterChanged: EventEmitter<IFilterOutput> = new EventEmitter<IFilterOutput>();
     @Output() formListChanged: EventEmitter<any> = new EventEmitter<any>();
     

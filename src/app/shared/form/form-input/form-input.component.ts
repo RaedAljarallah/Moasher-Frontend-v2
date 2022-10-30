@@ -21,6 +21,7 @@ export class FormInputComponent implements OnInit {
     @Input() id: string = '';
     @Input() listUrl: string = '';
     @Input() listType: 'static' | 'dynamic' = 'dynamic';
+    @Input() bindLabel: string = 'name';
     @Input() staticListItems: {name: string, value: string}[] = [];
     @Input() dynamicListDefaultItems: any[] = [];
     @Input() badgeList: boolean = false;
