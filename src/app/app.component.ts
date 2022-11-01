@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
 import {RouterOutlet} from "@angular/router";
 import {slider} from "./app-routing.animations";
-import {BehaviorSubject, Observable, timer} from "rxjs";
-import {map, debounceTime, filter, distinctUntilChanged, switchMap, tap} from "rxjs/operators";
+import {BehaviorSubject, Observable} from "rxjs";
+import {map, debounceTime, filter, distinctUntilChanged, switchMap} from "rxjs/operators";
 import {ISearchResponse} from "./core/models/search-response.model";
 import {collapse} from "./shared/animations/app-animations.animation";
-import {IResponse} from "./core/models/response.model";
 import {HttpParams} from "@angular/common/http";
 import {ApiService} from "./core/services/api.service";
+import {SearchCategoryUtility} from "./core/utilities/search-category.utility";
 
 
 @Component({
@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        
+
     }
     
     public get searchQuery(): string {
@@ -65,27 +65,18 @@ export class AppComponent implements OnInit {
             debounceTime(1000),
             distinctUntilChanged(),
             switchMap((query: string) => {
-                const params = new HttpParams().append('q', query);
-                return this.dummyData();
-            }),
-            map((res: IResponse<ISearchResponse[]>) => {
-                return res.result;
+                const params = new HttpParams().append('searchQuery', query);
+                return this.api.get<{id: string, relativeId: string, title: string, category: string}[]>('search', {params: params}).pipe(
+                    map(res => {
+                        return res.result.map(r => ({
+                            value: r.title,
+                            category: SearchCategoryUtility.parse(r.category),
+                            link:SearchCategoryUtility.getLink(r.category, r.relativeId)
+                        }));
+                    })
+                )
             })
         )
     }
-
-    private dummyData(): Observable<IResponse<ISearchResponse[]>> {
-        return timer(0).pipe(
-            map(() => {
-                return {
-                    result: [
-                        { value: 'مبادرة خادم الحرمين الشرفين للطاقة الذرية والمتجددة', category: 'المبادرات', link: '/initiatives/1' },
-                        { value: 'مبادرة خادم الحرمين الشرفين للطاقة الذرية والمتجددة', category: 'المبادرات', link: '/initiatives/2' },
-                        { value: 'مبادرة خادم الحرمين الشرفين للطاقة الذرية والمتجددة', category: 'المبادرات', link: '/initiatives/3' },
-
-                    ]
-                }
-            })
-        )
-    }
+    
 }
