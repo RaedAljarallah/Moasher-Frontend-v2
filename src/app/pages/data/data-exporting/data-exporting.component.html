@@ -1,0 +1,136 @@
+<div class="bg-white rounded-lg border border-theme-gray-300 flex flex-col">
+    <div class="border-b border-b-theme-gray-300">
+        <h1 class="font-semibold text-xl p-2">البيانات</h1>
+    </div>
+    <div class="flex flex-col p-2 space-y-2">
+        <div class="flex flex-col bg-white rounded-md border border-theme-gray-300">
+            <div class="inline-flex items-center p-2">
+                <input id="entities" type="checkbox" [(ngModel)]="includeEntities"
+                       class="form-checkbox w-5 h-5 rounded border shadow-sm border-theme-gray-200 text-theme-teal-500
+                   focus:border-theme-teal-500 focus:ring-theme-teal-400 focus:outline-none focus:ring focus:ring-opacity-50">
+                <label class="text-sm w-full mr-2" for="entities">الجهات</label>
+            </div>
+        </div>
+        <div class="flex flex-col bg-white rounded-md border border-theme-gray-300">
+            <div class="inline-flex items-center p-2">
+                <input id="objectives" type="checkbox" [(ngModel)]="includeObjectives"
+                       class="form-checkbox w-5 h-5 rounded border shadow-sm border-theme-gray-200 text-theme-teal-500
+                   focus:border-theme-teal-500 focus:ring-theme-teal-400 focus:outline-none focus:ring focus:ring-opacity-50">
+                <label class="text-sm w-full mr-2" for="objectives">الأهداف الإستراتيجية</label>
+            </div>
+        </div>
+        <div class="flex flex-col bg-white rounded-md border border-theme-gray-300">
+            <div class="inline-flex items-center p-2">
+                <input id="programs" type="checkbox" [(ngModel)]="includePrograms"
+                       class="form-checkbox w-5 h-5 rounded border shadow-sm border-theme-gray-200 text-theme-teal-500
+                   focus:border-theme-teal-500 focus:ring-theme-teal-400 focus:outline-none focus:ring focus:ring-opacity-50">
+                <label class="text-sm w-full mr-2" for="programs">البرامج</label>
+            </div>
+        </div>
+        <div class="flex flex-col bg-white rounded-md border border-theme-gray-300">
+            <div class="inline-flex items-center border-b border-b-theme-gray-300 p-2">
+                <input id="kpis" type="checkbox" [(ngModel)]="includeKpis" (ngModelChange)="kpisChanged()"
+                       class="form-checkbox w-5 h-5 rounded border shadow-sm border-theme-gray-200 text-theme-teal-500
+                   focus:border-theme-teal-500 focus:ring-theme-teal-400 focus:outline-none focus:ring focus:ring-opacity-50">
+                <label class="text-sm w-full mr-2" for="kpis">مؤشرات الأداء</label>
+            </div>
+            <div class="flex space-x-reverse space-x-2 p-2">
+                <div class="inline-flex items-center">
+                    <input id="values" type="checkbox" [(ngModel)]="includeKpiValues" [disabled]="!includeKpis"
+                           class="form-checkbox w-5 h-5 rounded border shadow-sm border-theme-gray-200 text-theme-teal-500
+                   focus:border-theme-teal-500 focus:ring-theme-teal-400 focus:outline-none focus:ring focus:ring-opacity-50">
+                    <label class="text-sm w-full mr-2" [ngClass]="{'text-theme-gray-500': !includeKpis}" for="values">القيم</label>
+                </div>
+
+                <div class="inline-flex items-center">
+                    <input id="kpis-analytics" type="checkbox" [(ngModel)]="includeKpiAnalytics" [disabled]="!includeKpis"
+                           class="form-checkbox w-5 h-5 rounded border shadow-sm border-theme-gray-200 text-theme-teal-500
+                   focus:border-theme-teal-500 focus:ring-theme-teal-400 focus:outline-none focus:ring focus:ring-opacity-50">
+                    <label class="text-sm w-full mr-2" [ngClass]="{'text-theme-gray-500': !includeKpis}" for="kpis-analytics">التحليل</label>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col bg-white rounded-md border border-theme-gray-300">
+            <div class="inline-flex items-center border-b border-b-theme-gray-300 p-2">
+                <input id="initiatives" type="checkbox" [(ngModel)]="includeInitiatives" (ngModelChange)="initiativesChanged()"
+                       class="form-checkbox w-5 h-5 rounded border shadow-sm border-theme-gray-200 text-theme-teal-500
+                   focus:border-theme-teal-500 focus:ring-theme-teal-400 focus:outline-none focus:ring focus:ring-opacity-50">
+                <label class="text-sm w-full mr-2" for="initiatives">المبادرات</label>
+            </div>
+            <div class="flex space-x-reverse space-x-2 p-2">
+                <div class="inline-flex items-center">
+                    <input id="milestones" type="checkbox" [(ngModel)]="includeMilestones" [disabled]="!includeInitiatives"
+                           class="form-checkbox w-5 h-5 rounded border shadow-sm border-theme-gray-200 text-theme-teal-500
+                   focus:border-theme-teal-500 focus:ring-theme-teal-400 focus:outline-none focus:ring focus:ring-opacity-50">
+                    <label class="text-sm w-full mr-2" [ngClass]="{'text-theme-gray-500': !includeInitiatives}" for="milestones">المعالم</label>
+                </div>
+                <div class="inline-flex items-center">
+                    <input id="deliverables" type="checkbox" [(ngModel)]="includeDeliverables" [disabled]="!includeInitiatives"
+                           class="form-checkbox w-5 h-5 rounded border shadow-sm border-theme-gray-200 text-theme-teal-500
+                   focus:border-theme-teal-500 focus:ring-theme-teal-400 focus:outline-none focus:ring focus:ring-opacity-50">
+                    <label class="text-sm w-full mr-2" [ngClass]="{'text-theme-gray-500': !includeInitiatives}" for="deliverables">المخرجات</label>
+                </div>
+                <div class="inline-flex items-center">
+                    <input id="approved-costs" type="checkbox" [(ngModel)]="includeApprovedCosts" [disabled]="!includeInitiatives"
+                           class="form-checkbox w-5 h-5 rounded border shadow-sm border-theme-gray-200 text-theme-teal-500
+                   focus:border-theme-teal-500 focus:ring-theme-teal-400 focus:outline-none focus:ring focus:ring-opacity-50">
+                    <label class="text-sm w-full mr-2" [ngClass]="{'text-theme-gray-500': !includeInitiatives}" for="approved-costs">التكاليف المعتمدة</label>
+                </div>
+                <div class="inline-flex items-center">
+                    <input id="budgets" type="checkbox" [(ngModel)]="includeBudgets" [disabled]="!includeInitiatives"
+                           class="form-checkbox w-5 h-5 rounded border shadow-sm border-theme-gray-200 text-theme-teal-500
+                   focus:border-theme-teal-500 focus:ring-theme-teal-400 focus:outline-none focus:ring focus:ring-opacity-50">
+                    <label class="text-sm w-full mr-2" [ngClass]="{'text-theme-gray-500': !includeInitiatives}" for="budgets">الميزانيات</label>
+                </div>
+                <div class="inline-flex items-center">
+                    <input id="contracts" type="checkbox" [(ngModel)]="includeContracts" [disabled]="!includeInitiatives"
+                           class="form-checkbox w-5 h-5 rounded border shadow-sm border-theme-gray-200 text-theme-teal-500
+                   focus:border-theme-teal-500 focus:ring-theme-teal-400 focus:outline-none focus:ring focus:ring-opacity-50">
+                    <label class="text-sm w-full mr-2" [ngClass]="{'text-theme-gray-500': !includeInitiatives}" for="contracts">العقود</label>
+                </div>
+                <div class="inline-flex items-center">
+                    <input id="projects" type="checkbox" [(ngModel)]="includeProjects" [disabled]="!includeInitiatives"
+                           class="form-checkbox w-5 h-5 rounded border shadow-sm border-theme-gray-200 text-theme-teal-500
+                   focus:border-theme-teal-500 focus:ring-theme-teal-400 focus:outline-none focus:ring focus:ring-opacity-50">
+                    <label class="text-sm w-full mr-2" [ngClass]="{'text-theme-gray-500': !includeInitiatives}" for="projects">المشاريع</label>
+                </div>
+                <div class="inline-flex items-center">
+                    <input id="expenditures" type="checkbox" [(ngModel)]="includeExpenditures" [disabled]="!includeInitiatives"
+                           class="form-checkbox w-5 h-5 rounded border shadow-sm border-theme-gray-200 text-theme-teal-500
+                   focus:border-theme-teal-500 focus:ring-theme-teal-400 focus:outline-none focus:ring focus:ring-opacity-50">
+                    <label class="text-sm w-full mr-2" [ngClass]="{'text-theme-gray-500': !includeInitiatives}" for="expenditures">المصروفات</label>
+                </div>
+                <div class="inline-flex items-center">
+                    <input id="issues" type="checkbox" [(ngModel)]="includeIssues" [disabled]="!includeInitiatives"
+                           class="form-checkbox w-5 h-5 rounded border shadow-sm border-theme-gray-200 text-theme-teal-500
+                   focus:border-theme-teal-500 focus:ring-theme-teal-400 focus:outline-none focus:ring focus:ring-opacity-50">
+                    <label class="text-sm w-full mr-2" [ngClass]="{'text-theme-gray-500': !includeInitiatives}" for="issues">المعوقات</label>
+                </div>
+
+                <div class="inline-flex items-center">
+                    <input id="risks" type="checkbox" [(ngModel)]="includeRisks" [disabled]="!includeInitiatives"
+                           class="form-checkbox w-5 h-5 rounded border shadow-sm border-theme-gray-200 text-theme-teal-500
+                   focus:border-theme-teal-500 focus:ring-theme-teal-400 focus:outline-none focus:ring focus:ring-opacity-50">
+                    <label class="text-sm w-full mr-2" [ngClass]="{'text-theme-gray-500': !includeInitiatives}" for="risks">المخاطر</label>
+                </div>
+                <div class="inline-flex items-center">
+                    <input id="teams" type="checkbox" [(ngModel)]="includeTeams" [disabled]="!includeInitiatives"
+                           class="form-checkbox w-5 h-5 rounded border shadow-sm border-theme-gray-200 text-theme-teal-500
+                   focus:border-theme-teal-500 focus:ring-theme-teal-400 focus:outline-none focus:ring focus:ring-opacity-50">
+                    <label class="text-sm w-full mr-2" [ngClass]="{'text-theme-gray-500': !includeInitiatives}" for="teams">فرق العمل</label>
+                </div>
+                <div class="inline-flex items-center">
+                    <input id="initiatives-analytics" type="checkbox" [(ngModel)]="includeInitiativeAnalytics" [disabled]="!includeInitiatives"
+                           class="form-checkbox w-5 h-5 rounded border shadow-sm border-theme-gray-200 text-theme-teal-500
+                   focus:border-theme-teal-500 focus:ring-theme-teal-400 focus:outline-none focus:ring focus:ring-opacity-50">
+                    <label class="text-sm w-full mr-2" [ngClass]="{'text-theme-gray-500': !includeInitiatives}" for="initiatives-analytics">التحليل</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex justify-end border-t border-t-theme-gray-300 p-2">
+        <button type="button" class="btn py-1.5 w-20 btn-secondary text-center text-sm" (click)="exporting()"
+                appLoadingBtn [isLoading]="isExportingLoading" [disabled]="isExportingLoading">تصدير</button>
+    </div>
+</div>

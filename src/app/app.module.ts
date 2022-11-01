@@ -18,6 +18,7 @@ import {KPIsModule} from "./pages/kpis/kpis.module";
 import {RisksRegisterModule} from "./pages/risks-register/risks-register.module";
 import {IssuesLogModule} from "./pages/issues-log/issues-log.module";
 import {UsersModule} from "./pages/users/users.module";
+import {DataModule} from "./pages/data/data.module";
 
 @NgModule({
     declarations: [
@@ -39,6 +40,7 @@ import {UsersModule} from "./pages/users/users.module";
         IssuesLogModule,
         SettingsModule,
         UsersModule,
+        DataModule,
         AppRoutingModule,
         SharedModule,
     ],
