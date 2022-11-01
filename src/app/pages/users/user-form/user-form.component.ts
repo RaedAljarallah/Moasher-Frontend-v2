@@ -37,9 +37,11 @@ export class UserFormComponent extends FormBase<IUser, UserCommand> implements O
     public currentEntity: IEntity[] = [];
     public currentRole: { id: string, name: string, localizedName: string }[] = [];
 
-    public showSuspensionSection: boolean = false;
+    public showUpdateSection: boolean = false;
     public isSuspensionLoading: boolean = false;
     public isSuspended: boolean = false;
+    public isResetPasswordLoading: boolean = false;
+    public isPasswordReset: boolean = false;
     public ngOnInit(): void {
         this.isDeleteRequest = (this.formAction == FormAction.Delete);
         if (this.formAction === FormAction.Update) {
@@ -49,7 +51,7 @@ export class UserFormComponent extends FormBase<IUser, UserCommand> implements O
                 name: this.inputCommand.role,
                 localizedName: this.inputCommand.localizedRole
             });
-            this.showSuspensionSection = true;
+            this.showUpdateSection = true;
             this.isSuspended = this.inputCommand.suspended;
         }
 
@@ -92,6 +94,25 @@ export class UserFormComponent extends FormBase<IUser, UserCommand> implements O
         }).pipe(finalize(() => this.isSuspensionLoading = false)).subscribe({
             next: (res) => {
                 this.isSuspended = res.result;
+            },
+            error: (failure: IResponseError) => {
+                if (failure.statusCode === 400) {
+                    this.setServerErrors(failure.errors);
+                    this.handelError(failure.errors);
+                } else {
+                    this.globalErrors.push(failure.errors[''][0])
+                }
+            }
+        })
+    }
+    
+    public resetPassword(): void {
+        this.isResetPasswordLoading = true;
+        this.api.post<{id: string}, any>(`users/${this.inputCommand.id}/reset-password`, {
+            id: this.inputCommand.id
+        }).pipe(finalize(() => this.isResetPasswordLoading = false)).subscribe({
+            next: (res) => {
+                this.isPasswordReset = true;
             },
             error: (failure: IResponseError) => {
                 if (failure.statusCode === 400) {

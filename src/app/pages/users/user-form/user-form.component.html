@@ -27,18 +27,31 @@
                                 [dynamicListDefaultItems]="currentRole"
                                 listUrl="roles"></app-form-input>
             </div>
-            <div class="col-span-full mt-2" *ngIf="showSuspensionSection">
-                <div class="flex justify-between">
-                    <span class="text-sm">حالة الحساب</span>
-                    
-                    <button type="button" class="btn py-1.5 w-20 btn-secondary text-center text-sm" *ngIf="isSuspended"
-                            appLoadingBtn [isLoading]="isSuspensionLoading" [disabled]="isSuspensionLoading"
-                            (click)="updateSuspensionStatus()">تفعيل</button>
-                    <button type="button" class="btn py-1.5 w-20 btn-white text-center text-sm" *ngIf="!isSuspended"
-                            appLoadingBtn [isLoading]="isSuspensionLoading" [disabled]="isSuspensionLoading"
-                            (click)="updateSuspensionStatus()">تعليق</button>
+            <ng-container *ngIf="showUpdateSection">
+                <div class="col-span-full mt-2">
+                    <div class="flex justify-between">
+                        <span class="text-sm">حالة الحساب</span>
+
+                        <button type="button" class="btn py-1.5 w-20 btn-secondary text-center text-sm" *ngIf="isSuspended"
+                                appLoadingBtn [isLoading]="isSuspensionLoading" [disabled]="isSuspensionLoading"
+                                (click)="updateSuspensionStatus()">تفعيل</button>
+                        <button type="button" class="btn py-1.5 w-20 btn-white text-center text-sm" *ngIf="!isSuspended"
+                                appLoadingBtn [isLoading]="isSuspensionLoading" [disabled]="isSuspensionLoading"
+                                (click)="updateSuspensionStatus()">تعليق</button>
+                    </div>
                 </div>
-            </div>
+                <div class="col-span-full mt-2">
+                    <div class="flex justify-between">
+                        <span class="text-sm">كلمة المرور</span>
+                        <button type="button" class="btn py-1.5 w-20 btn-secondary text-center text-sm" *ngIf="!isPasswordReset"
+                                appLoadingBtn [isLoading]="isResetPasswordLoading" [disabled]="isResetPasswordLoading"
+                        (click)="resetPassword()">إستبدال</button>
+                        <button type="button" class="btn py-1.5 w-20 btn-white text-center text-sm" *ngIf="isPasswordReset"
+                                [disabled]="true">تم التعيين</button>
+                    </div>
+                </div>
+            </ng-container>
+            
         </div>
     </ng-container>
     <div class="flex justify-end border-t border-t-theme-gray-200 pt-4">
