@@ -81,7 +81,10 @@ export class ApiService {
                 return {result: undefined}
             })
         );
-
+    }
+    
+    public downloadFile(url: string): Observable<Blob> {
+        return this.http.get<Blob>(this.getCompleteUrl(url), {responseType: 'blob' as 'json'});
     }
 
     private getCompleteUrl(url: string): string {

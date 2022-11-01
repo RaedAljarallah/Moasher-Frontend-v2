@@ -43,7 +43,8 @@
             "allowedCommonJsDependencies": [
               "c3",
               "lodash",
-              "clone-deep"
+              "clone-deep",
+              "file-saver"
             ],
             "outputPath": "dist/moasher-angular",
             "index": "src/index.html",

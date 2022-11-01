@@ -1,4 +1,7 @@
 import {Component, OnInit} from '@angular/core';
+import {ApiService} from "../../../core/services/api.service";
+import {saveAs} from "file-saver";
+import {finalize} from "rxjs/operators";
 
 @Component({
     selector: 'app-data-exporting',
@@ -6,7 +9,7 @@ import {Component, OnInit} from '@angular/core';
     styles: []
 })
 export class DataExportingComponent implements OnInit {
-    public isExportingLoading: boolean = true;
+    public isExportingLoading: boolean = false;
     public includeEntities: boolean = false;
     public includeObjectives: boolean = false;
     public includePrograms: boolean = false;
@@ -25,7 +28,8 @@ export class DataExportingComponent implements OnInit {
     public includeRisks: boolean = false;
     public includeTeams: boolean = false;
     public includeInitiativeAnalytics: boolean = false;
-    constructor() {
+    
+    constructor(private api: ApiService) {
     }
 
     ngOnInit(): void {
@@ -55,6 +59,9 @@ export class DataExportingComponent implements OnInit {
     }
     
     public exporting(): void {
-        
+        this.isExportingLoading = true;
+        this.api.downloadFile('entities/export')
+            .pipe(finalize(() => this.isExportingLoading = false))
+            .subscribe(res => saveAs(res, 'entities.csv'))
     }
 }
