@@ -107,12 +107,23 @@ export class ApiService {
     }
 
     private getResponseError(failure: any): IResponseError {
-        console.log(failure);
+        console.error(failure);
         let errors: IResponseError;
-        failure.status === 400
-            ? errors = {statusCode: 400, errors: failure.error.errors}
-            : errors = {statusCode: 500, errors: {'': [`لا يمكن إتمام العملية, رمز الخطأ (${failure.status || 500})`]}};
+        switch (failure.status) {
+            case 400:
+                errors = {statusCode: 400, errors: failure.error.errors};
+                break;
+            case 409:
+                errors = {statusCode: 409, errors: {'': [failure.error.detail ?? this.getGenericErrorMessage(409)] }};
+                break;
+            default:
+                errors = {statusCode: 500, errors: {'': [this.getGenericErrorMessage(failure.status || 500)]}}
+        }
 
         return errors;
+    }
+    
+    private getGenericErrorMessage(statusCode: number): string {
+        return `لا يمكن إتمام العملية, رمز الخطأ (${statusCode})`;
     }
 }

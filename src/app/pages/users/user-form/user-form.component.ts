@@ -6,6 +6,8 @@ import {ApiService} from "../../../core/services/api.service";
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {IEntity} from "../../entities/core/models/entity.model";
 import {FormAction} from "../../../core/models/data-types/form-action.data-type";
+import {finalize} from "rxjs/operators";
+import {IResponseError} from "../../../core/models/response-error.model";
 
 @Component({
     selector: 'app-user-form',
@@ -33,12 +35,22 @@ export class UserFormComponent extends FormBase<IUser, UserCommand> implements O
     public entityId!: FormControl;
 
     public currentEntity: IEntity[] = [];
-    public currentRole: {id: string, name: string, localizedName: string}[] = [];
+    public currentRole: { id: string, name: string, localizedName: string }[] = [];
+
+    public showSuspensionSection: boolean = false;
+    public isSuspensionLoading: boolean = false;
+    public isSuspended: boolean = false;
     public ngOnInit(): void {
         this.isDeleteRequest = (this.formAction == FormAction.Delete);
         if (this.formAction === FormAction.Update) {
             this.currentEntity.push(this.inputCommand.entity);
-            this.currentRole.push({id: this.inputCommand.role, name: this.inputCommand.role, localizedName: this.inputCommand.localizedRole});
+            this.currentRole.push({
+                id: this.inputCommand.role,
+                name: this.inputCommand.role,
+                localizedName: this.inputCommand.localizedRole
+            });
+            this.showSuspensionSection = true;
+            this.isSuspended = this.inputCommand.suspended;
         }
 
         if (!this.isDeleteRequest) {
@@ -58,9 +70,9 @@ export class UserFormComponent extends FormBase<IUser, UserCommand> implements O
                 Validators.required
             ]);
             this.entityId = new FormControl(this.inputCommand.entityId, [
-               Validators.required 
+                Validators.required
             ]);
-            
+
             this.form = new FormGroup({
                 firstName: this.firstName,
                 lastName: this.lastName,
@@ -72,4 +84,23 @@ export class UserFormComponent extends FormBase<IUser, UserCommand> implements O
         }
     }
 
+    public updateSuspensionStatus(): void {
+        this.isSuspensionLoading = true;
+        this.api.put<{ id: string, suspend: boolean }, boolean>(`users/${this.inputCommand.id}/update-suspension-status`, {
+            id: this.inputCommand.id,
+            suspend: !this.isSuspended
+        }).pipe(finalize(() => this.isSuspensionLoading = false)).subscribe({
+            next: (res) => {
+                this.isSuspended = res.result;
+            },
+            error: (failure: IResponseError) => {
+                if (failure.statusCode === 400) {
+                    this.setServerErrors(failure.errors);
+                    this.handelError(failure.errors);
+                } else {
+                    this.globalErrors.push(failure.errors[''][0])
+                }
+            }
+        })
+    }
 }

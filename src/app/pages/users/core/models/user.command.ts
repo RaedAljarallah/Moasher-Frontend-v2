@@ -14,6 +14,7 @@ export class UserCommand {
 
     public entity!: IEntity;
     public localizedRole!: string;
+    public suspended!: boolean;
     constructor(model: IUser | FormGroup | null) {
         if (model == null) {
             return;

@@ -86,7 +86,7 @@ export abstract class FormBase<TType, TCommand extends IIdentifiable> {
         return null;
     }
     
-    private setServerErrors(errors: {[p: string]: string[]}): void {
+    protected setServerErrors(errors: {[p: string]: string[]}): void {
         Object.keys(errors).forEach(key => {
             if (!key) {
                 const globalErrors = errors[''];

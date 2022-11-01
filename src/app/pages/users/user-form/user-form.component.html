@@ -14,7 +14,8 @@
                 <app-form-input [control]="email" id="email" name="البريد الإلكتروني"></app-form-input>
             </div>
             <div class="col-span-full sm:col-span-6">
-                <app-form-input [control]="phoneNumber" id="phoneNumber" name="رقم الهاتف" placeholder="05xxxxxxxx"></app-form-input>
+                <app-form-input [control]="phoneNumber" id="phoneNumber" name="رقم الهاتف"
+                                placeholder="05xxxxxxxx"></app-form-input>
             </div>
             <div class="col-span-full">
                 <app-form-input [control]="entityId" id="entityId" name="الجهة" type="list"
@@ -25,6 +26,18 @@
                 <app-form-input [control]="role" id="role" name="الصلاحية" type="list" bindLabel="localizedName"
                                 [dynamicListDefaultItems]="currentRole"
                                 listUrl="roles"></app-form-input>
+            </div>
+            <div class="col-span-full mt-2" *ngIf="showSuspensionSection">
+                <div class="flex justify-between">
+                    <span class="text-sm">حالة الحساب</span>
+                    
+                    <button type="button" class="btn py-1.5 w-20 btn-secondary text-center text-sm" *ngIf="isSuspended"
+                            appLoadingBtn [isLoading]="isSuspensionLoading" [disabled]="isSuspensionLoading"
+                            (click)="updateSuspensionStatus()">تفعيل</button>
+                    <button type="button" class="btn py-1.5 w-20 btn-white text-center text-sm" *ngIf="!isSuspended"
+                            appLoadingBtn [isLoading]="isSuspensionLoading" [disabled]="isSuspensionLoading"
+                            (click)="updateSuspensionStatus()">تعليق</button>
+                </div>
             </div>
         </div>
     </ng-container>
