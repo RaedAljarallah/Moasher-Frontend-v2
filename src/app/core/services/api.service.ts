@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams, HttpResponse} from "@angular/common/http";
 import {environment} from "../../../environments/environment";
 import {Observable} from "rxjs";
 import {map, catchError} from "rxjs/operators";
@@ -83,8 +83,8 @@ export class ApiService {
         );
     }
     
-    public downloadFile(url: string): Observable<Blob> {
-        return this.http.get<Blob>(this.getCompleteUrl(url), {responseType: 'blob' as 'json'});
+    public downloadFile(url: string): Observable<HttpResponse<Blob>> {
+        return this.http.get<Blob>(this.getCompleteUrl(url), { observe:'response', responseType: 'blob' as 'json' });
     }
 
     private getCompleteUrl(url: string): string {
