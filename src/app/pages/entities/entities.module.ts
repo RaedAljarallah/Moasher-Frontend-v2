@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
-import {EntitiesRoutingModule} from './entities-routing.module';
 import {EntitiesListComponent} from './entities-list/entities-list.component';
 import {SharedModule} from "../../shared/shared.module";
 import { EntityFormComponent } from './entity-form/entity-form.component';
@@ -22,7 +21,6 @@ import {AnalyticsModule} from "../analytics/analytics.module";
     ],
     imports: [
         CommonModule,
-        EntitiesRoutingModule,
         InitiativesModule,
         KPIsModule,
         StrategicObjectivesModule,

@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
-import {DataRoutingModule} from './data-routing.module';
 import {DataExportingComponent} from './data-exporting/data-exporting.component';
 import {SharedModule} from "../../shared/shared.module";
 import {FormsModule} from "@angular/forms";
@@ -13,7 +12,6 @@ import {FormsModule} from "@angular/forms";
     ],
     imports: [
         CommonModule,
-        DataRoutingModule,
         SharedModule,
         FormsModule
     ],

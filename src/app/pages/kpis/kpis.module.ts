@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
-import {KPIsRoutingModule} from './kpis-routing.module';
 import {KpisListComponent} from './kpis-list/kpis-list.component';
 import {KpiDetailComponent} from './kpi-detail/kpi-detail.component';
 import {SharedModule} from "../../shared/shared.module";
@@ -25,7 +24,6 @@ import { KpiOverViewComponent } from './kpi-over-view/kpi-over-view.component';
     ],
     imports: [
         CommonModule,
-        KPIsRoutingModule,
         AnalyticsModule,
         SharedModule
     ],

@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
-import {ProgramsRoutingModule} from './programs-routing.module';
 import {SharedModule} from "../../shared/shared.module";
 import { ProgramsListComponent } from './programs-list/programs-list.component';
 import { ProgramDetailComponent } from './program-detail/program-detail.component';
@@ -22,7 +21,6 @@ import {StrategicObjectivesModule} from "../strategic-objectives/strategic-objec
   ],
     imports: [
         CommonModule,
-        ProgramsRoutingModule,
         InitiativesModule,
         KPIsModule,
         EntitiesModule,

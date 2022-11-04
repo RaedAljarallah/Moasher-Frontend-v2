@@ -3,7 +3,6 @@ import {CommonModule} from '@angular/common';
 import {InitiativeDetailComponent} from "./initiative-detail/initiative-detail.component";
 import {InitiativePerformanceComponent} from "./initiative-performance/initiative-performance.component";
 import {SharedModule} from "../../shared/shared.module";
-import {InitiativesRoutingModule} from "./initiatives-routing.module";
 import { InitiativesListComponent } from './initiatives-list/initiatives-list.component';
 import { InitiativeMilestonesComponent } from './initiative-milestones/initiative-milestones.component';
 import { InitiativeDeliverablesComponent } from './initiative-deliverables/initiative-deliverables.component';
@@ -59,7 +58,6 @@ import { InitiativeContractFormComponent } from './initiative-contracts/initiati
     ],
     imports: [
         CommonModule,
-        InitiativesRoutingModule,
         AnalyticsModule,
         SharedModule
     ],

@@ -1,0 +1,152 @@
+<div class="min-h-screen lg:flex">
+    <header class="lg:w-64 lg:flex-shrink-0 transition-all duration-150 ease-out"
+            [ngClass]="navExpanded ? 'lg:w-60' : 'lg:w-18'">
+        <div class="flex justify-between p-4 bg-theme-gray-800 border-b border-b-theme-light-white">
+            <div class="flex items-center">
+                <a href="/" class="inline-flex">
+                    <img class="h-8 w-auto" src="assets/img/logos/small.png" alt="logo">
+                    <p class="text-white text-xl mr-2 transform origin-right ease-out duration-200"
+                       [ngClass]="{ 'lg:scale-x-0': !navExpanded }">مؤشر</p>
+                </a>
+            </div>
+            <div class="flex lg:hidden">
+                <button class="text-theme-gray-200 hover:text-white active:text-theme-gray-400" (click)="toggleNav()">
+                    <i class="lnr lnr-menu font-bold text-2xl" *ngIf="navExpanded"></i>
+                    <i class="lnr lnr-cross font-bold text-2xl" *ngIf="!navExpanded"></i>
+                </button>
+            </div>
+        </div>
+        <nav class="bg-theme-gray-800 overflow-y-auto max-h-64 lg:min-h-screen lg:pb-16 no-scrollbar"
+             [ngClass]="navExpanded ? 'hidden lg:block' : 'block'">
+            <app-sidenav>
+                <app-sidenav-item icon="ion ion-md-speedometer" link="/dashboard" name="لوحة الأداء"
+                                  [expanded]="navExpanded"></app-sidenav-item>
+
+                <app-sidenav-item icon="far fa-building" link="/entities" name="الجهات"
+                                  [expanded]="navExpanded"></app-sidenav-item>
+
+                <app-sidenav-item icon="fas fa-bullseye" link="/strategic-objectives" name="الاهداف الإستراتيجية"
+                                  [expanded]="navExpanded"></app-sidenav-item>
+
+                <app-sidenav-item icon="fas fa-cubes" link="/programs" name="البرامج"
+                                  [expanded]="navExpanded"></app-sidenav-item>
+
+                <app-sidenav-item icon="fas fa-chart-line" link="/kpis" name="مؤشرات الأداء"
+                                  [expanded]="navExpanded"></app-sidenav-item>
+
+                <app-sidenav-item icon="ion ion-md-stats" link="/initiatives" name="المبادرات"
+                                  [expanded]="navExpanded"></app-sidenav-item>
+
+                <app-sidenav-item icon="fas fa-exclamation-triangle" link="/risks-register" name="سجل المخاطر"
+                                  [expanded]="navExpanded"></app-sidenav-item>
+
+                <app-sidenav-item icon="fas fa-times-circle" link="/issues-log" name="سجل المعوقات"
+                                  [expanded]="navExpanded"></app-sidenav-item>
+
+                <app-sidenav-item icon="fas fa-briefcase" link="/portfolios" name="المحافظ"
+                                  [expanded]="navExpanded"></app-sidenav-item>
+
+                <app-sidenav-divider></app-sidenav-divider>
+
+                <app-sidenav-item icon="fas fa-users-cog" link="/users" name="المستخدمين"
+                                  [expanded]="navExpanded"></app-sidenav-item>
+
+                <app-sidenav-item icon="fas fa-database mr-0.5" link="/data" name="البيانات"
+                                  [expanded]="navExpanded"></app-sidenav-item>
+
+                <app-sidenav-item icon="fas fa-cog" link="/settings" name="إعدادات النظام"
+                                  [expanded]="navExpanded"></app-sidenav-item>
+            </app-sidenav>
+        </nav>
+    </header>
+    <div class="lg:flex-1 lg:overflow-x-hidden">
+        <section class="flex bg-white px-4 py-2 lg:p-4 border-b border-b-theme-gray-300">
+            <button class="hidden lg:block ml-4 text-theme-gray-700 hover:text-theme-gray-900 active:text-theme-gray-700"
+                    (click)="toggleNav()">
+                <i class="lnr lnr-menu font-bold text-2xl"></i>
+            </button>
+            <div class="relative max-w-md lg:max-w-lg w-full rounded-full bg-theme-gray-100 py-1 pr-4 pl-2 ml-4 flex items-center justify-between">
+                <input type="text" class="bg-transparent text-sm text-theme-gray-900 focus:outline-none w-full"
+                       placeholder="بحث ..." [(ngModel)]="searchQuery">
+                <i class="lnr lnr-magnifier font-bold text-theme-gray-500 mr-1"></i>
+                <div [@collapse]="searchQuery.length > 3 ? 'open' : 'close'"
+                     class="w-full bg-white border border-theme-gray-300 rounded-lg shadow-sm drop-shadow-sm absolute right-0 top-8 lg:top-10 z-20">
+                    <div class="flex flex-col space-y-1 divide-y divide-theme-gray-200 pb-1 text-sm">
+                        <ng-container *ngIf="searchResult$ | async as results; else loading">
+                            <ng-container *ngIf="results.length; else noData">
+                                <a [routerLink]="result.link" class="px-3 py-2 hover:font-semibold" (click)="searchQuery = ''"
+                                   *ngFor="let result of results">
+                                    {{ result.value }}
+                                    <span class="text-xs text-theme-gray-500 mx-1">|</span>
+                                    <span class="text-xs text-theme-gray-500 mx-1">{{ result.category }}</span>
+                                </a>
+                            </ng-container>
+
+                            <ng-template #noData>
+                                <span class="p-3 p-2 text-theme-gray-600 font-semibold">لا يوجد نتائج</span>
+                            </ng-template>
+                        </ng-container>
+
+                        <ng-template #loading>
+                            <div class="p-2">
+                                <svg class="animate-spin h-7 w-7 text-theme-gray-800 mx-auto" xmlns="http://www.w3.org/2000/svg"
+                                     fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                            stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor"
+                                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                            </div>
+                        </ng-template>
+                    </div>
+
+                </div>
+            </div>
+            <div class="mr-auto flex items-center relative">
+                <button class="relative text-theme-gray-700 hover:text-theme-gray-900 ml-2">
+                    <i class="lnr lnr-alarm text-xl"></i>
+                    <span class="flex h-2 w-2 absolute top-1 -right-0.5 -mr-1">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+                    </span>
+                </button>
+
+                <button class="hidden lg:block ml-1.5 text-sm font-semibold text-theme-gray-700 hover:text-theme-gray-900 whitespace-nowrap"
+                        (click)="toggleDropdown()">
+                    <span>Raed Aljarallah</span>
+                    <i class="fas fa-chevron-down fa-xs mr-1.5"
+                       [ngClass]="{'text-theme-gray-900': dropdownOpen}"></i>
+                </button>
+
+                <button class="text-theme-gray-700 group-hover:text-theme-gray-900" (click)="toggleDropdown()">
+                    <i class="lg:hidden fas fa-user-circle fa-lg"></i>
+                </button>
+
+                <!-- Dropdown -->
+                <div class="bg-white py-2 border border-theme-gray-300 whitespace-nowrap rounded-md shadow-md absolute left-0 top-8 z-50"
+                     *ngIf="dropdownOpen">
+                    <a href="#"
+                       class="block px-4 py-2 text-sm font-semibold text-theme-gray-700 hover:bg-theme-gray-100 hover:text-theme-gray-900">
+                        <i class="fas fa-user ml-2"></i>
+                        <span>الحساب</span>
+                    </a>
+                    <a href="#"
+                       class="block px-4 py-2 text-sm font-semibold text-theme-gray-700 hover:bg-theme-gray-100 hover:text-theme-gray-900">
+                        <i class="fas fa-cog ml-2"></i>
+                        <span>الإعدادات</span>
+                    </a>
+                    <a href="#"
+                       class="block px-4 py-2 text-sm font-semibold text-theme-gray-700 hover:bg-theme-gray-100 hover:text-theme-gray-900">
+                        <i class="fas fa-sign-out-alt ml-2"></i>
+                        <span>تسجيل الخروج</span>
+                    </a>
+                </div>
+                <div *ngIf="dropdownOpen" class="fixed h-screen w-screen inset-0 z-40" (click)="toggleDropdown()"></div>
+
+            </div>
+        </section>
+        <main class="relative pb-32 lg:pb-20 p-4 h-screen overflow-auto no-scrollbar" [@routeAnimations]="prepareRoute(outlet)">
+            <router-outlet #outlet="outlet"></router-outlet>
+        </main>
+    </div>
+</div>

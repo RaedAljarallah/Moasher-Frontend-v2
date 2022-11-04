@@ -1,24 +1,20 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-
-import {UsersListComponent} from './users-list/users-list.component';
-import {UserFormComponent} from './user-form/user-form.component';
 import {SharedModule} from "../../shared/shared.module";
+import {DashboardComponent} from "./dashboard.component";
 
 
 @NgModule({
     declarations: [
-        UsersListComponent,
-        UserFormComponent
+        DashboardComponent
     ],
     imports: [
         CommonModule,
         SharedModule
     ],
     exports: [
-        UsersListComponent,
-        UserFormComponent
+        DashboardComponent
     ]
 })
-export class UsersModule {
+export class DashboardModule {
 }

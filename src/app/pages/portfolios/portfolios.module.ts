@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 
-import {PortfoliosRoutingModule} from './portfolios-routing.module';
 import {SharedModule} from "../../shared/shared.module";
 import { PortfoliosListComponent } from './portfolios-list/portfolios-list.component';
 import { PortfolioDetailComponent } from './portfolio-detail/portfolio-detail.component';
@@ -21,7 +20,6 @@ import {StrategicObjectivesModule} from "../strategic-objectives/strategic-objec
   ],
     imports: [
         CommonModule,
-        PortfoliosRoutingModule,
         SharedModule,
         InitiativesModule,
         ProgramsModule,
