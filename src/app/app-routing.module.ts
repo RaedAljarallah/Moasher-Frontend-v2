@@ -26,10 +26,14 @@ import {SettingsPageComponent} from "./pages/settings/settings-page/settings-pag
 import {ChangePasswordComponent} from "./pages/accounts/change-password/change-password.component";
 import {NotFoundComponent} from "./error-pages/not-found/not-found.component";
 import {ActivationComponent} from "./pages/accounts/activation/activation.component";
+import {ApplicationPaths} from "./core/constants/api-authorization.constants";
+import {LoginComponent} from "./pages/accounts/login/login.component";
+import {LogoutComponent} from "./pages/accounts/logout/logout.component";
+import {AuthorizeGuard} from "./core/guards/authorize.guard";
 
 const routes: Routes = [
     {
-        path: '', component: AppLayoutComponent,
+        path: '', component: AppLayoutComponent, canActivate: [AuthorizeGuard],
         children: [
             { path: 'dashboard', component: DashboardComponent },
             { path: '', pathMatch: 'full', redirectTo: 'dashboard'},
@@ -103,9 +107,15 @@ const routes: Routes = [
     },
 
     {
-        path: 'accounts', children: [
-            {path: 'change-password', component: ChangePasswordComponent},
-            { path: 'activation', component: ActivationComponent }
+        path: ApplicationPaths.AuthorizationBaseUrl, children: [
+            { path: 'change-password', component: ChangePasswordComponent},
+            { path: 'activation', component: ActivationComponent },
+            { path: ApplicationPaths.Login, component: LoginComponent },
+            { path: ApplicationPaths.LoginFailed, component: LoginComponent },
+            { path: ApplicationPaths.LoginCallback, component: LoginComponent },
+            { path: ApplicationPaths.LogOut, component: LogoutComponent },
+            { path: ApplicationPaths.LoggedOut, component: LogoutComponent },
+            { path: ApplicationPaths.LogOutCallback, component: LogoutComponent }
         ]
     },
 
