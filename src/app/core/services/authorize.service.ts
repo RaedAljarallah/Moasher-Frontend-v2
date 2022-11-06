@@ -2,8 +2,8 @@ import {Injectable} from '@angular/core';
 import {User, UserManager} from "oidc-client-ts";
 import {Router} from "@angular/router";
 import {ApplicationPaths, QueryParameterNames, UserManagerSetting} from "../constants/api-authorization.constants";
-import { BehaviorSubject, from, Observable, concat } from "rxjs";
-import { filter, map, take, tap } from 'rxjs/operators';
+import {BehaviorSubject, from, Observable, concat} from "rxjs";
+import {filter, map, take, tap} from 'rxjs/operators';
 
 export type IAuthenticationResult =
     SuccessAuthenticationResult |
@@ -40,20 +40,30 @@ export interface IUser {
 export class AuthorizeService {
     private userManager: UserManager;
     private userSubject: BehaviorSubject<IUser | null> = new BehaviorSubject<IUser | null>(null);
-    
+
     constructor(private router: Router) {
         this.userManager = new UserManager(UserManagerSetting);
         this.userManager.events.addUserSignedOut(async () => {
-            this.logOut();
+            await this.logOut();
         });
 
         this.userManager.events.addAccessTokenExpired(async () => {
-            this.logOut();
+            await this.logOut();
         })
     }
 
     public isAuthenticated(): Observable<boolean> {
         return this.getUser().pipe(map(u => !!u));
+    }
+
+    public async activateUser(userId: string) {
+        const params = {userId: userId};
+        // { useReplaceToNavigate: true, data: state };
+        await this.userManager.signinRedirect({
+            prompt: 'activation',
+            redirect_uri: 'http://localhost:4200/login-callback',
+            extraQueryParams: params
+        });
     }
 
     public getUser(): Observable<IUser | null> {
@@ -122,19 +132,19 @@ export class AuthorizeService {
     }
 
     private createArguments(state?: any): any {
-        return { useReplaceToNavigate: true, data: state };
+        return {useReplaceToNavigate: true, data: state};
     }
 
     private error(message: string): IAuthenticationResult {
-        return { status: AuthenticationResultStatus.Fail, message };
+        return {status: AuthenticationResultStatus.Fail, message};
     }
 
     private success(state: any): IAuthenticationResult {
-        return { status: AuthenticationResultStatus.Success, state };
+        return {status: AuthenticationResultStatus.Success, state};
     }
 
     private redirect(): IAuthenticationResult {
-        return { status: AuthenticationResultStatus.Redirect };
+        return {status: AuthenticationResultStatus.Redirect};
     }
 
     private getUserFromStorage(): Observable<IUser | null> {
