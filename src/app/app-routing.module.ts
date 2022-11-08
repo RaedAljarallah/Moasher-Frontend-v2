@@ -107,9 +107,9 @@ const routes: Routes = [
     },
 
     {
-        path: ApplicationPaths.AuthorizationBaseUrl, children: [
-            { path: 'change-password', component: ChangePasswordComponent},
-            { path: 'activation', component: ActivationComponent },
+        path: '', children: [
+            { path: ApplicationPaths.ChangePassword, component: ChangePasswordComponent},
+            { path: ApplicationPaths.Activation, component: ActivationComponent },
             { path: ApplicationPaths.Login, component: LoginComponent },
             { path: ApplicationPaths.LoginFailed, component: LoginComponent },
             { path: ApplicationPaths.LoginCallback, component: LoginComponent },

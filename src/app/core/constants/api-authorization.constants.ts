@@ -18,30 +18,35 @@ export const LoginActions = {
 
 
 let applicationPaths: ApplicationPathsType = {
-    AuthorizationBaseUrl: 'accounts',
     DefaultLoginRedirectPath: '/',
-    Login: `${LoginActions.Login}`,
-    LoginFailed: `${LoginActions.LoginFailed}`,
-    LoginCallback: `${LoginActions.LoginCallback}`,
-    LogOut: `${LogoutActions.Logout}`,
-    LoggedOut: `${LogoutActions.LoggedOut}`,
-    LogOutCallback: `${LogoutActions.LogoutCallback}`,
+    Login: `accounts/${LoginActions.Login}`,
+    LoginFailed: `accounts/${LoginActions.LoginFailed}`,
+    LoginCallback: `accounts/${LoginActions.LoginCallback}`,
+    LogOut: `accounts/${LogoutActions.Logout}`,
+    LoggedOut: `accounts/${LogoutActions.LoggedOut}`,
+    LogOutCallback: `accounts/${LogoutActions.LogoutCallback}`,
+    Activation: 'accounts/activation',
+    ChangePassword: 'accounts/change-password',
     LoginPathComponents: [],
     LoginFailedPathComponents: [],
     LoginCallbackPathComponents: [],
     LogOutPathComponents: [],
     LoggedOutPathComponents: [],
-    LogOutCallbackPathComponents: []
+    LogOutCallbackPathComponents: [],
+    ActivationPathComponents: [],
+    ChangePasswordPathComponents: []
 };
 
 
 applicationPaths = {
     ...applicationPaths,
-    LoginPathComponents: [applicationPaths.AuthorizationBaseUrl, applicationPaths.Login],
-    LoginFailedPathComponents: [applicationPaths.AuthorizationBaseUrl, applicationPaths.LoginFailed],
-    LogOutPathComponents: [applicationPaths.AuthorizationBaseUrl, applicationPaths.LogOut],
-    LoggedOutPathComponents: [applicationPaths.AuthorizationBaseUrl, applicationPaths.LoggedOut],
-    LogOutCallbackPathComponents: [applicationPaths.AuthorizationBaseUrl, applicationPaths.LogOutCallback]
+    LoginPathComponents: applicationPaths.Login.split('/'),
+    LoginFailedPathComponents: applicationPaths.LoginFailed.split('/'),
+    LogOutPathComponents: applicationPaths.LogOut.split('/'),
+    LoggedOutPathComponents: applicationPaths.LoggedOut.split('/'),
+    LogOutCallbackPathComponents: applicationPaths.LogOutCallback.split('/'),
+    ActivationPathComponents: applicationPaths.Activation.split('/'),
+    ChangePasswordPathComponents: applicationPaths.ChangePassword.split('/')
 };
 
 export const ApplicationPaths: ApplicationPathsType = applicationPaths;
@@ -73,7 +78,6 @@ export interface IUserManagerSetting {
 
 
 interface ApplicationPathsType {
-    readonly AuthorizationBaseUrl: string;
     readonly DefaultLoginRedirectPath: string;
     readonly Login: string;
     readonly LoginFailed: string;
@@ -81,10 +85,14 @@ interface ApplicationPathsType {
     readonly LogOut: string;
     readonly LoggedOut: string;
     readonly LogOutCallback: string;
+    readonly Activation: string;
+    readonly ChangePassword: string;
     readonly LoginPathComponents: string[];
     readonly LoginFailedPathComponents: string[];
     readonly LoginCallbackPathComponents: string[];
     readonly LogOutPathComponents: string[];
     readonly LoggedOutPathComponents: string[];
     readonly LogOutCallbackPathComponents: string[];
+    readonly ActivationPathComponents: string[];
+    readonly ChangePasswordPathComponents: string[];
 }

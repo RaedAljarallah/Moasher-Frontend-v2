@@ -4,10 +4,11 @@ import {ISearchResponse} from "../../core/models/search-response.model";
 import {ApiService} from "../../core/services/api.service";
 import {RouterOutlet} from "@angular/router";
 import {debounceTime, distinctUntilChanged, filter, map, switchMap} from "rxjs/operators";
-import {HttpParams} from "@angular/common/http";
+import {HttpClient, HttpParams} from "@angular/common/http";
 import {SearchCategoryUtility} from "../../core/utilities/search-category.utility";
 import {slider} from "../../app-routing.animations";
 import {collapse} from "../../shared/animations/app-animations.animation";
+import {AuthorizeService} from "../../core/services/authorize.service";
 
 @Component({
     selector: 'app-app-layout',
@@ -23,13 +24,14 @@ export class AppLayoutComponent implements OnInit {
     private _searchQuery: string = '';
     public search$: BehaviorSubject<string> = new BehaviorSubject<string>('');
     public searchResult$: Observable<ISearchResponse[]> = new Observable<ISearchResponse[]>();
-
-    constructor(private api: ApiService) {
+    public userName?: Observable<string | null | undefined>;
+    
+    constructor(private api: ApiService, private auth: AuthorizeService) {
 
     }
 
     public ngOnInit(): void {
-
+        this.userName = this.auth.getUserName();
     }
 
     public get searchQuery(): string {

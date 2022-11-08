@@ -2,8 +2,10 @@ import {Injectable} from '@angular/core';
 import {User, UserManager} from "oidc-client-ts";
 import {Router} from "@angular/router";
 import {ApplicationPaths, QueryParameterNames, UserManagerSetting} from "../constants/api-authorization.constants";
-import {BehaviorSubject, from, Observable, concat} from "rxjs";
+import {BehaviorSubject, from, Observable, concat, lastValueFrom} from "rxjs";
 import {filter, map, take, tap} from 'rxjs/operators';
+import jwt_decode from "jwt-decode";
+import {ApiService} from "./api.service";
 
 export type IAuthenticationResult =
     SuccessAuthenticationResult |
@@ -41,7 +43,7 @@ export class AuthorizeService {
     private userManager: UserManager;
     private userSubject: BehaviorSubject<IUser | null> = new BehaviorSubject<IUser | null>(null);
 
-    constructor(private router: Router) {
+    constructor(private router: Router, private api: ApiService) {
         this.userManager = new UserManager(UserManagerSetting);
         this.userManager.events.addUserSignedOut(async () => {
             await this.logOut();
@@ -58,10 +60,9 @@ export class AuthorizeService {
 
     public async activateUser(userId: string) {
         const params = {userId: userId};
-        // { useReplaceToNavigate: true, data: state };
         await this.userManager.signinRedirect({
             prompt: 'activation',
-            redirect_uri: 'http://localhost:4200/login-callback',
+            redirect_uri: UserManagerSetting.redirect_uri,
             extraQueryParams: params
         });
     }
@@ -79,6 +80,18 @@ export class AuthorizeService {
             .pipe(
                 map(u => u && u.access_token)
             );
+    }
+
+    public getUserName(): Observable<string | null | undefined> {
+        return from(this.userManager.getUser()).pipe(
+            map(u => u && jwt_decode<{ name: string }>(u.access_token).name)
+        );
+    }
+
+    public getUserRole(): Observable<string | null | undefined> {
+        return from(this.userManager.getUser()).pipe(
+            map(u => u && jwt_decode<{ role: string }>(u.access_token).role)
+        )
     }
 
     public async signIn(state: any): Promise<IAuthenticationResult> {
@@ -112,6 +125,7 @@ export class AuthorizeService {
 
     public async signOut(state: any): Promise<IAuthenticationResult> {
         try {
+            await this.revokeToken();
             await this.userManager.signoutRedirect(this.createArguments(state));
             return this.redirect();
         } catch (redirectSignOutError: any) {
@@ -130,7 +144,19 @@ export class AuthorizeService {
             return this.error(error);
         }
     }
-
+    
+    private async revokeToken(): Promise<void> {
+        const token = await lastValueFrom(this.getAccessToken());
+        if (token) {
+            const request = jwt_decode<{jti: string, exp: number}>(token);
+            const invalidToken$ = this.api.post<{jti: string, expiration: number}, any>('invalid-tokens', {
+                jti: request.jti,
+                expiration: request.exp
+            });
+            await lastValueFrom(invalidToken$);
+        }
+    }
+    
     private createArguments(state?: any): any {
         return {useReplaceToNavigate: true, data: state};
     }
@@ -157,7 +183,6 @@ export class AuthorizeService {
     private async logOut() {
         await this.userManager.removeUser();
         this.userSubject.next(null);
-        console.log(this.router.routerState.snapshot.url);
         await this.router.navigate(ApplicationPaths.LoginPathComponents, {
             queryParams: {
                 [QueryParameterNames.ReturnUrl]: this.router.routerState.snapshot.url ?? ApplicationPaths.DefaultLoginRedirectPath

@@ -113,7 +113,7 @@
 
                 <button class="hidden lg:block ml-1.5 text-sm font-semibold text-theme-gray-700 hover:text-theme-gray-900 whitespace-nowrap"
                         (click)="toggleDropdown()">
-                    <span>Raed Aljarallah</span>
+                    <span>{{ userName | async }}</span>
                     <i class="fas fa-chevron-down fa-xs mr-1.5"
                        [ngClass]="{'text-theme-gray-900': dropdownOpen}"></i>
                 </button>
@@ -135,7 +135,7 @@
                         <i class="fas fa-cog ml-2"></i>
                         <span>الإعدادات</span>
                     </a>
-                    <a href="#"
+                    <a routerLink="accounts/logout" [state]="{ local: true }" title="Logout"
                        class="block px-4 py-2 text-sm font-semibold text-theme-gray-700 hover:bg-theme-gray-100 hover:text-theme-gray-900">
                         <i class="fas fa-sign-out-alt ml-2"></i>
                         <span>تسجيل الخروج</span>
