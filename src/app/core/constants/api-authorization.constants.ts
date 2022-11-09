@@ -27,6 +27,7 @@ let applicationPaths: ApplicationPathsType = {
     LogOutCallback: `accounts/${LogoutActions.LogoutCallback}`,
     Activation: 'accounts/activation',
     ChangePassword: 'accounts/change-password',
+    ResetPassword: 'accounts/reset-password',
     LoginPathComponents: [],
     LoginFailedPathComponents: [],
     LoginCallbackPathComponents: [],
@@ -34,7 +35,8 @@ let applicationPaths: ApplicationPathsType = {
     LoggedOutPathComponents: [],
     LogOutCallbackPathComponents: [],
     ActivationPathComponents: [],
-    ChangePasswordPathComponents: []
+    ChangePasswordPathComponents: [],
+    ResetPasswordPathComponents: []
 };
 
 
@@ -46,7 +48,8 @@ applicationPaths = {
     LoggedOutPathComponents: applicationPaths.LoggedOut.split('/'),
     LogOutCallbackPathComponents: applicationPaths.LogOutCallback.split('/'),
     ActivationPathComponents: applicationPaths.Activation.split('/'),
-    ChangePasswordPathComponents: applicationPaths.ChangePassword.split('/')
+    ChangePasswordPathComponents: applicationPaths.ChangePassword.split('/'),
+    ResetPasswordPathComponents: applicationPaths.ResetPassword.split('/')
 };
 
 export const ApplicationPaths: ApplicationPathsType = applicationPaths;
@@ -87,6 +90,7 @@ interface ApplicationPathsType {
     readonly LogOutCallback: string;
     readonly Activation: string;
     readonly ChangePassword: string;
+    readonly ResetPassword: string;
     readonly LoginPathComponents: string[];
     readonly LoginFailedPathComponents: string[];
     readonly LoginCallbackPathComponents: string[];
@@ -95,4 +99,5 @@ interface ApplicationPathsType {
     readonly LogOutCallbackPathComponents: string[];
     readonly ActivationPathComponents: string[];
     readonly ChangePasswordPathComponents: string[];
+    readonly ResetPasswordPathComponents: string[];
 }

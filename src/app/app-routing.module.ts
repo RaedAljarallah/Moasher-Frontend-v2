@@ -30,6 +30,7 @@ import {ApplicationPaths} from "./core/constants/api-authorization.constants";
 import {LoginComponent} from "./pages/accounts/login/login.component";
 import {LogoutComponent} from "./pages/accounts/logout/logout.component";
 import {AuthorizeGuard} from "./core/guards/authorize.guard";
+import {ResetPasswordComponent} from "./pages/accounts/reset-password/reset-password.component";
 
 const routes: Routes = [
     {
@@ -109,6 +110,7 @@ const routes: Routes = [
     {
         path: '', children: [
             { path: ApplicationPaths.ChangePassword, component: ChangePasswordComponent},
+            { path: ApplicationPaths.ResetPassword, component: ResetPasswordComponent },
             { path: ApplicationPaths.Activation, component: ActivationComponent },
             { path: ApplicationPaths.Login, component: LoginComponent },
             { path: ApplicationPaths.LoginFailed, component: LoginComponent },

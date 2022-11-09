@@ -4,6 +4,7 @@ import {ChangePasswordComponent} from './change-password/change-password.compone
 import {ActivationComponent} from './activation/activation.component';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 
 @NgModule({
@@ -11,7 +12,8 @@ import { LogoutComponent } from './logout/logout.component';
         ChangePasswordComponent,
         ActivationComponent,
         LoginComponent,
-        LogoutComponent
+        LogoutComponent,
+        ResetPasswordComponent
     ],
     imports: [
         CommonModule
@@ -20,7 +22,8 @@ import { LogoutComponent } from './logout/logout.component';
         ChangePasswordComponent,
         ActivationComponent,
         LoginComponent,
-        LogoutComponent
+        LogoutComponent,
+        ResetPasswordComponent
     ]
 })
 export class AccountsModule {

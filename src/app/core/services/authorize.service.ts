@@ -67,6 +67,15 @@ export class AuthorizeService {
         });
     }
 
+    public async resetPassword(token: string, userId: string): Promise<void> {
+        const params = {token: token, userId: userId};
+        await this.userManager.signinRedirect({
+            prompt: 'reset-password',
+            redirect_uri: UserManagerSetting.redirect_uri,
+            extraQueryParams: params
+        });
+    }
+
     public getUser(): Observable<IUser | null> {
         return concat(
             this.userSubject.pipe(take(1), filter(u => !!u)),
@@ -144,19 +153,19 @@ export class AuthorizeService {
             return this.error(error);
         }
     }
-    
+
     private async revokeToken(): Promise<void> {
         const token = await lastValueFrom(this.getAccessToken());
         if (token) {
-            const request = jwt_decode<{jti: string, exp: number}>(token);
-            const invalidToken$ = this.api.post<{jti: string, expiration: number}, any>('invalid-tokens', {
+            const request = jwt_decode<{ jti: string, exp: number }>(token);
+            const invalidToken$ = this.api.post<{ jti: string, expiration: number }, any>('invalid-tokens', {
                 jti: request.jti,
                 expiration: request.exp
             });
             await lastValueFrom(invalidToken$);
         }
     }
-    
+
     private createArguments(state?: any): any {
         return {useReplaceToNavigate: true, data: state};
     }
