@@ -45,7 +45,9 @@
         </thead>
         <tbody class="divide-y divide-theme-gray-100" *ngIf="items; else loading">
         <ng-container *ngIf="items.result.length; else noData">
-            <tr class="bg-white" *ngFor="let item of items.result">
+            <tr *ngFor="let item of items.result"
+                [ngClass]="!item.approved ? 'bg-theme-gray-100' : 'bg-white'"
+                [title]="!item.approved ? 'يوجد طلب تغيير' : ''">
                 <ng-template [ngTemplateOutlet]="tableCellTemplate"
                              [ngTemplateOutletContext]="{data: item}"></ng-template>
             </tr>

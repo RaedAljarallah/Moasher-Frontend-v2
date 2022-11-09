@@ -15,7 +15,7 @@
             <span *ngSwitchCase="'lateonbidding,lateoncontracting'" class="text-red-500">متأخر في الطرح والتعاقد</span>
         </td>
         <td>
-            <app-table-actions-buttons
+            <app-table-actions-buttons *ngIf="data.approved"
                     [isLoading]="isFormLoading[data.id]"
                     (UpdateBtnClicked)="onUpdate(data)"
                     (DeleteBtnClicked)="onDelete(data)">

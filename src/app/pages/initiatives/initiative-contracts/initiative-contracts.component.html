@@ -16,7 +16,7 @@
         <td>{{ data.refNumber }}</td>
         <td>{{ data.supplier }}</td>
         <td>
-            <app-table-actions-buttons
+            <app-table-actions-buttons *ngIf="data.approved"
                     [isLoading]="isFormLoading[data.id]"
                     (UpdateBtnClicked)="onUpdate(data)"
                     (DeleteBtnClicked)="onDelete(data)">

@@ -6,7 +6,7 @@
         <td>{{ data.phone }}</td>
         <td><span class="rounded-full px-2" [ngClass]="data.role.style">{{ data.role.name }}</span></td>
         <td>
-            <app-table-actions-buttons
+            <app-table-actions-buttons *ngIf="data.approved"
                     [isLoading]="isFormLoading[data.id]"
                     (UpdateBtnClicked)="onUpdate(data)"
                     (DeleteBtnClicked)="onDelete(data)">

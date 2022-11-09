@@ -5,7 +5,7 @@
         <td>{{ data.initialAmount | localCurrency }}</td>
         <td>{{ data.amount | localCurrency }}</td>
         <td>
-            <app-table-actions-buttons
+            <app-table-actions-buttons *ngIf="data.approved"
                     (UpdateBtnClicked)="onUpdate(data)"
                     (DeleteBtnClicked)="onDelete(data)">
             </app-table-actions-buttons>
