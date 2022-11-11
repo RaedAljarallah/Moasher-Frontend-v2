@@ -42,6 +42,7 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
     @Input() subList: boolean = false;
     @Input() withPagination: boolean = true;
     @Input() hideAddBtn: boolean = false;
+    @Input() approvable: boolean = true;
     @Output() addClicked: EventEmitter<void> = new EventEmitter<void>();
     
     public pager?: Pagination;

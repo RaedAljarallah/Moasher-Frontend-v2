@@ -31,13 +31,14 @@ import {LoginComponent} from "./pages/accounts/login/login.component";
 import {LogoutComponent} from "./pages/accounts/logout/logout.component";
 import {AuthorizeGuard} from "./core/guards/authorize.guard";
 import {ResetPasswordComponent} from "./pages/accounts/reset-password/reset-password.component";
+import {EditRequestsListComponent} from "./pages/edit-requests/edit-requests-list/edit-requests-list.component";
 
 const routes: Routes = [
     {
         path: '', component: AppLayoutComponent, canActivate: [AuthorizeGuard],
         children: [
-            { path: 'dashboard', component: DashboardComponent },
-            { path: '', pathMatch: 'full', redirectTo: 'dashboard'},
+            {path: 'dashboard', component: DashboardComponent},
+            {path: '', pathMatch: 'full', redirectTo: 'dashboard'},
             {
                 path: 'entities',
                 children: [
@@ -101,6 +102,7 @@ const routes: Routes = [
                     {path: ':id', component: PortfolioDetailComponent, data: {animation: 'portfolioDetail'}}
                 ]
             },
+            {path: 'edit-requests', component: EditRequestsListComponent},
             {path: 'users', component: UsersListComponent},
             {path: 'data', component: DataExportingComponent},
             {path: 'settings', component: SettingsPageComponent}
@@ -109,20 +111,20 @@ const routes: Routes = [
 
     {
         path: '', children: [
-            { path: ApplicationPaths.ChangePassword, component: ChangePasswordComponent},
-            { path: ApplicationPaths.ResetPassword, component: ResetPasswordComponent },
-            { path: ApplicationPaths.Activation, component: ActivationComponent },
-            { path: ApplicationPaths.Login, component: LoginComponent },
-            { path: ApplicationPaths.LoginFailed, component: LoginComponent },
-            { path: ApplicationPaths.LoginCallback, component: LoginComponent },
-            { path: ApplicationPaths.LogOut, component: LogoutComponent },
-            { path: ApplicationPaths.LoggedOut, component: LogoutComponent },
-            { path: ApplicationPaths.LogOutCallback, component: LogoutComponent }
+            {path: ApplicationPaths.ChangePassword, component: ChangePasswordComponent},
+            {path: ApplicationPaths.ResetPassword, component: ResetPasswordComponent},
+            {path: ApplicationPaths.Activation, component: ActivationComponent},
+            {path: ApplicationPaths.Login, component: LoginComponent},
+            {path: ApplicationPaths.LoginFailed, component: LoginComponent},
+            {path: ApplicationPaths.LoginCallback, component: LoginComponent},
+            {path: ApplicationPaths.LogOut, component: LogoutComponent},
+            {path: ApplicationPaths.LoggedOut, component: LogoutComponent},
+            {path: ApplicationPaths.LogOutCallback, component: LogoutComponent}
         ]
     },
 
-    { path: 'page-not-found', component: NotFoundComponent },
-    { path: '**', redirectTo: 'page-not-found' }
+    {path: 'page-not-found', component: NotFoundComponent},
+    {path: '**', redirectTo: 'page-not-found'}
 ];
 
 @NgModule({

@@ -125,17 +125,12 @@
                 <!-- Dropdown -->
                 <div class="bg-white py-2 border border-theme-gray-300 whitespace-nowrap rounded-md shadow-md absolute left-0 top-8 z-50"
                      *ngIf="dropdownOpen">
-                    <a href="#"
+                    <a routerLink="/edit-requests" title="طلبات التعديل" (click)="toggleDropdown()"
                        class="block px-4 py-2 text-sm font-semibold text-theme-gray-700 hover:bg-theme-gray-100 hover:text-theme-gray-900">
-                        <i class="fas fa-user ml-2"></i>
-                        <span>الحساب</span>
+                        <i class="fas fa-edit ml-2"></i>
+                        <span>طلبات التعديل</span>
                     </a>
-                    <a href="#"
-                       class="block px-4 py-2 text-sm font-semibold text-theme-gray-700 hover:bg-theme-gray-100 hover:text-theme-gray-900">
-                        <i class="fas fa-cog ml-2"></i>
-                        <span>الإعدادات</span>
-                    </a>
-                    <a routerLink="accounts/logout" [state]="{ local: true }" title="Logout"
+                    <a routerLink="accounts/logout" [state]="{ local: true }" title="تسجيل الخروج" (click)="toggleDropdown()"
                        class="block px-4 py-2 text-sm font-semibold text-theme-gray-700 hover:bg-theme-gray-100 hover:text-theme-gray-900">
                         <i class="fas fa-sign-out-alt ml-2"></i>
                         <span>تسجيل الخروج</span>

@@ -20,6 +20,7 @@ import {AccountsModule} from "./pages/accounts/accounts.module";
 import {ErrorPagesModule} from "./error-pages/error-pages.module";
 import {DashboardModule} from "./pages/dashboard/dashboard.module";
 import {AuthorizeInterceptor} from "./core/interceptors/authorize.interceptor";
+import {EditRequestsModule} from "./pages/edit-requests/edit-requests.module";
 
 @NgModule({
     declarations: [
@@ -43,6 +44,7 @@ import {AuthorizeInterceptor} from "./core/interceptors/authorize.interceptor";
         DataModule,
         AccountsModule,
         ErrorPagesModule,
+        EditRequestsModule,
         AppRoutingModule,
     ],
     providers: [

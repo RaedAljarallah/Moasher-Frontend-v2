@@ -1,0 +1,29 @@
+<div class="pt-2 pb-4 px-4 bg-white border border-theme-gray-300 rounded-lg flex flex-col">
+    <h1 class="font-semibold text-xl mb-3">طلبات التعديل</h1>
+    <app-table [headers]="headers" [filterFields]="filterFields" [items]="data$ | async" [hideAddBtn]="true" [approvable]="false">
+        <ng-template #tableCell let-data="data">
+            <td>{{ data.code }}</td>
+            <td>{{ getTranslatedType(data.type) }}</td>
+            <td>{{ getTranslatedStatus(data.status) }}</td>
+            <td>{{ data.scopes.join(" - ") }}</td>
+            <td>{{ data.requestedAt | isoDate  }}</td>
+            <td>{{ data.requestedBy  }}</td>
+            <td>
+                <app-table-actions-buttons [isLoading]="isFormLoading[data.id]"
+                        (UpdateBtnClicked)="showDetails(data)"
+                        (DeleteBtnClicked)="onDelete(data)">
+                </app-table-actions-buttons>
+            </td>
+        </ng-template>
+    </app-table>
+</div>
+
+<app-modal modalId="EditRequestModal" size="lg" #modal>
+    <p class="text-sm font-semibold ml-2" modal-head>تفاصيل طلب التعديل</p>
+    <div modal-body>
+        <app-edit-request-detail 
+                *ngIf="modal.showBody" 
+                [details]="editRequestDetails">
+        </app-edit-request-detail>
+    </div>
+</app-modal>

@@ -1,7 +1,7 @@
 <div class="pt-2 pb-4 px-4 bg-white border border-theme-gray-300 rounded-lg flex flex-col">
     <h1 class="font-semibold text-xl mb-3">المستخدمين</h1>
     <app-table [headers]="headers" [filterFields]="filterFields" [items]="data$ | async"
-               (addClicked)="onCreate()">
+               (addClicked)="onCreate()" [approvable]="false">
         <ng-template #tableCell let-data="data">
             <td>{{ data.firstName + ' ' + data.lastName }}</td>
             <td>{{ data.email }}</td>
