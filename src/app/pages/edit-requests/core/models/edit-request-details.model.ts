@@ -1,6 +1,10 @@
 ﻿export interface IEditRequestDetails {
-    modelName: string;
-    currentValues?: string;
-    originalValues?: { [key:string]: any };
+    currentValues?: IEditRequestValue[];
+    originalValues?: IEditRequestValue[];
     editRequestId: string;
+}
+
+export interface IEditRequestValue {
+    modelName: string;
+    values: { [key: string]: any } []
 }

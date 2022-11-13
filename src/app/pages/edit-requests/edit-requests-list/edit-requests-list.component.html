@@ -9,7 +9,8 @@
             <td>{{ data.requestedAt | isoDate  }}</td>
             <td>{{ data.requestedBy  }}</td>
             <td>
-                <app-table-actions-buttons [isLoading]="isFormLoading[data.id]"
+                <app-table-actions-buttons
+                        [isLoading]="isFormLoading[data.id]"
                         (UpdateBtnClicked)="showDetails(data)"
                         (DeleteBtnClicked)="onDelete(data)">
                 </app-table-actions-buttons>
@@ -18,12 +19,14 @@
     </app-table>
 </div>
 
-<app-modal modalId="EditRequestModal" size="lg" #modal>
+<app-modal modalId="EditRequestModal" size="xl" #modal>
     <p class="text-sm font-semibold ml-2" modal-head>تفاصيل طلب التعديل</p>
     <div modal-body>
         <app-edit-request-detail 
                 *ngIf="modal.showBody" 
-                [details]="editRequestDetails">
+                [details]="editRequestDetails"
+                [status]="editRequestStatus"
+                (onAccepted)="editRequestAccepted($event)">
         </app-edit-request-detail>
     </div>
 </app-modal>

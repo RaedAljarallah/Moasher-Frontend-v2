@@ -26,6 +26,7 @@ export class EditRequestsListComponent extends TableComponentBase<IEditRequest, 
 
     public isFormLoading: {[key: string]: boolean} = {};
     public editRequestDetails!: IEditRequestDetails;
+    public editRequestStatus!: EditRequestStatus;
     protected _createFormTitle: string = '';
     protected _updateFormTitle: string = '';
     protected _deleteFormTitle: string = '';
@@ -67,7 +68,13 @@ export class EditRequestsListComponent extends TableComponentBase<IEditRequest, 
             finalize(() => this.isFormLoading[item.id] = false)
         ).subscribe(res => {
             this.editRequestDetails = res.result;
+            this.editRequestStatus = item.status;
             this.modal.open(this._modalId);
         });
+    }
+    
+    public editRequestAccepted(item: IEditRequest): void {
+        this.table.updateItem(item);
+        this.modal.close(this._modalId);
     }
 }

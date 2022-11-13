@@ -6,7 +6,9 @@
         <td>{{ data.plannedFinish | isoDate }}</td>
         <td>{{ data.actualFinish | isoDate }}</td>
         <td>
-            <app-table-actions-buttons *ngIf="data.approved"
+            <app-table-actions-buttons 
+                    [showDelete]="data.approved && !data.isDeleted"
+                    [showUpdate]="data.approved && !data.isDeleted"
                     (UpdateBtnClicked)="onUpdate(data)"
                     (DeleteBtnClicked)="onDelete(data)">
             </app-table-actions-buttons>
