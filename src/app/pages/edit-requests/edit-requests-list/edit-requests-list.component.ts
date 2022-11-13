@@ -40,6 +40,7 @@ export class EditRequestsListComponent extends TableComponentBase<IEditRequest, 
             {value: 'نطاق التغيير', classes: 'w-5'},
             {value: 'تاريخ الطلب', classes: 'w-5'},
             {value: 'بواسطة', classes: 'w-5'},
+            {value: 'ملاحظات', classes: 'w-5'},
             {value: '', classes: 'w-full'}
         ];
         
@@ -73,7 +74,7 @@ export class EditRequestsListComponent extends TableComponentBase<IEditRequest, 
         });
     }
     
-    public editRequestAccepted(item: IEditRequest): void {
+    public editRequestHandled(item: IEditRequest): void {
         this.table.updateItem(item);
         this.modal.close(this._modalId);
     }

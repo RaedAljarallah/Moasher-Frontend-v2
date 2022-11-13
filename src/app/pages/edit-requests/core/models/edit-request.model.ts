@@ -9,4 +9,5 @@ export interface IEditRequest {
     scopes: string[];
     requestedAt : Date;
     requestedBy: string;
+    justification?: string;
 }

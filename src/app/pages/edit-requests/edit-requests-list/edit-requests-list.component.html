@@ -8,6 +8,7 @@
             <td>{{ data.scopes.join(" - ") }}</td>
             <td>{{ data.requestedAt | isoDate  }}</td>
             <td>{{ data.requestedBy  }}</td>
+            <td>{{ data.justification  }}</td>
             <td>
                 <app-table-actions-buttons
                         [isLoading]="isFormLoading[data.id]"
@@ -26,7 +27,7 @@
                 *ngIf="modal.showBody" 
                 [details]="editRequestDetails"
                 [status]="editRequestStatus"
-                (onAccepted)="editRequestAccepted($event)">
+                (onSubmitted)="editRequestHandled($event)">
         </app-edit-request-detail>
     </div>
 </app-modal>

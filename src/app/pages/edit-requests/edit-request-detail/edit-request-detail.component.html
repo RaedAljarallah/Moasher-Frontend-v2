@@ -27,9 +27,12 @@
         <div class="flex flex-col space-y-3">
             <textarea class="resize-none mt-1 block px-3 py-1.5 text-sm w-full rounded-lg border shadow-sm 
               focus:outline-none focus:ring focus:ring-opacity-50 border-theme-gray-200 focus:border-theme-teal-400 
-              focus:ring-theme-teal-400 focus:ring-opacity-30"></textarea>
+              focus:ring-theme-teal-400 focus:ring-opacity-30" [(ngModel)]="justification"></textarea>
             <div class="flex justify-end space-x-2 space-x-reverse border-t border-t-theme-gray-200 pt-4">
-                <button class="btn py-1.5 w-20 btn-secondary text-center text-sm" (click)="reject()">استمرار</button>
+                <button class="btn py-1.5 w-20 btn-secondary text-center text-sm" appLoadingBtn
+                        [isLoading]="isRejectionLoading"
+                        [disabled]="isRejectionLoading"
+                        (click)="reject()">استمرار</button>
             </div>
         </div>
     </div>
