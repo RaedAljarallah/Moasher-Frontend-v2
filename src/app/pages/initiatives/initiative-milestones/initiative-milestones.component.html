@@ -7,8 +7,8 @@
         <td>{{ data.actualFinish | isoDate }}</td>
         <td>
             <app-table-actions-buttons 
-                    [showDelete]="data.approved && !data.isDeleted"
-                    [showUpdate]="data.approved && !data.isDeleted"
+                    [showDelete]="data.approved && !data.hasDeleteRequest && !data.hasUpdateRequest"
+                    [showUpdate]="data.approved && !data.hasDeleteRequest && !data.hasUpdateRequest"
                     (UpdateBtnClicked)="onUpdate(data)"
                     (DeleteBtnClicked)="onDelete(data)">
             </app-table-actions-buttons>

@@ -1,5 +1,6 @@
 ﻿export interface IBaseModel {
     id: string;
     approved?: boolean;
-    isDeleted?: boolean;
+    hasDeleteRequest?: boolean;
+    hasUpdateRequest?: boolean;
 }
