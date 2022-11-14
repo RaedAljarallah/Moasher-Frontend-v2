@@ -103,13 +103,13 @@
                 </div>
             </div>
             <div class="mr-auto flex items-center relative">
-                <button class="relative text-theme-gray-700 hover:text-theme-gray-900 ml-2">
+                <a routerLink="/notifications" class="relative text-theme-gray-700 hover:text-theme-gray-900 ml-2">
                     <i class="lnr lnr-alarm text-xl"></i>
                     <span class="flex h-2 w-2 absolute top-1 -right-0.5 -mr-1">
                       <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
                       <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
                     </span>
-                </button>
+                </a>
 
                 <button class="hidden lg:block ml-1.5 text-sm font-semibold text-theme-gray-700 hover:text-theme-gray-900 whitespace-nowrap"
                         (click)="toggleDropdown()">

@@ -21,6 +21,7 @@ import {ErrorPagesModule} from "./error-pages/error-pages.module";
 import {DashboardModule} from "./pages/dashboard/dashboard.module";
 import {AuthorizeInterceptor} from "./core/interceptors/authorize.interceptor";
 import {EditRequestsModule} from "./pages/edit-requests/edit-requests.module";
+import {NotificationsModule} from "./pages/notifications/notifications.module";
 
 @NgModule({
     declarations: [
@@ -45,6 +46,7 @@ import {EditRequestsModule} from "./pages/edit-requests/edit-requests.module";
         AccountsModule,
         ErrorPagesModule,
         EditRequestsModule,
+        NotificationsModule,
         AppRoutingModule,
     ],
     providers: [
