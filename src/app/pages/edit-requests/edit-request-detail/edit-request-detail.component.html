@@ -1,15 +1,28 @@
 <div class="flex flex-col space-y-3">
-    <div class="border border-theme-gray-200 rounded-md flex flex-col" *ngFor="let value of details.originalValues">
-        <h6 class="text-sm py-2 px-2 border-b border-b-theme-200 font-semibold">نطاق التعديل: {{ value.modelName }}</h6>
-        <div class="grid grid-cols-12" *ngFor="let data of value.values; let last = last"
-             [ngClass]="{'border-b-2 border-b-theme-200': value.values.length > 1 && !last }">
-            <ng-container *ngFor="let dataKey of getKeys(data); let last = last">
+    <div class="border border-theme-gray-200 rounded-md flex flex-col" *ngFor="let data of details.originalValues">
+        <div class="text-sm py-2 px-2 border-b border-b-theme-200 font-semibold flex justify-between">
+            <h6>نطاق التعديل: {{ data.modelName }}</h6>
+            <h6>نوع التعديل: {{ translateType(data.type) }}</h6>
+        </div>
+        <div class="grid grid-cols-12">
+            <ng-container *ngFor="let valueKey of getKeys(data.values); let last = last">
                 <div class="col-span-6 text-sm p-2 border-l border-l-theme-200"
-                     [ngClass]="{'border-b border-b-theme-200': !last }">{{ dataKey}} </div>
+                     [ngClass]="{'border-b border-b-theme-200': !last }">{{ valueKey }}</div>
                 <div class="col-span-6 text-sm p-2"
-                     [ngClass]="{'border-b border-b-theme-200': !last }">{{ data[dataKey] }} </div>
+                     [ngClass]="{'border-b border-b-theme-200': !last }">{{ data.values[valueKey] }}</div>
             </ng-container>
         </div>
+        
+        
+<!--        <div class="grid grid-cols-12" *ngFor="let data of value.values; let last = last"-->
+<!--             [ngClass]="{'border-b-2 border-b-theme-200': value.values.length > 1 && !last }">-->
+<!--            <ng-container *ngFor="let dataKey of getKeys(data); let last = last">-->
+<!--                <div class="col-span-6 text-sm p-2 border-l border-l-theme-200"-->
+<!--                     [ngClass]="{'border-b border-b-theme-200': !last }">{{ dataKey}}</div>-->
+<!--                <div class="col-span-6 text-sm p-2"-->
+<!--                     [ngClass]="{'border-b border-b-theme-200': !last }">{{ data[dataKey] }}</div>-->
+<!--            </ng-container>-->
+<!--        </div>-->
     </div>
 
     <div class="flex justify-end space-x-2 space-x-reverse border-t border-t-theme-gray-200 pt-4" *ngIf="isPending">

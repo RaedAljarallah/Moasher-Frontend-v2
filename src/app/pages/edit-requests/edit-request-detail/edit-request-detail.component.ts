@@ -5,6 +5,8 @@ import {ModalService} from "../../../shared/modal/modal.service";
 import {IEditRequest} from "../core/models/edit-request.model";
 import {finalize} from "rxjs/operators";
 import {EditRequestStatus} from "../../../core/models/data-types/edit-request-status.data-type";
+import {EditRequestType} from "../../../core/models/data-types/edit-request-type.data-type";
+import {EditRequestUtility} from "../../../core/utilities/edit-request.utility";
 
 @Component({
     selector: 'app-edit-request-detail',
@@ -65,5 +67,9 @@ export class EditRequestDetailComponent implements OnInit, OnDestroy {
 
     public get editRequestStatus(): typeof EditRequestStatus {
         return EditRequestStatus;
+    }
+    
+    public translateType(type: EditRequestType): string {
+        return EditRequestUtility.translateType(type);
     }
 }
