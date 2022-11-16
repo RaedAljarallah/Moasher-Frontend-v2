@@ -158,7 +158,7 @@ export class AuthorizeService {
         const token = await lastValueFrom(this.getAccessToken());
         if (token) {
             const request = jwt_decode<{ jti: string, exp: number }>(token);
-            const invalidToken$ = this.api.post<{ jti: string, expiration: number }, any>('invalid-tokens', {
+            const invalidToken$ = this.api.post<{ jti: string, expiration: number }, any>('users/logout', {
                 jti: request.jti,
                 expiration: request.exp
             });
