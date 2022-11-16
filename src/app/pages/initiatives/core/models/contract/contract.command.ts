@@ -3,11 +3,10 @@ import {IContract} from "./contract.model";
 import {FormGroup} from "@angular/forms";
 import * as _ from "lodash";
 import {IProject} from "../project/project.model";
-import {DateUtility} from "../../../../../core/utilities/date.utility";
 import {ExpenditureCommand} from "../expenditure/expenditure.command";
-import {ProjectCommand} from "../project/project.command";
 import {IExpenditure} from "../expenditure/expenditure.model";
 import {IExpenditurePlan} from "../expenditure/expenditure-plan.model";
+import {IMilestone} from "../milestone/milestone.model";
 
 export class ContractCommand {
     public id!: string;
@@ -21,8 +20,11 @@ export class ContractCommand {
     public initiativeId!: string;
     public projectId!: string;
     public statusEnumId!: string;
+    public milestoneIds: string[] = [];
     public expenditures: ExpenditureCommand[] = [];
+    
     public status!: IEnumType;
+    public milestones: IMilestone[] = [];
     
     constructor(model: IContract | FormGroup | null) {
         if (model === null) {
@@ -91,6 +93,12 @@ export class ContractCommand {
 
                 this.expenditures.push(new ExpenditureCommand(expenditure));
             }
+        }
+    }
+
+    public setMilestones(milestones: IMilestone[]): void {
+        for(let milestone of milestones) {
+            this.milestoneIds.push(milestone.id);
         }
     }
 }

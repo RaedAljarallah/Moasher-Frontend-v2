@@ -5,6 +5,7 @@ import {IEnumType} from "../../../../settings/enum-type/core/models/enum-type.mo
 import {ExpenditureCommand} from "../expenditure/expenditure.command";
 import {IExpenditure} from "../expenditure/expenditure.model";
 import {IExpenditurePlan} from "../expenditure/expenditure-plan.model";
+import {IMilestone} from "../milestone/milestone.model";
 
 export class ProjectCommand {
     public id!: string;
@@ -16,9 +17,13 @@ export class ProjectCommand {
     public estimatedAmount!: number;
     public phaseEnumId!: string;
     public initiativeId!: string;
+    public milestoneIds: string[] = [];
     public expenditures: ExpenditureCommand[] = [];
+    
     public phase!: IEnumType;
-
+    public milestones: IMilestone[] = [];
+    
+    
     constructor(model: IProject | FormGroup | null) {
         if (model === null) {
             return;
@@ -66,6 +71,12 @@ export class ProjectCommand {
                 
                 this.expenditures.push(new ExpenditureCommand(expenditure));
             }
+        }
+    }
+    
+    public setMilestones(milestones: IMilestone[]): void {
+        for(let milestone of milestones) {
+            this.milestoneIds.push(milestone.id);
         }
     }
 }

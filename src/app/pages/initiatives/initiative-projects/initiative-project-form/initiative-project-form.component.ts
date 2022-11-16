@@ -9,6 +9,7 @@ import {IEnumType} from "../../../settings/enum-type/core/models/enum-type.model
 import {FormAction} from "../../../../core/models/data-types/form-action.data-type";
 import {Subscription} from "rxjs";
 import ExpenditurePlanService from "../../core/services/expenditure-plan.service";
+import {IMilestone} from "../../core/models/milestone/milestone.model";
 
 @Component({
     selector: 'app-initiative-project-form',
@@ -30,6 +31,7 @@ export class InitiativeProjectFormComponent extends FormBase<IProject, ProjectCo
         this.command.id = this.inputCommand.id;
         
         this.command.setExpenditurePlan(this.es.getExpenditurePlan());
+        this.command.setMilestones(this.currentMilestones);
     }
 
     private durationSubscription?: Subscription;
@@ -41,17 +43,22 @@ export class InitiativeProjectFormComponent extends FormBase<IProject, ProjectCo
     public plannedContractEndDate!: FormControl;
     public estimatedAmount!: FormControl;
     public phaseEnumId!: FormControl;
-
+    public milestoneId!: FormControl;
+    
     public phaseUrl: string = `enum-types?category=${EnumTypeCategory.InitiativeProjectPhase}`;
+    public milestonesUrl: string = "";
     public currentPhase: IEnumType[] = [];
+    public currentMilestones: IMilestone[] = [];
     
     public ngOnInit(): void {
         this.isDeleteRequest = (this.formAction == FormAction.Delete);
         if (this.formAction === FormAction.Update) {
             this.currentPhase.push(this.inputCommand.phase);
+            this.inputCommand.milestones.forEach(milestone => this.currentMilestones.push(milestone));
         }
         
         if (!this.isDeleteRequest) {
+            this.milestonesUrl = `milestones?initiativeId=${this.inputCommand.initiativeId}`;
             this.name = new FormControl(this.inputCommand.name, [
                 Validators.required, Validators.maxLength(255)
             ]);
@@ -73,6 +80,7 @@ export class InitiativeProjectFormComponent extends FormBase<IProject, ProjectCo
             this.phaseEnumId = new FormControl(this.inputCommand.phaseEnumId, [
                 Validators.required
             ]);
+            this.milestoneId = new FormControl();
             
             if (this.formAction === FormAction.Update) {
                 this.es.generateExpenditureTimeline(this.plannedContractingDate.value, this.plannedContractEndDate.value);
@@ -86,7 +94,8 @@ export class InitiativeProjectFormComponent extends FormBase<IProject, ProjectCo
                 plannedContractingDate: this.plannedContractingDate,
                 plannedContractEndDate: this.plannedContractEndDate,
                 estimatedAmount: this.estimatedAmount,
-                phaseEnumId: this.phaseEnumId
+                phaseEnumId: this.phaseEnumId,
+                milestoneId: this.milestoneId
             });
 
             if (this.formAction === FormAction.Create) {
@@ -114,6 +123,23 @@ export class InitiativeProjectFormComponent extends FormBase<IProject, ProjectCo
         this.es.addExpenditure(value, year, month);
     }
 
+    public addMilestone(milestone: IMilestone): void{
+        if (milestone) {
+            const exists = this.currentMilestones.find(m => m.id === milestone.id);
+            if (exists) return;
+            this.currentMilestones.push(milestone);
+        }
+    }
+    
+    public removeMilestone(milestone: IMilestone): void {
+        if (milestone) {
+            const index = this.currentMilestones.findIndex((m: IMilestone) => m.id === milestone.id);
+            if (index > -1) {
+                this.currentMilestones.splice(index, 1);
+            }
+        }
+    }
+    
     public override beforeSubmitValidation(): boolean {
         if (this.formAction === FormAction.Delete) {
             return true;

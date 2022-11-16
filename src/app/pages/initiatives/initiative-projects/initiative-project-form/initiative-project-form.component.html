@@ -52,24 +52,54 @@
                 <div class="overflow-x-auto overflow-y-hidden scrollbar">
                     <table class="w-full table-auto border-collapse border-y-2 border-theme-gray-200">
                         <thead class="bg-white">
+                            <tr class="border-b-2 border-theme-gray-200">
+                                <th class="py-1 px-0">السنة: {{ timeline.year }}</th>
+                            </tr>
+                            <tr class="border-b border-theme-gray-200">
+                                <th *ngFor="let month of timeline.months; let last = last"
+                                    class="font-normal py-1 px-1"
+                                    [ngClass]="{'border-l border-theme-gray-200': !last}">شهر {{ month }}</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-theme-gray-200">
+                            <tr>
+                                <td *ngFor="let month of timeline.months; let last = last"
+                                    class="px-0 py-0" [ngClass]="{'border-l border-theme-gray-200': !last}">
+                                    <input class="px-1 py-1.5 min-w-[7rem] w-full focus:outline-none"
+                                           [value]="es.getExpenditure(timeline.year, month)"
+                                           (input)="addExpenditure($event, timeline.year, month)"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="col-span-full">
+                <hr class="my-2">
+                <app-form-input [control]="milestoneId" id="milestoneId" name="المعالم المرتبطة" type="list"
+                                [listUrl]="milestonesUrl"
+                                (listValueSelected)="addMilestone($event)">
+                </app-form-input>
+            </div>
+            <div class="col-span-full" *ngIf="currentMilestones.length > 0">
+                <div class="overflow-x-auto overflow-y-hidden scrollbar">
+                    <table class="w-full table-auto border-collapse border-y-2 border-theme-gray-200">
+                        <thead class="bg-white">
                         <tr class="border-b-2 border-theme-gray-200">
-                            <th class="py-1 px-0">السنة: {{ timeline.year }}</th>
-                        </tr>
-                        <tr class="border-b border-theme-gray-200">
-                            <th *ngFor="let month of timeline.months; let last = last"
-                                class="font-normal py-1 px-1"
-                                [ngClass]="{'border-l border-theme-gray-200': !last}">شهر {{ month }}</th>
+                            <th class="py-1 px-0">اسم المعلم</th>
+                            <th class="w-full"></th>
                         </tr>
                         </thead>
                         <tbody class="divide-y divide-theme-gray-200">
-                        <tr>
-                            <td *ngFor="let month of timeline.months; let last = last"
-                                class="px-0 py-0" [ngClass]="{'border-l border-theme-gray-200': !last}">
-                                <input class="px-1 py-1.5 min-w-[7rem] w-full focus:outline-none"
-                                       [value]="es.getExpenditure(timeline.year, month)"
-                                       (input)="addExpenditure($event, timeline.year, month)"/>
-                            </td>
-                        </tr>
+                            <tr *ngFor="let milestone of currentMilestones">
+                                <td>{{milestone.name}}</td>
+                                <td class="ltr">
+                                    <button class="btn px-2 py-1 text-xs btn-white border-none" title="حذف" (click)="removeMilestone(milestone)">
+                                        <i class="fa fa-trash-alt px-0.5"></i>
+                                    </button>
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
