@@ -41,13 +41,7 @@ export class InitiativeDeliverablesComponent extends TableComponentBase<IDeliver
             {value: '', classes: 'w-full'}
         ];
         this.filterFields = schedulableFilterFields;
-        this.summary = [
-            {name: 'جميع المخرجات', value: '25'},
-            {name: 'منجزة', value: '25'},
-            {name: 'غير منجزة', value: '25'},
-            {name: 'متأخرة', value: '25'},
-            {name: 'مستحقة', value: '25'},
-        ];
+        this.summary = [];
     }
 
     protected loadItems(params: HttpParams): Observable<IResponse<IDeliverable[]>> {

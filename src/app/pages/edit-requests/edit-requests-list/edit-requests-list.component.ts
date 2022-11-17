@@ -52,6 +52,30 @@ export class EditRequestsListComponent extends TableComponentBase<IEditRequest, 
         ];
         
         this.filterFields = [
+            {
+                name: 'الحالة',
+                id: 'status',
+                type: 'static-list',
+                listPlaceholder: 'الرجاء إختيار الحالة',
+                staticListItems: [
+                    {name: 'قيد الإجراء', value: 'pending'},
+                    {name: 'مقبول', value: 'approved'},
+                    {name: 'مرفوض', value: 'rejected'},
+                    
+                ]
+            },
+            {
+                name: 'النوع',
+                id: 'type',
+                type: 'static-list',
+                listPlaceholder: 'الرجاء إختيار النوع',
+                staticListItems: [
+                    {name: 'إضافة', value: 'create'},
+                    {name: 'تعديل', value: 'update'},
+                    {name: 'حذف', value: 'delete'},
+
+                ]
+            }
         ]
     }
 

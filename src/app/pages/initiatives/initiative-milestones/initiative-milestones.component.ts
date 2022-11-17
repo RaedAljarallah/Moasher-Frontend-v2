@@ -41,13 +41,7 @@ export class InitiativeMilestonesComponent extends TableComponentBase<IMilestone
             {value: '', classes: 'w-full'}
         ];
         this.filterFields = schedulableFilterFields;
-        this.summary = [
-            {name: 'جميع المعالم', value: '25'},
-            {name: 'منجزة', value: '25'},
-            {name: 'غير منجزة', value: '25'},
-            {name: 'متأخرة', value: '25'},
-            {name: 'مستحقة', value: '25'},
-        ];
+        this.summary = [];
     }
 
     protected loadItems(params: HttpParams): Observable<IResponse<IMilestone[]>> {

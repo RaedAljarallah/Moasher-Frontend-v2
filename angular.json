@@ -44,7 +44,11 @@
               "c3",
               "lodash",
               "clone-deep",
-              "file-saver"
+              "file-saver",
+              "crypto-js/core.js",
+              "crypto-js/enc-base64.js",
+              "crypto-js/enc-utf8.js",
+              "crypto-js/sha256.js"
             ],
             "outputPath": "dist/moasher-angular",
             "index": "src/index.html",

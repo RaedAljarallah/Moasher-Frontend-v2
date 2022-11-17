@@ -6,7 +6,7 @@ import {
     HttpInterceptor, HttpErrorResponse
 } from '@angular/common/http';
 import {Observable, timer} from 'rxjs';
-import {retry, concatMap} from "rxjs/operators";
+import {retry} from "rxjs/operators";
 
 @Injectable()
 export class RateLimitInterceptor implements HttpInterceptor {
@@ -20,9 +20,9 @@ export class RateLimitInterceptor implements HttpInterceptor {
         );
     }
     
-    private shouldRetry(error: any) {
+    private shouldRetry(error: HttpErrorResponse) {
         if (error.status === 429) {
-            return timer(1000)
+            return timer(3000)
         }
         throw error;
     }
