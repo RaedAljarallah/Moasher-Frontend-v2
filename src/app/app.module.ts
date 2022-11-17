@@ -22,6 +22,7 @@ import {DashboardModule} from "./pages/dashboard/dashboard.module";
 import {AuthorizeInterceptor} from "./core/interceptors/authorize.interceptor";
 import {EditRequestsModule} from "./pages/edit-requests/edit-requests.module";
 import {NotificationsModule} from "./pages/notifications/notifications.module";
+import {RateLimitInterceptor} from "./core/interceptors/rate-limit.interceptor";
 
 @NgModule({
     declarations: [
@@ -50,7 +51,8 @@ import {NotificationsModule} from "./pages/notifications/notifications.module";
         AppRoutingModule,
     ],
     providers: [
-        { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true }
+        { provide: HTTP_INTERCEPTORS, useClass: AuthorizeInterceptor, multi: true },
+        { provide: HTTP_INTERCEPTORS, useClass: RateLimitInterceptor, multi: true }
     ],
     bootstrap: [AppComponent]
 })
