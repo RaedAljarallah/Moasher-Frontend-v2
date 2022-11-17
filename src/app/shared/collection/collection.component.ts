@@ -9,6 +9,8 @@ import {IResponse} from "../../core/models/response.model";
 import {Pagination} from "../../core/models/pagination.model";
 import {collapse} from "../animations/app-animations.animation";
 import {IFilter} from "../../core/models/filter.model";
+import {AppRoles, AuthorizeService} from "../../core/services/authorize.service";
+import {Observable} from "rxjs";
 
 @Component({
     selector: 'app-collection',
@@ -43,11 +45,12 @@ export class CollectionComponent implements OnInit, OnChanges, AfterViewInit {
     public pager?: Pagination;
     public showFilter: boolean = false;
     public filterApplied: boolean = false;
-    
-    constructor(private cd: ChangeDetectorRef) {
+    public showAddBtn$: Observable<boolean> = new Observable<boolean>();
+    constructor(private cd: ChangeDetectorRef, private auth: AuthorizeService) {
     }
     
     public ngOnInit(): void {
+        this.showAddBtn$ = this.auth.isInRoles([AppRoles.Admin, AppRoles.SuperAdmin]);
         this.setLoadingPlaceholders(3);
     }
 
@@ -59,10 +62,6 @@ export class CollectionComponent implements OnInit, OnChanges, AfterViewInit {
     
     public ngAfterViewInit(): void {
         this.cd.detectChanges();
-    }
-    
-    public get showAddBtn(): boolean {
-        return true;
     }
 
     public changePager(): void {

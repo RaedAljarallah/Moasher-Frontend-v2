@@ -1,4 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {AuthorizeService} from "../../../core/services/authorize.service";
+import {Observable} from "rxjs";
 
 @Component({
     selector: 'app-table-actions-buttons',
@@ -7,15 +9,19 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 })
 export class TableActionsButtonsComponent implements OnInit {
     @Input() isLoading: boolean = false;
-    @Input() showUpdate: boolean = true;
-    @Input() showDelete: boolean = true;
+    @Input() data: any;
+    @Input() forceToShowButtons: boolean = false;
+    @Input() usersType: string[] = [];
     @Output() UpdateBtnClicked: EventEmitter<void> = new EventEmitter<void>();
     @Output() DeleteBtnClicked: EventEmitter<void> = new EventEmitter<void>();
+
+    public showAddBtn$: Observable<boolean> = new Observable<boolean>();
     
-    constructor() {
+    constructor(private auth: AuthorizeService) {
     }
 
-    ngOnInit(): void {
+    public ngOnInit(): void {
+        this.showAddBtn$ = this.auth.isInRoles(this.usersType);
     }
 
 }

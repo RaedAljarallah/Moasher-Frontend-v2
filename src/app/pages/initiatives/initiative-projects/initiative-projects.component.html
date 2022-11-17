@@ -1,4 +1,4 @@
-<app-table [headers]="headers" [filterFields]="filterFields" [items]="data$ | async" [breadcrumbs]="summary"
+<app-table [headers]="headers" [filterFields]="filterFields" [items]="data$ | async" [breadcrumbs]="summary" [usersType]="allowedUsers"
            (addClicked)="onCreate()">
     <ng-template #tableCell let-data="data">
         <td>{{ data.name }}</td>
@@ -15,7 +15,7 @@
             <span *ngSwitchCase="'lateonbidding,lateoncontracting'" class="text-red-500">متأخر في الطرح والتعاقد</span>
         </td>
         <td>
-            <app-table-actions-buttons *ngIf="data.approved"
+            <app-table-actions-buttons [data]="data" [usersType]="allowedUsers"
                     [isLoading]="isFormLoading[data.id]"
                     (UpdateBtnClicked)="onUpdate(data)"
                     (DeleteBtnClicked)="onDelete(data)">

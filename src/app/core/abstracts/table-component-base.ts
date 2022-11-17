@@ -37,7 +37,9 @@ export abstract class TableComponentBase<TType extends IIdentifiable, TCommand> 
     protected abstract _deleteFormTitle: string;
     protected abstract _createFormTitle: string;
     protected abstract queryParams: { key: string, defaultValue?: string }[];
-
+    
+    public abstract allowedUsers: string[];
+    
     protected abstract loadItems(params: HttpParams): Observable<IResponse<TType[]>>;
 
     protected constructor(protected route: ActivatedRoute, protected router: Router,

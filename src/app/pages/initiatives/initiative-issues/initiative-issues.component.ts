@@ -11,6 +11,7 @@ import {finalize} from 'rxjs/operators';
 import {IResponse} from "../../../core/models/response.model";
 import {FormAction} from "../../../core/models/data-types/form-action.data-type";
 import {EnumTypeCategory} from "../../../core/models/data-types/eum-type-category.data-type";
+import {AppRoles} from "../../../core/services/authorize.service";
 
 @Component({
     selector: 'app-initiative-issues',
@@ -31,7 +32,7 @@ export class InitiativeIssuesComponent extends TableComponentBase<IIssue, IssueC
     protected _updateFormTitle: string = 'تعديل معوق';
     protected _deleteFormTitle: string = 'حذف معوق';
     protected _modalId: string = 'IssueModal';
-
+    public allowedUsers = [AppRoles.ExecutionOperator, AppRoles.EntityUser];
     protected override onInit() {
         this.command = new IssueCommand(null).setInitiativeId(this.initiativeId);
         this.headers = [

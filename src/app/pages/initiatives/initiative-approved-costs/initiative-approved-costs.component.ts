@@ -8,6 +8,7 @@ import {ModalService} from "../../../shared/modal/modal.service";
 import {HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {IResponse} from "../../../core/models/response.model";
+import {AppRoles} from "../../../core/services/authorize.service";
 
 @Component({
     selector: 'app-initiative-approved-costs',
@@ -25,7 +26,9 @@ export class InitiativeApprovedCostsComponent extends TableComponentBase<IApprov
     protected _updateFormTitle: string = 'تعديل تكاليف معتمدة';
     protected _deleteFormTitle: string = 'حذف تكاليف معتمدة';
     protected _modalId: string = 'ApprovedCostModal';
-
+    
+    public allowedUsers = [AppRoles.FinancialOperator, AppRoles.EntityUser];
+    
     protected override onInit() {
         this.command = new ApprovedCostCommand(null).setInitiativeId(this.initiativeId);
         this.headers = [

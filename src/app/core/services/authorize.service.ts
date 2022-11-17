@@ -32,8 +32,20 @@ export enum AuthenticationResultStatus {
     Fail
 }
 
+export enum AppRoles {
+    SuperAdmin = "SUPERADMIN",
+    Admin = "ADMIN",
+    DataAssurance = "DATAASSURANCE",
+    FinancialOperator = "FINANCIALOPERATOR",
+    ExecutionOperator = "EXECUTIONOPERATOR",
+    KPIsOperator = "KPISOPERATOR",
+    EntityUser = "ENTITYUSER",
+    FullAccessViewer = "FULLACCESSVIEWER",
+}
+
 export interface IUser {
     name?: string;
+    sub?: string;
 }
 
 @Injectable({
@@ -102,7 +114,41 @@ export class AuthorizeService {
             map(u => u && jwt_decode<{ role: string }>(u.access_token).role)
         )
     }
-
+    
+    public isInRoles(roles: string[]): Observable<boolean> {
+        roles.push(...[AppRoles.SuperAdmin, AppRoles.Admin])
+        return this.getUserRole().pipe(
+            map(role => {
+                if (role) {
+                    return roles.includes(role.toUpperCase())
+                }
+                return false;
+            })
+        )
+    }
+    
+    public isSuperAdmin(): Observable<boolean> {
+        return this.getUserRole().pipe(
+            map(role => {
+                if (role) {
+                    return role.toUpperCase() === AppRoles.SuperAdmin;
+                }
+                return false;
+            })
+        )   
+    }
+    
+    public isAdmin(): Observable<boolean> {
+        return this.getUserRole().pipe(
+            map(role => {
+                if (role) {
+                    return role.toUpperCase() === AppRoles.SuperAdmin || role.toUpperCase() === AppRoles.Admin;
+                }
+                return false;
+            })
+        )    
+    }
+    
     public async signIn(state: any): Promise<IAuthenticationResult> {
         let user: User | null = null;
         try {

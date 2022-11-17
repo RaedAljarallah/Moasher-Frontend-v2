@@ -10,6 +10,7 @@ import {Observable} from "rxjs";
 import {IResponse} from "../../../core/models/response.model";
 import {FormAction} from "../../../core/models/data-types/form-action.data-type";
 import {finalize} from "rxjs/operators";
+import {AppRoles} from "../../../core/services/authorize.service";
 
 @Component({
     selector: 'app-users-list',
@@ -28,7 +29,7 @@ export class UsersListComponent extends TableComponentBase<IUser, UserCommand> {
     protected _updateFormTitle: string = 'تعديل مستخدم';
     protected _deleteFormTitle: string = 'حذف مستخدم';
     protected _modalId: string = 'UserModal';
-
+    public allowedUsers = [];
     protected override onInit() {
         this.command = new UserCommand(null);
         this.headers = [

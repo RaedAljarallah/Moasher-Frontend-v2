@@ -1,4 +1,5 @@
-<app-table [headers]="headers" [filterFields]="filterFields" [items]="data$ | async" [breadcrumbs]="summary" [hideAddBtn]="true">
+<app-table [headers]="headers" [filterFields]="filterFields" [items]="data$ | async" [breadcrumbs]="summary"
+           [usersType]="allowedUsers" [hideAddBtn]="true">
     <ng-template #tableCell let-data="data">
         <td>{{ data.name }}</td>
         <td><span class="rounded-full px-2" [ngClass]="data.status.style">{{ data.status.name }}</span></td>
@@ -16,10 +17,10 @@
         <td>{{ data.refNumber }}</td>
         <td>{{ data.supplier }}</td>
         <td>
-            <app-table-actions-buttons *ngIf="data.approved"
-                    [isLoading]="isFormLoading[data.id]"
-                    (UpdateBtnClicked)="onUpdate(data)"
-                    (DeleteBtnClicked)="onDelete(data)">
+            <app-table-actions-buttons [data]="data" [usersType]="allowedUsers"
+                                       [isLoading]="isFormLoading[data.id]"
+                                       (UpdateBtnClicked)="onUpdate(data)"
+                                       (DeleteBtnClicked)="onDelete(data)">
             </app-table-actions-buttons>
         </td>
     </ng-template>

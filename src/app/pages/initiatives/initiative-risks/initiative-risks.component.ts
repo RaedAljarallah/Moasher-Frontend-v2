@@ -11,6 +11,7 @@ import {IResponse} from "../../../core/models/response.model";
 import {FormAction} from "../../../core/models/data-types/form-action.data-type";
 import {IRisk} from "../core/models/risk/risk.model";
 import {RiskCommand} from "../core/models/risk/risk.command";
+import {AppRoles} from "../../../core/services/authorize.service";
 
 @Component({
     selector: 'app-initiative-risks',
@@ -31,7 +32,7 @@ export class InitiativeRisksComponent extends TableComponentBase<IRisk, RiskComm
     protected _updateFormTitle: string = 'تعديل خطر';
     protected _deleteFormTitle: string = 'حذف خطر';
     protected _modalId: string = 'RiskModal';
-
+    public allowedUsers = [AppRoles.ExecutionOperator, AppRoles.EntityUser];
     protected override onInit() {
         this.command = new RiskCommand(null).setInitiativeId(this.initiativeId);
         this.headers = [

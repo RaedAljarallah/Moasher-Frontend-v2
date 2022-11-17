@@ -12,6 +12,7 @@ import {EditRequestUtility} from "../../../core/utilities/edit-request.utility";
 import {EditRequestType} from "../../../core/models/data-types/edit-request-type.data-type";
 import {finalize} from "rxjs/operators";
 import {IEditRequestDetails} from "../core/models/edit-request-details.model";
+import {AppRoles} from "../../../core/services/authorize.service";
 
 @Component({
     selector: 'app-edit-requests-list',
@@ -31,7 +32,13 @@ export class EditRequestsListComponent extends TableComponentBase<IEditRequest, 
     protected _updateFormTitle: string = '';
     protected _deleteFormTitle: string = '';
     protected _modalId: string = 'EditRequestModal';
-
+    public allowedUsers = [
+        AppRoles.DataAssurance, 
+        AppRoles.FinancialOperator, 
+        AppRoles.ExecutionOperator, 
+        AppRoles.KPIsOperator,
+        AppRoles.EntityUser
+    ];
     protected override onInit() {
         this.headers =[
             {value: 'رقم الطلب', classes: 'w-5'},

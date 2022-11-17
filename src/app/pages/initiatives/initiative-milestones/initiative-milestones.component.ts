@@ -12,6 +12,7 @@ import {
     schedulableFilterFields,
     schedulableQueryParameters
 } from "../../../core/constants/schedulable-query-parameters";
+import {AppRoles} from "../../../core/services/authorize.service";
 
 @Component({
     selector: 'app-initiative-milestones',
@@ -29,7 +30,7 @@ export class InitiativeMilestonesComponent extends TableComponentBase<IMilestone
     protected _updateFormTitle: string = 'تعديل معلم';
     protected _deleteFormTitle: string = 'حذف معلم';
     protected _modalId: string = 'MilestoneModal';
-
+    public allowedUsers = [AppRoles.ExecutionOperator, AppRoles.EntityUser];
     protected override onInit() {
         this.command = new MilestoneCommand(null).setInitiativeId(this.initiativeId);
         this.headers = [

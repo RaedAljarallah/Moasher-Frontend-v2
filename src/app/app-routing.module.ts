@@ -33,6 +33,8 @@ import {AuthorizeGuard} from "./core/guards/authorize.guard";
 import {ResetPasswordComponent} from "./pages/accounts/reset-password/reset-password.component";
 import {EditRequestsListComponent} from "./pages/edit-requests/edit-requests-list/edit-requests-list.component";
 import {NotificationsListComponent} from "./pages/notifications/notifications-list/notifications-list.component";
+import {SuperAdminGuard} from "./core/guards/super-admin.guard";
+import {AdminGuard} from "./core/guards/admin.guard";
 
 const routes: Routes = [
     {
@@ -105,9 +107,9 @@ const routes: Routes = [
             },
             {path: 'notifications', component: NotificationsListComponent},
             {path: 'edit-requests', component: EditRequestsListComponent},
-            {path: 'users', component: UsersListComponent},
+            {path: 'users', component: UsersListComponent, canActivate: [SuperAdminGuard]},
             {path: 'data', component: DataExportingComponent},
-            {path: 'settings', component: SettingsPageComponent}
+            {path: 'settings', component: SettingsPageComponent, canActivate: [AdminGuard]}
         ]
     },
 

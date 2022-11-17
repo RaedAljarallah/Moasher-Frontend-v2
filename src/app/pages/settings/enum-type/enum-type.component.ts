@@ -10,6 +10,7 @@ import {HttpParams} from "@angular/common/http";
 import {EnumTypeCategory} from "../../../core/models/data-types/eum-type-category.data-type";
 import {TableComponentBase} from "../../../core/abstracts/table-component-base";
 import {EnumTypeCommand} from "./core/models/enum-type.command";
+import {AppRoles} from "../../../core/services/authorize.service";
 
 @Component({
     selector: 'app-enum-type',
@@ -31,7 +32,7 @@ export class EnumTypeComponent extends TableComponentBase<IEnumType, EnumTypeCom
     protected _deleteFormTitle: string = '';
     protected _updateFormTitle: string = '';
     protected _modalId: string = 'EnumTypeModal';
-    
+    public allowedUsers = [];
     protected override onInit() {
         this.headers[0].value = this.nameFieldTitle;
         this._createFormTitle = `إضافة ${this.nameFieldTitle}`;

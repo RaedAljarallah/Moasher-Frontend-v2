@@ -12,6 +12,8 @@ import {collapse} from "../animations/app-animations.animation";
 import {IResponse} from "../../core/models/response.model";
 import {Pagination} from "../../core/models/pagination.model";
 import {IFilter} from "../../core/models/filter.model";
+import {Observable} from "rxjs";
+import {AuthorizeService} from "../../core/services/authorize.service";
 
 export interface ITableHeader {
     value: string,
@@ -43,18 +45,21 @@ export class TableComponent implements OnInit, OnChanges, AfterViewInit {
     @Input() withPagination: boolean = true;
     @Input() hideAddBtn: boolean = false;
     @Input() approvable: boolean = true;
+    @Input() usersType: string[] = [];
     @Output() addClicked: EventEmitter<void> = new EventEmitter<void>();
     
     public pager?: Pagination;
     public loadingPlaceholders: number[] = [];
     public showFilter: boolean = false;
     public filterApplied: boolean = false;
-
+    public showAddBtn$: Observable<boolean> = new Observable<boolean>();
+    
     private _searchQuery: string = '';
-    constructor(private cd: ChangeDetectorRef, private route: ActivatedRoute, private router: Router) {
+    constructor(private cd: ChangeDetectorRef, private route: ActivatedRoute, private router: Router, private auth: AuthorizeService) {
     }
 
     public ngOnInit(): void {
+        this.showAddBtn$ = this.auth.isInRoles(this.usersType);
         this.setLoadingPlaceholders(3);
     }
 

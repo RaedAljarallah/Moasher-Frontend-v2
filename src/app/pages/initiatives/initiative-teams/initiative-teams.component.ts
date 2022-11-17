@@ -11,6 +11,7 @@ import {Observable} from "rxjs";
 import {finalize} from 'rxjs/operators';
 import {IResponse} from "../../../core/models/response.model";
 import {FormAction} from "../../../core/models/data-types/form-action.data-type";
+import {AppRoles} from "../../../core/services/authorize.service";
 
 @Component({
     selector: 'app-initiative-teams',
@@ -29,7 +30,7 @@ export class InitiativeTeamsComponent extends TableComponentBase<ITeam, TeamComm
     protected _updateFormTitle: string = 'تعديل عضو';
     protected _deleteFormTitle: string = 'حذف عضو';
     protected _modalId: string = 'TeamModal';
-
+    public allowedUsers = [AppRoles.ExecutionOperator, AppRoles.EntityUser];
     protected override onInit() {
         this.command = new TeamCommand(null).setInitiativeId(this.initiativeId);
         this.headers = [

@@ -19,7 +19,7 @@
                     <a href="#" class="text-sm text-theme-gray-500 text-center hover:text-gray-900 p-4" *ngIf="notifications.length > 0 && !noMoreNotifications"
                        (click)="loadMore($event)">تحميل المزيد ...</a>
                     <a class="text-sm text-theme-gray-500 text-center p-4" *ngIf="notifications.length === 0">لا يوجد تنبيهات</a>
-                    <a class="text-sm text-theme-gray-500 text-center p-4" *ngIf="noMoreNotifications">تم عرض جميع التنبيهات</a>
+                    <a class="text-sm text-theme-gray-500 text-center p-4" *ngIf="noMoreNotifications && notifications.length > 0">تم عرض جميع التنبيهات</a>
                 </ng-container>
                 
                 <ng-container *ngIf="isLoadMoreLoading">

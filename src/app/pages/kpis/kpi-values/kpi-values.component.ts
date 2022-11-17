@@ -14,6 +14,7 @@ import {Observable} from "rxjs";
 import {IResponse} from "../../../core/models/response.model";
 import {MeasurementPeriod, measurementPeriodList} from "../../../core/models/data-types/measurement-period.data-type";
 import {Frequency} from "../../../core/models/data-types/frequency.data-type";
+import {AppRoles} from "../../../core/services/authorize.service";
 
 
 @Component({
@@ -33,7 +34,7 @@ export class KpiValuesComponent extends TableComponentBase<IKpiValue, KpiValueCo
     protected _updateFormTitle: string = 'تعديل مستهدف';
     protected _deleteFormTitle: string = 'حذف مستهدف';
     protected _modalId: string = 'KpiValueModal';
-
+    public allowedUsers = [AppRoles.KPIsOperator, AppRoles.EntityUser];
     protected override onInit() {
         this.command = new KpiValueCommand(null)
             .setKpiId(this.kpiId)

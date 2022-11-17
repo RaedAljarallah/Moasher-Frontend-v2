@@ -1,10 +1,10 @@
-<app-table [headers]="headers" [filterFields]="filterFields" [items]="data$ | async" [breadcrumbs]="summary"
+<app-table [headers]="headers" [filterFields]="filterFields" [items]="data$ | async" [breadcrumbs]="summary" [usersType]="allowedUsers"
            (addClicked)="onCreate()">
     <ng-template #tableCell let-data="data">
         <td>{{ data.approvalDate | isoDate }}</td>
         <td>{{ data.amount | localCurrency }}</td>
         <td>
-            <app-table-actions-buttons *ngIf="data.approved"
+            <app-table-actions-buttons [data]="data" [usersType]="allowedUsers"
                     (UpdateBtnClicked)="onUpdate(data)" 
                     (DeleteBtnClicked)="onDelete(data)">
             </app-table-actions-buttons>

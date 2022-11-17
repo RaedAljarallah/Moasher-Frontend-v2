@@ -8,6 +8,7 @@ import {ModalService} from "../../../shared/modal/modal.service";
 import {HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {IResponse} from "../../../core/models/response.model";
+import {AppRoles} from "../../../core/services/authorize.service";
 
 
 @Component({
@@ -26,7 +27,7 @@ export class InitiativeBudgetsComponent extends TableComponentBase<IBudget, Budg
     protected _updateFormTitle: string = 'تعديل ميزانية';
     protected _deleteFormTitle: string = 'حذف ميزانية';
     protected _modalId: string = 'BudgetModal';
-
+    public allowedUsers = [AppRoles.FinancialOperator, AppRoles.EntityUser];
     protected override onInit() {
         this.command = new BudgetCommand(null).setInitiativeId(this.initiativeId);
         this.headers = [

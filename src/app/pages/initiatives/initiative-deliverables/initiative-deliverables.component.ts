@@ -12,6 +12,7 @@ import {
     schedulableFilterFields,
     schedulableQueryParameters
 } from "../../../core/constants/schedulable-query-parameters";
+import {AppRoles} from "../../../core/services/authorize.service";
 
 
 @Component({
@@ -30,7 +31,7 @@ export class InitiativeDeliverablesComponent extends TableComponentBase<IDeliver
     protected _updateFormTitle: string = 'تعديل مخرج';
     protected _deleteFormTitle: string = 'حذف مخرج';
     protected _modalId: string = 'DeliverableModal';
-
+    public allowedUsers = [AppRoles.ExecutionOperator, AppRoles.EntityUser];
     protected override onInit() {
         this.command = new DeliverableCommand(null).setInitiativeId(this.initiativeId);
         this.headers = [

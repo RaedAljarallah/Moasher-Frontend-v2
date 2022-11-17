@@ -8,6 +8,7 @@ import {ModalService} from "../../../shared/modal/modal.service";
 import {HttpParams} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {IResponse} from "../../../core/models/response.model";
+import {AppRoles} from "../../../core/services/authorize.service";
 
 @Component({
     selector: 'app-analytics-list',
@@ -32,7 +33,8 @@ export class AnalyticsListComponent extends TableComponentBase<IAnalytic, Analyt
     protected _updateFormTitle: string = 'تعديل تحليل';
     protected _deleteFormTitle: string = 'حذف تحليل';
     protected _modalId: string = 'AnalyticsModal';
-
+    public allowedUsers = [AppRoles.EntityUser];
+    
     protected override onInit() {
         this.command = new AnalyticCommand(null)
         this.headers = [
@@ -54,12 +56,15 @@ export class AnalyticsListComponent extends TableComponentBase<IAnalytic, Analyt
         switch (this.parentType) {
             case "initiative":
                 this.url = `analytics?initiativeId=${this.parentId}`;
+                this.allowedUsers.push(AppRoles.ExecutionOperator);
                 break;
             case "KPI":
                 this.url = `analytics?kpiId=${this.parentId}`;
+                this.allowedUsers.push(AppRoles.KPIsOperator);
                 break;
             case "entity":
                 this.url = `analytics?entityId=${this.parentId}`;
+                this.allowedUsers.push(...[AppRoles.ExecutionOperator, AppRoles.KPIsOperator]);
                 break;
         }
 

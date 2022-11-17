@@ -12,6 +12,7 @@ import {Observable} from "rxjs";
 import {finalize} from 'rxjs/operators';
 import {IResponse} from "../../../core/models/response.model";
 import {FormAction} from "../../../core/models/data-types/form-action.data-type";
+import {AppRoles} from "../../../core/services/authorize.service";
 
 @Component({
     selector: 'app-initiative-contracts',
@@ -30,7 +31,7 @@ export class InitiativeContractsComponent extends TableComponentBase<IContract, 
     protected _updateFormTitle: string = 'تعديل عقد';
     protected _deleteFormTitle: string = 'حذف عقد';
     protected _modalId: string = 'ContractModal';
-
+    public allowedUsers = [AppRoles.FinancialOperator, AppRoles.EntityUser];
     protected override onInit() {
         this.command = new ContractCommand(null).setInitiativeId(this.initiativeId);
         this.headers = [

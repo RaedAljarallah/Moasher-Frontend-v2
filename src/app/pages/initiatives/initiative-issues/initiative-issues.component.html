@@ -1,4 +1,4 @@
-<app-table [headers]="headers" [filterFields]="filterFields" [items]="data$ | async" [breadcrumbs]="summary"
+<app-table [headers]="headers" [filterFields]="filterFields" [items]="data$ | async" [breadcrumbs]="summary" [usersType]="allowedUsers"
            (addClicked)="onCreate()">
     <ng-template #tableCell let-data="data">
         <td *ngIf="fullList">{{ data.initiativeName }}</td>
@@ -16,7 +16,7 @@
         <td>{{ data.raisedBy }}</td>
         <td>{{ data.closedAt | isoDate }}</td>
         <td>
-            <app-table-actions-buttons *ngIf="data.approved"
+            <app-table-actions-buttons [data]="data" [usersType]="allowedUsers"
                     [isLoading]="isFormLoading[data.id]"
                     (UpdateBtnClicked)="onUpdate(data)"
                     (DeleteBtnClicked)="onDelete(data)">

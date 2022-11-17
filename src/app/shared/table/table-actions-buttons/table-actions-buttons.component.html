@@ -1,7 +1,8 @@
-<div class="flex space-x-1 space-x-reverse justify-end items-center">
+<div class="flex space-x-1 space-x-reverse justify-end items-center" 
+     *ngIf="((showAddBtn$ | async) && data.approved && !data.hasDeleteRequest && !data.hasUpdateRequest) || forceToShowButtons">
     <ng-content select="[extraButton]"></ng-content>
-    <button class="btn px-2 py-1 text-xs btn-white border-none rounded" title="تعديل" *ngIf="showUpdate"
-            (click)="UpdateBtnClicked.emit()" 
+    <button class="btn px-2 py-1 text-xs btn-white border-none rounded" title="تعديل"
+            (click)="UpdateBtnClicked.emit()"
             [disabled]="isLoading">
         <i class="fa fa-edit" *ngIf="!isLoading"></i>
         <svg class="animate-spin h-4 w-[0.85rem] text-theme-gray-800" *ngIf="isLoading"
@@ -12,8 +13,8 @@
                   d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
         </svg>
     </button>
-    <div class="border-l border-l-theme-gray-300 py-2" *ngIf="showUpdate && showDelete"></div>
-    <button class="btn px-2 py-1 text-xs btn-white border-none" title="حذف" *ngIf="showDelete"
+    <div class="border-l border-l-theme-gray-300 py-2"></div>
+    <button class="btn px-2 py-1 text-xs btn-white border-none" title="حذف"
             (click)="DeleteBtnClicked.emit()">
         <i class="fa fa-trash-alt px-0.5"></i>
     </button>

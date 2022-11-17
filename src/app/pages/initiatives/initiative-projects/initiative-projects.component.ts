@@ -13,6 +13,7 @@ import {EnumTypeCategory} from "../../../core/models/data-types/eum-type-categor
 import {FormAction} from "../../../core/models/data-types/form-action.data-type";
 import {ContractCommand} from "../core/models/contract/contract.command";
 import {IContract} from "../core/models/contract/contract.model";
+import {AppRoles} from "../../../core/services/authorize.service";
 
 @Component({
     selector: 'app-initiative-projects',
@@ -33,7 +34,7 @@ export class InitiativeProjectsComponent extends TableComponentBase<IProject, Pr
     protected _updateFormTitle: string = 'تعديل مشروع';
     protected _deleteFormTitle: string = 'حذف مشروع';
     protected _modalId: string = 'ProjectModal';
-
+    public allowedUsers = [AppRoles.FinancialOperator, AppRoles.EntityUser];
     protected override onInit() {
         this.modal.register("ContractModal");
         this.command = new ProjectCommand(null).setInitiativeId(this.initiativeId);

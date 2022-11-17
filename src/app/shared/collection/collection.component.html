@@ -12,7 +12,7 @@
                     </span>
                 </button>
 
-                <button class="btn btn-sm btn-white" *ngIf="showAddBtn" (click)="addClicked.emit()">
+                <button class="btn btn-sm btn-white" *ngIf="showAddBtn$ | async" (click)="addClicked.emit()">
                     <i class="fas fa-plus text-xs sm:ml-1"></i>
                     <span class="hidden sm:inline-block">{{ addBtnTitle }}</span>
                 </button>

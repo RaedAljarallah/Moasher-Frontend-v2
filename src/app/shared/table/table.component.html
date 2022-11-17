@@ -20,7 +20,7 @@
                 </span>
             </button>
         </div>
-        <button class="btn btn-sm btn-white mr-1 md:mr-0" *ngIf="showAddBtn && !hideAddBtn" (click)="addClicked.emit()">
+        <button class="btn btn-sm btn-white mr-1 md:mr-0" *ngIf="(showAddBtn$ | async) && !hideAddBtn" (click)="addClicked.emit()">
             <i class="fas fa-plus fa-xs ml-1"></i>
             <span>إضافة</span>
         </button>
@@ -46,8 +46,8 @@
         <tbody class="divide-y divide-theme-gray-100" *ngIf="items; else loading">
         <ng-container *ngIf="items.result.length; else noData">
             <tr *ngFor="let item of items.result"
-                [ngClass]="(!item.approved || item.isDeleted) && approvable ? 'bg-theme-gray-100' : 'bg-white'"
-                [title]="(!item.approved || item.isDeleted) && approvable ? 'يوجد طلب تغيير' : ''">
+                [ngClass]="(!item.approved || item.hasDeleteRequest || item.hasUpdateRequest) && approvable ? 'bg-theme-gray-100' : 'bg-white'"
+                [title]="(!item.approved || item.hasDeleteRequest || item.hasUpdateRequest) && approvable ? 'يوجد طلب تغيير' : ''">
                 <ng-template [ngTemplateOutlet]="tableCellTemplate"
                              [ngTemplateOutletContext]="{data: item}"></ng-template>
             </tr>
