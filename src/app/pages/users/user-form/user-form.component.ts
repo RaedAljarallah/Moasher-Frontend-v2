@@ -42,6 +42,9 @@ export class UserFormComponent extends FormBase<IUser, UserCommand> implements O
     public isSuspended: boolean = false;
     public isResetPasswordLoading: boolean = false;
     public isPasswordReset: boolean = false;
+    public isNotifyByEmail: boolean = false;
+    public isNotifyByEmailLoading: boolean = false;
+    
     public ngOnInit(): void {
         this.isDeleteRequest = (this.formAction == FormAction.Delete);
         if (this.formAction === FormAction.Update) {
@@ -53,6 +56,7 @@ export class UserFormComponent extends FormBase<IUser, UserCommand> implements O
             });
             this.showUpdateSection = true;
             this.isSuspended = this.inputCommand.suspended;
+            this.isNotifyByEmail = this.inputCommand.receiveEmailNotification;
         }
 
         if (!this.isDeleteRequest) {
@@ -103,7 +107,27 @@ export class UserFormComponent extends FormBase<IUser, UserCommand> implements O
                     this.globalErrors.push(failure.errors[''][0])
                 }
             }
-        })
+        });
+    }
+    
+    public updateNotifyByEmailStatus(): void {
+        this.isNotifyByEmailLoading = true;
+        this.api.put<{id: string, enable: boolean}, boolean>(`users/${this.inputCommand.id}/update-email-notification-status`, {
+            id: this.inputCommand.id,
+            enable: !this.isNotifyByEmail
+        }).pipe(finalize(() => this.isNotifyByEmailLoading = false)).subscribe({
+            next: (res) => {
+                this.isNotifyByEmail = res.result
+            },
+            error: (failure: IResponseError) => {
+                if (failure.statusCode === 400) {
+                    this.setServerErrors(failure.errors);
+                    this.handelError(failure.errors);
+                } else {
+                    this.globalErrors.push(failure.errors[''][0])
+                }
+            }
+        });
     }
     
     public resetPassword(): void {
