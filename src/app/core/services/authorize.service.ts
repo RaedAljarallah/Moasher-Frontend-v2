@@ -69,24 +69,7 @@ export class AuthorizeService {
     public isAuthenticated(): Observable<boolean> {
         return this.getUser().pipe(map(u => !!u));
     }
-
-    public async activateUser(userId: string) {
-        const params = {userId: userId};
-        await this.userManager.signinRedirect({
-            prompt: 'activation',
-            redirect_uri: UserManagerSetting.redirect_uri,
-            extraQueryParams: params
-        });
-    }
-
-    public async resetPassword(token: string, userId: string): Promise<void> {
-        const params = {token: token, userId: userId};
-        await this.userManager.signinRedirect({
-            prompt: 'reset-password',
-            redirect_uri: UserManagerSetting.redirect_uri,
-            extraQueryParams: params
-        });
-    }
+    
 
     public getUser(): Observable<IUser | null> {
         return concat(
@@ -180,8 +163,8 @@ export class AuthorizeService {
 
     public async signOut(state: any): Promise<IAuthenticationResult> {
         try {
-            await this.revokeToken();
-            await this.userManager.signoutRedirect(this.createArguments(state));
+            const params = await this.getInvalidToken();
+            await this.userManager.signoutRedirect(this.createArguments(state, { extraQueryParams: params }));
             return this.redirect();
         } catch (redirectSignOutError: any) {
             console.log('Redirect signout error: ', redirectSignOutError);
@@ -200,20 +183,44 @@ export class AuthorizeService {
         }
     }
 
-    private async revokeToken(): Promise<void> {
-        const token = await lastValueFrom(this.getAccessToken());
-        if (token) {
-            const request = jwt_decode<{ jti: string, exp: number }>(token);
-            const invalidToken$ = this.api.post<{ jti: string, expiration: number }, any>('users/logout', {
-                jti: request.jti,
-                expiration: request.exp
-            });
-            await lastValueFrom(invalidToken$);
-        }
+    public async activateUser(userId: string) {
+        const params = {userId: userId};
+        await this.userManager.signinRedirect({
+            redirectMethod: 'replace',
+            prompt: 'activation',
+            redirect_uri: UserManagerSetting.redirect_uri,
+            extraQueryParams: params
+        });
     }
 
-    private createArguments(state?: any): any {
-        return {useReplaceToNavigate: true, data: state};
+    public async resetPassword(token: string, userId: string): Promise<void> {
+        const params = {token: token, userId: userId};
+        await this.userManager.signinRedirect({
+            redirectMethod: 'replace',
+            prompt: 'reset-password',
+            redirect_uri: UserManagerSetting.redirect_uri,
+            extraQueryParams: params
+        });
+    }
+    
+    private async getInvalidToken(): Promise<{ jti: string, exp: number } | null> {
+        const token = await lastValueFrom(this.getAccessToken());
+        if (token) {
+            const jwt = jwt_decode<{ jti: string, exp: number }>(token);
+            return {
+                jti: jwt.jti,
+                exp: jwt.exp
+            };
+        }
+        return null;
+    }
+
+    private createArguments(state?: any, extra?: { [key:string]: any }): any {
+        let args: any = {redirectMethod: "replace", state: state};
+        if (extra) {
+            Object.keys(extra)?.forEach(key => args[key] = extra[key])
+        }
+        return args;
     }
 
     private error(message: string): IAuthenticationResult {
