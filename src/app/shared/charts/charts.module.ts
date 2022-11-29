@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {NgxChartsModule} from "@swimlane/ngx-charts";
-import { FinancialChartComponent } from './financial-chart/financial-chart.component';
 import { PerformanceCardComponent } from './performance-card/performance-card.component';
 import {PipesModule} from "../pipes/pipes.module";
 import { ProgressChartComponent } from './progress-chart/progress-chart.component';
@@ -14,7 +13,6 @@ import { StatusProgressChartComponent } from './status-progress-chart/status-pro
 
 @NgModule({
     declarations: [
-        FinancialChartComponent,
         PerformanceCardComponent,
         ProgressChartComponent,
         ProgressOverTimeChartComponent,
@@ -29,7 +27,6 @@ import { StatusProgressChartComponent } from './status-progress-chart/status-pro
         PipesModule
     ],
     exports: [
-        FinancialChartComponent,
         PerformanceCardComponent,
         ProgressChartComponent,
         ProgressOverTimeChartComponent,
